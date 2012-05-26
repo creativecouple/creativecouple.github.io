@@ -83,7 +83,7 @@ address > span {
 	white-space: pre;
 }
 
-ul.example7 li {
+ul.example7 li, ul.example8 li {
 	display: inline-block;
 	position: relative;
 	padding: 1em;
@@ -268,6 +268,20 @@ But be prepared: the following examples could make your brain hurt!
 
 <hr/>
 
+<h3>Example 8: Invoke callback function on timing</h3>
+<pre>
+<b>$</b>(<i>'.example8'</i>).<em>repeat(100)</em>.<b>append</b>(<i>'&lt;li&gt;Test'</i>).<em>until(<b>10</b>)</em>.<em>now(<i>function(){alert('ready :-)');}</i>)</em>.<b>children</b>().<b>remove</b>();
+</pre>
+<ul class="example8">
+</ul>
+<p>
+	There is a list above which is filled whith elements on clicking <button onclick="$('.example8').repeat(100).append('<li>Test').until(10).now(function(){alert('ready :-)');}).children().remove()">this button</button>.<br/>
+	After having added 10 elements an alert box is shown up as simple callback example.
+	After that the elements are removed again.
+</p>
+
+<hr/>
+
 <h2>Method reference</h2>
 
 <p>If you enjoyed the examples then maybe you want to start creating your own ones.<br/>
@@ -329,6 +343,18 @@ The condition when to stop the repeat loop can be defined in three ways:</p>
 <h3><code>.unwait()</code></h3>
 
 <p>Interrupts ongoing <code>wait</code> operations on the current selection. That means that the currently waiting commands will <b>not</b> be processed anymore.</p>
+
+<hr/>
+
+<h3><code>.now(<em>callback</em>)</code></h3>
+
+<p>The <code>now</code> method just runs the given callback function at the time of invocation.</p>
+
+<dl>
+<dt>callback</dt>
+<dd>A function which is called in the context of the jQuery selection object.</dd>
+<dd>The arguments are the current iteration numbers of the surrounding repeat loops, starting from the innermost to the outermost loop.</dd>
+</dl>
 
 <hr/>
 
