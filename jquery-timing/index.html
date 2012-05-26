@@ -101,6 +101,13 @@ li.clazz {
 Browse the page for nice usage examples.<br/>
 The examples start with basic (boring?) stuff on top and increase in complexity (coolness!) down the page.
 </p>
+<ul>
+	<li><a href="#precondition">Precondition</a></li>
+	<li><a href="#basics">Basics</a></li>
+	<li><a href="#advanced">Advanced techniques</a></li>
+	<li><a href="#reference">Method reference</a></li>
+	<li><a href="#contact">Contact the author</a></li>
+</ul>
 <p>Have fun!</p>
 
 <div id="fb-root"></div>
@@ -124,7 +131,7 @@ The examples start with basic (boring?) stuff on top and increase in complexity 
 
 <hr/>
 
-<h2>Precondition</h2>
+<h2><a name="precondition"></a>Precondition</h2>
 <p>All you need is to use jQuery on your page (any version since 1.2)
 and then include <a href="https://github.com/creativecouple/jquery-timing/blob/master/jquery-timing.js">jquery-timing.js</a>
 (or the minified version <a href="https://github.com/creativecouple/jquery-timing/blob/master/jquery-timing.min.js">jquery-timing.min.js</a>):</p>
@@ -135,12 +142,12 @@ and then include <a href="https://github.com/creativecouple/jquery-timing/blob/m
 </code></small>
 </p>
 <p>
-The source code is hosted at <a href="https://github.com/creativecouple/jquery-timing">github.com/creativecouple/jquery-timing</a>.
+The source code is hosted at <a href="https://github.com/creativecouple/jquery-timing">github.com/creativecouple/jquery-timing</a> under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.
 </p>
 
 <hr/>
 
-<h2>Basics</h2>
+<h2><a name="basics"></a>Basics</h2>
 
 <h3>Example 1: Blinking by repeating toggling the CSS class</h3>
 <pre>
@@ -206,7 +213,7 @@ The source code is hosted at <a href="https://github.com/creativecouple/jquery-t
 
 <hr/>
 
-<h2>Advanced techniques</h2>
+<h2><a name="advanced"></a>Advanced techniques</h2>
 
 <p>You understood the principles and want some action now?<br/>
 Here are more one-liners for you.
@@ -282,7 +289,46 @@ But be prepared: the following examples could make your brain hurt!
 
 <hr/>
 
-<h2>Method reference</h2>
+<h3>Example 9: Static usage</h3>
+<pre>
+<b>$</b>(<i>'.example9'</i>).<em>repeat(<b>100</b>)</em>.<b>append</b>(<i>'&lt;li&gt;Test'</i>).<em>until(<b>10</b>)</em>.<em>now(</em><i>function(){alert('ready :-)');}</i><em>)</em>.<b>children</b>().<b>remove</b>();
+</pre>
+<p>
+	You can also use the <code>wait</code>, <code>unwait</code>, <code>repeat</code>, <code>unrepeat</code>, and <code>now</code> methods in a static way.
+	There you also optionally can give queue names to access them later for interrupting your timeouts and intervals.
+</p>
+<pre>
+<b>function</b> <i>first</i>() {
+	<b>alert</b>(<i>'first! Click second button to suppress next dialog.'</i>);
+}
+<b>function</b> <i>second</i>() {
+	<b>alert</b>(<i>'second'</i>);
+}
+
+...
+
+<b>$</b>.<em>wait(<b>1000</b>,<i>'myQueue'</i>)</em>.<em>now(<i>first</i>)</em>.<em>wait(<b>1000</b>)</em>.<em>now(<i>second</i>)</em>;
+
+...
+
+<b>$</b>.<em>unwait(<i>'myQueue'</i>)</em>;
+</pre>
+<script>
+function first() {
+	alert('first! Click second button to suppress next dialog.');
+}
+function second() {
+	alert('second!');
+}
+</script>
+<p>
+If you now click on <button onclick="$.wait(1000,'myQueue').now(first).wait(1000).now(second)">this button</button> then these two methods will be called on the defined schedule.<br/>
+If you quickly press the <button onclick="$.unwait('myQueue')">cancel button</button> right in between then you can interrupt the second timer and thus suppress the second dialog.  
+</p>
+
+<hr/>
+
+<h2><a name="reference"></a>Method reference</h2>
 
 <p>If you enjoyed the examples then maybe you want to start creating your own ones.<br/>
 Here you find all the details for all methods and parameters.</p>
@@ -303,9 +349,35 @@ Here you find all the details for all methods and parameters.</p>
 
 <hr/>
 
+<h3><code>$.repeat(<em>interval</em>,<em>[firstRunNow]</em>,<em>[queue]</em>)</code></h3>
+
+<p>The static version of the <code>repeat</code> method can be used quite similar to the version above, but uses an optional queue name instead of a selection.</p>
+
+<dl>
+<dt>interval</dt>
+<dd>The interval in milliseconds (ms) to wait between each call of the following method chain (up to the first <code>.until</code> method).<br/>Values less or equal to zero are treated as <code>1</code>.</dd>
+<dt>[firstRunNow]</dt>
+<dd>A boolean whether to invoke the methods for the first time right now or only after the timeout. Defaults to <code>false</code>.</dd>
+<dt>[queue]</dt>
+<dd>A queue name to be used for the static <code>$.unrepeat(queue)</code>.</dd>
+</dl>
+
+<hr/>
+
 <h3><code>.unrepeat()</code></h3>
 
 <p>Interrupts ongoing <code>.repeat</code> operations on the current selection. That means that any currently repeated method chain for that selection will <b>not</b> be processed anymore, thus even not the corresponding <code>.until</code> action.</p>
+
+<hr/>
+
+<h3><code>$.unrepeat(<em>[queue]</em>)</code></h3>
+
+<p>The static version of the <code>unrepeat</code> method can be used quite similar to the version above, but uses an optional queue name instead of a selection.</p>
+
+<dl>
+<dt>[queue]</dt>
+<dd>The queue name from the static <code>$.repeat(interval,firstRunNow,queue)</code>.</dd>
+</dl>
 
 <hr/>
 
@@ -340,9 +412,33 @@ The condition when to stop the repeat loop can be defined in three ways:</p>
 
 <hr/>
 
+<h3><code>$.wait(<em>timeout</em>,<em>[queue]</em>)</code></h3>
+
+<p>The static version of the <code>wait</code> method can be used quite similar to the version above, but uses an optional queue name instead of a selection.</p>
+
+<dl>
+<dt>timeout</dt>
+<dd>The timeout in milliseconds (ms) to wait until the following methods are processed.<br/>Values less or equal to zero are treated as <code>1</code>.</dd>
+<dt>[queue]</dt>
+<dd>A queue name to be used for the static <code>$.unwait(queue)</code>.</dd>
+</dl>
+
+<hr/>
+
 <h3><code>.unwait()</code></h3>
 
 <p>Interrupts ongoing <code>wait</code> operations on the current selection. That means that the currently waiting commands will <b>not</b> be processed anymore.</p>
+
+<hr/>
+
+<h3><code>$.unwait([queue])</code></h3>
+
+<p>The static version of the <code>unwait</code> method can be used quite similar to the version above, but uses an optional queue name instead of a selection.</p>
+
+<dl>
+<dt>[queue]</dt>
+<dd>The queue name from the static <code>$.wait(interval,queue)</code>.</dd>
+</dl>
 
 <hr/>
 
@@ -358,7 +454,21 @@ The condition when to stop the repeat loop can be defined in three ways:</p>
 
 <hr/>
 
-<h2>Contact the author</h2>
+<h3><code>$.now(<em>callback</em>,<em>[queue]</em>)</code></h3>
+
+<p>The static version of the <code>now</code> method can be used quite similar to the version above, but uses an optional queue name instead of a selection.</p>
+
+<dl>
+<dt>callback</dt>
+<dd>A function which is called in the context of the jQuery selection object.</dd>
+<dd>The arguments are the current iteration numbers of the surrounding repeat loops, starting from the innermost to the outermost loop.</dd>
+<dt>[queue]</dt>
+<dd>A queue name to be used for the static <code>$.unwait(queue)</code> or <code>$.unrepeat(queue)</code>.</dd>
+</dl>
+
+<hr/>
+
+<h2><a name="contact"></a>Contact the author</h2>
 <dl>
 <dt>name</dt>
 <dd>Peter Liske</dd>
