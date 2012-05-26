@@ -290,9 +290,6 @@ But be prepared: the following examples could make your brain hurt!
 <hr/>
 
 <h3>Example 9: Static usage</h3>
-<pre>
-<b>$</b>(<i>'.example9'</i>).<em>repeat(<b>100</b>)</em>.<b>append</b>(<i>'&lt;li&gt;Test'</i>).<em>until(<b>10</b>)</em>.<em>now(</em><i>function(){alert('ready :-)');}</i><em>)</em>.<b>children</b>().<b>remove</b>();
-</pre>
 <p>
 	You can also use the <code>wait</code>, <code>unwait</code>, <code>repeat</code>, <code>unrepeat</code>, and <code>now</code> methods in a static way.
 	There you also optionally can give queue names to access them later for interrupting your timeouts and intervals.
@@ -437,7 +434,7 @@ The condition when to stop the repeat loop can be defined in three ways:</p>
 
 <dl>
 <dt>[queue]</dt>
-<dd>The queue name from the static <code>$.wait(interval,queue)</code>.</dd>
+<dd>The queue name from the static <code>$.wait(timeout,queue)</code>.</dd>
 </dl>
 
 <hr/>
