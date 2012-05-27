@@ -11,6 +11,8 @@ function randomChar() {
 	return alphabet[Math.floor(Math.random()*alphabet.length)];
 }
 </script>
+<link type="text/css" rel="stylesheet" href="http://jquery.bassistance.de/treeview/jquery.treeview.css"/>
+<script type="text/javascript" src="http://jquery.bassistance.de/treeview/jquery.treeview.js"></script>
 <style type="text/css">
 body {
 	font-family: sans-serif;
@@ -20,9 +22,20 @@ body {
 	padding: 2em;
 	margin: 0;
 }
-h1, h2 {
-	margin: 1.5em 0;
+h1 {
+	font-size: 3em;
+	margin: 2em 0;
 	color: black;
+}
+h2 {
+	font-size: 2em;
+	margin: 2em 0;
+	color: black;
+}
+h3 {
+	font-size: 1.5em;
+	margin: 2em 0 0;
+	color: inherit;
 }
 pre {
 	margin: 2em;
@@ -101,13 +114,49 @@ li.clazz {
 Browse the page for nice usage examples.<br/>
 The examples start with basic (boring?) stuff on top and increase in complexity (coolness!) down the page.
 </p>
-<ul>
-	<li><a href="#precondition">Precondition</a></li>
-	<li><a href="#basics">Basics</a></li>
-	<li><a href="#advanced">Advanced techniques</a></li>
-	<li><a href="#reference">Method reference</a></li>
-	<li><a href="#contact">Contact the author</a></li>
+<p>
+Remember: Each example on this page is written in a single jQuery line - <em>write less. do more.</em>
+</p>
+<ul class="treeview">
+	<li><span><a href="#precondition">Precondition</a></span></li>
+	<li class="closed"><span>Basics</span>
+		<ul>
+			<li><span><a href="#basics">Example 1: Blinking by repeating toggling the CSS class</a></span></li>
+			<li><span><a href="#example2">Example 2: Blinking a given number of times</a></span></li>
+			<li><span><a href="#example3">Example 3: Wait a timeout before blinking</a></span></li>
+			<li><span><a href="#example4">Example 4: Clock display with one short blink per second</a></span></li>
+			<li><span><a href="#example5">Example 5: Clock display with double blink per second</a></span></li>
+		</ul>
+	</li>
+	<li class="closed"><span>Advanced techniques</span>
+		<ul>
+			<li><span><a href="#advanced">Example 6: Generating password with fake progress</a></span></li>
+			<li><span><a href="#example7">Example 7: Removing DOM elements one by one</a></span></li>
+			<li><span><a href="#example8">Example 8: Invoke callback function on timing</a></span></li>
+			<li><span><a href="#example9">Example 9: Static usage of repeat()</a></span></li>
+			<li><span><a href="#example10">Example 10: repeat() without interval timer - the jQueryfied <code>for</code>-loop</a></span></li>
+		</ul>
+	</li>
+	<li class="closed"><span>Method reference</span>
+		<ul>
+			<li><span><a href="#reference"><code>.repeat()</code></a></span></li>
+			<li><span><a href="#$.repeat"><code>$.repeat()</code></a></span></li>
+			<li><span><a href="#.unrepeat"><code>.unrepeat()</code></a></span></li>
+			<li><span><a href="#$.unrepeat"><code>$.unrepeat()</code></a></span></li>
+			<li><span><a href="#.until"><code>.until()</code></a></span></li>
+			<li><span><a href="#.wait"><code>.wait()</code></a></span></li>
+			<li><span><a href="#$.wait"><code>$.wait()</code></a></span></li>
+			<li><span><a href="#.unwait"><code>.unwait()</code></a></span></li>
+			<li><span><a href="#$.unwait"><code>$.unwait()</code></a></span></li>
+			<li><span><a href="#.now"><code>.now()</code></a></span></li>
+			<li><span><a href="#$.now"><code>$.now()</code></a></span></li>
+		</ul>
+	</li>
+	<li><span><a href="#contact">Contact the author</a></span></li>
 </ul>
+<script>
+$('.treeview').treeview();
+</script>
 <p>Have fun!</p>
 
 <div id="fb-root"></div>
@@ -149,7 +198,7 @@ The source code is hosted at <a href="https://github.com/creativecouple/jquery-t
 
 <h2><a name="basics"></a>Basics</h2>
 
-<h3>Example 1: Blinking by repeating toggling the CSS class</h3>
+<h3><a name="example1"></a>Example 1: Blinking by repeating toggling the CSS class</h3>
 <pre>
 <b>$</b>(<i>'.example1'</i>).<em>repeat(<b>300</b>)</em>.<b>toggleClass</b>(<i>'blink'</i>);
 </pre>
@@ -161,7 +210,7 @@ The source code is hosted at <a href="https://github.com/creativecouple/jquery-t
 
 <hr/>
 
-<h3>Example 2: Blinking a given number of times</h3>
+<h3><a name="example2"></a>Example 2: Blinking a given number of times</h3>
 <pre>
 <b>$</b>(<i>'.example2'</i>).<em>repeat(<b>100</b>)</em>.<b>toggleClass</b>(<i>'blink'</i>).<em>until(<b>4</b>)</em>;
 </pre>
@@ -172,7 +221,7 @@ The source code is hosted at <a href="https://github.com/creativecouple/jquery-t
 
 <hr/>
 
-<h3>Example 3: Wait a timeout before blinking</h3>
+<h3><a name="example3"></a>Example 3: Wait a timeout before blinking</h3>
 <pre>
 <b>$</b>(<i>'.example3'</i>).<em>wait(<b>500</b>)</em>.<b>addClass</b>(<i>'blink'</i>).<em>wait(<b>200</b>)</em>.<b>removeClass</b>(<i>'blink'</i>);
 </pre>
@@ -185,7 +234,7 @@ The source code is hosted at <a href="https://github.com/creativecouple/jquery-t
 
 <hr/>
 
-<h3>Example 4: Clock display with one short blink per second</h3>
+<h3><a name="example4"></a>Example 4: Clock display with one short blink per second</h3>
 <pre>
 <b>$</b>(<i>'.example4'</i>).<em>repeat(<b>1000</b>,<b>true</b>)</em>.<b>text</b>(<b>Date</b>).<b>addClass</b>(<i>'blink'</i>).<em>wait(<b>100</b>)</em>.<b>removeClass</b>(<i>'blink'</i>);
 </pre>
@@ -194,13 +243,13 @@ The source code is hosted at <a href="https://github.com/creativecouple/jquery-t
 	In this code the object <code>Date</code> is used as a callback function to get a simple example for changing text.<br/>
 	The whole method chain <code>.text(Date).addClass('blink').wait(100).removeClass('blink')</code> is repeated every 1000 millis, meaning once per second.
 	The first call runs immediately, not waiting for 1000ms.<br/>
-	As you see you can put any jQuery stuff in the line to be processed later - <em>write less. do more.</em>
+	As you see you can put any jQuery stuff in the line to be processed later.
 </p>
 <script>$('.example4').repeat(1000,true).text(Date).addClass('blink').wait(100).removeClass('blink');</script>
 
 <hr/>
 
-<h3>Example 5: Clock display with double blink per second (combination of examples 2 and 4)</h3>
+<h3><a name="example5"></a>Example 5: Clock display with double blink per second (combination of examples 2 and 4)</h3>
 <pre>
 <b>$</b>(<i>'.example5'</i>).<em>repeat(<b>1000</b>)</em>.<b>text</b>(<b>Date</b>).<em>repeat(<b>100</b>,<b>true</b>)</em>.<b>toggleClass</b>(<i>'blink'</i>).<em>until(<b>4</b>)</em>;
 </pre>
@@ -220,7 +269,7 @@ Here are more one-liners for you.
 But be prepared: the following examples could make your brain hurt! 
 </p>
 
-<h3>Example 6: Generating password with fake progress</h3>
+<h3><a name="example6"></a>Example 6: Generating password with fake progress</h3>
 <pre>
 <b>$</b>(<i>'.example6'</i>).<em>unrepeat()</em>.<b>val</b>(<i>''</i>).<b>addClass</b>(<i>'load'</i>).<em>repeat(<b>200</b>)</em>.<b>val</b>(<i>function(){return $(this).val()+randomChar()}</i>).<em>until(<b>10</b>)</em>.<b>removeClass</b>(<i>'load'</i>);
 </pre>
@@ -244,7 +293,7 @@ But be prepared: the following examples could make your brain hurt!
 
 <hr/>
 
-<h3>Example 7: Removing DOM elements one by one</h3>
+<h3><a name="example7"></a>Example 7: Removing DOM elements one by one</h3>
 <pre>
 <b>$</b>(<i>'.example7'</i>).<em>repeat(<b>3000</b>,<b>true</b>)</em>.<em>repeat(<b>300</b>)</em>.<b>prepend</b>(<i>'&lt;li&gt;green'</i>).<em>wait(<b>200</b>)</em>.<b>append</b>(<i>'&lt;li&gt;bottle'</i>).<em>until(<b>5</b>)</em>.<em>repeat(<b>100</b>)</em>.<b>find</b>(<i>'li'</i>).<b>not</b>(<i>'.clazz'</i>).<b>first</b>().<b>remove</b>().<em>until()</em>;
 </pre>
@@ -275,7 +324,7 @@ But be prepared: the following examples could make your brain hurt!
 
 <hr/>
 
-<h3>Example 8: Invoke callback function on timing</h3>
+<h3><a name="example8"></a>Example 8: Invoke callback function on timing</h3>
 <pre>
 <b>$</b>(<i>'.example8'</i>).<em>repeat(<b>100</b>)</em>.<b>append</b>(<i>'&lt;li&gt;Test'</i>).<em>until(<b>10</b>)</em>.<em>now(</em><i>function(){alert('ready :-)');}</i><em>)</em>.<b>children</b>().<b>remove</b>();
 </pre>
@@ -289,7 +338,7 @@ But be prepared: the following examples could make your brain hurt!
 
 <hr/>
 
-<h3>Example 9: Static usage</h3>
+<h3><a name="example9"></a>Example 9: Static usage of repeat()</h3>
 <p>
 	You can also use the <code>wait</code>, <code>unwait</code>, <code>repeat</code>, <code>unrepeat</code>, and <code>now</code> methods in a static way.
 	There you also optionally can give queue names to access them later for interrupting your timeouts and intervals.
@@ -325,6 +374,27 @@ If you quickly press the <button onclick="$.unwait('myQueue')">cancel button</bu
 
 <hr/>
 
+<h3><a name="example10"></a>Example 10: repeat() without interval timer - the jQueryfied <code>for</code>-loop</h3>
+<p>
+	Again we are generating a random password like in <a href="#example6">example 6</a>.<br/>
+	But this time we use the .repeat function without a timer and instead include a .wait within each iteration:
+</p>
+<pre>
+<b>$</b>(<i>'.example10'</i>).<em>unrepeat()</em>.<b>val</b>(<i>''</i>).<b>addClass</b>(<i>'load'</i>).<em>repeat()</em>.<b>val</b>(<i>function(){return $(this).val()+randomChar()}</i>).<em>wait(<b>200</b>)</em>.<em>until(<b>10</b>)</em>.<b>removeClass</b>(<i>'load'</i>);
+</pre>
+<p>
+	And again here it is: <input class="example10" type="password" size="11" value=""/> - <button onclick="$('.example10').unrepeat().val('').addClass('load').repeat().val(function(){return $(this).val()+randomChar()}).wait(200).until(10).removeClass('load')">generate random password</button>.<br/>
+</p>
+<p>
+	The variant of <code>.repeat()</code> without interval timer is comparable to a timing-enabled <code>for</code>-loop.
+	If you don't have any waits in your loop then it actually loops without any delay between the iterations.
+</p>
+<p>
+	Again try out clicking multiple times on that button to see, that the ongoing animation is always stopped before starting over.
+</p>
+
+<hr/>
+
 <h2><a name="reference"></a>Method reference</h2>
 
 <p>If you enjoyed the examples then maybe you want to start creating your own ones.<br/>
@@ -333,26 +403,27 @@ Here you find all the details for all methods and parameters.</p>
 
 <hr/>
 
-<h3><code>.repeat(<em>interval</em>,<em>[firstRunNow]</em>)</code></h3>
+<h3><a name=".repeat"></a><code>.repeat(<em>[interval]</em>,<em>[firstRunNow]</em>)</code></h3>
 
-<p>The <code>.repeat</code> method internally uses <code>window.setInterval()</code> to repeat the following methods in the concatenated method chain (up to an <code>.until</code> method, but concerning nested loops).</p>
+<p>The <code>.repeat</code> method loops all the following methods in the concatenated method chain (up to an <code>.until</code> method, but concerning nested loops).</p>
+<p>When given an interval internally <code>winodws.setInterval()</code> is used. Without an interval the loop iterations have no delay (except, of course, you put some <code>.wait()</code> in there).</p>
 
 <dl>
-<dt>interval</dt>
-<dd>The interval in milliseconds (ms) to wait between each call of the following method chain (up to the first <code>.until</code> method).<br/>Values less or equal to zero are treated as <code>1</code>.</dd>
+<dt>[interval]</dt>
+<dd>The interval in milliseconds (ms) to wait between each call of the following method chain (up to the first <code>.until</code> method). If skipped or if the value is zero then there is no delay between the iterations.</dd>
 <dt>[firstRunNow]</dt>
 <dd>A boolean whether to invoke the methods for the first time right now or only after the timeout. Defaults to <code>false</code>.</dd>
 </dl>
 
 <hr/>
 
-<h3><code>$.repeat(<em>interval</em>,<em>[firstRunNow]</em>,<em>[queue]</em>)</code></h3>
+<h3><a name="$.repeat"></a><code>$.repeat(<em>[interval]</em>,<em>[firstRunNow]</em>,<em>[queue]</em>)</code></h3>
 
 <p>The static version of the <code>repeat</code> method can be used quite similar to the version above, but uses an optional queue name instead of a selection.</p>
 
 <dl>
-<dt>interval</dt>
-<dd>The interval in milliseconds (ms) to wait between each call of the following method chain (up to the first <code>.until</code> method).<br/>Values less or equal to zero are treated as <code>1</code>.</dd>
+<dt>[interval]</dt>
+<dd>The interval in milliseconds (ms) to wait between each call of the following method chain (up to the first <code>.until</code> method). If skipped or if the value is zero then there is no delay between the iterations.</dd>
 <dt>[firstRunNow]</dt>
 <dd>A boolean whether to invoke the methods for the first time right now or only after the timeout. Defaults to <code>false</code>.</dd>
 <dt>[queue]</dt>
@@ -361,13 +432,13 @@ Here you find all the details for all methods and parameters.</p>
 
 <hr/>
 
-<h3><code>.unrepeat()</code></h3>
+<h3><a name=".unrepeat"></a><code>.unrepeat()</code></h3>
 
 <p>Interrupts ongoing <code>.repeat</code> operations on the current selection. That means that any currently repeated method chain for that selection will <b>not</b> be processed anymore, thus even not the corresponding <code>.until</code> action.</p>
 
 <hr/>
 
-<h3><code>$.unrepeat(<em>[queue]</em>)</code></h3>
+<h3><a name="$.unrepeat"></a><code>$.unrepeat(<em>[queue]</em>)</code></h3>
 
 <p>The static version of the <code>unrepeat</code> method can be used quite similar to the version above, but uses an optional queue name instead of a selection.</p>
 
@@ -378,7 +449,7 @@ Here you find all the details for all methods and parameters.</p>
 
 <hr/>
 
-<h3><code>.until()</code><br/><code>.until(<em>nrOfIterations</em>)</code><br/><code>.until(<em>conditionCallback</em>)</code></h3>
+<h3><a name=".until"></a><code>.until()</code><br/><code>.until(<em>nrOfIterations</em>)</code><br/><code>.until(<em>conditionCallback</em>)</code></h3>
 
 <p>Defines that the last usage of <code>.repeat</code> before this call in the method chain only loops up to here. Any following command in the method chain is processed only once - after the last repetition of the loop.<br/>
 The condition when to stop the repeat loop can be defined in three ways:</p>
@@ -398,7 +469,7 @@ The condition when to stop the repeat loop can be defined in three ways:</p>
 
 <hr/>
 
-<h3><code>.wait(<em>timeout</em>)</code></h3>
+<h3><a name=".wait"></a><code>.wait(<em>timeout</em>)</code></h3>
 
 <p>The <code>wait</code> method uses <code>window.setTimeout()</code> to delay the following methods in the concatenated method chain.</p>
 
@@ -409,7 +480,7 @@ The condition when to stop the repeat loop can be defined in three ways:</p>
 
 <hr/>
 
-<h3><code>$.wait(<em>timeout</em>,<em>[queue]</em>)</code></h3>
+<h3><a name="$.wait"></a><code>$.wait(<em>timeout</em>,<em>[queue]</em>)</code></h3>
 
 <p>The static version of the <code>wait</code> method can be used quite similar to the version above, but uses an optional queue name instead of a selection.</p>
 
@@ -422,13 +493,13 @@ The condition when to stop the repeat loop can be defined in three ways:</p>
 
 <hr/>
 
-<h3><code>.unwait()</code></h3>
+<h3><a name=".unwait"></a><code>.unwait()</code></h3>
 
 <p>Interrupts ongoing <code>wait</code> operations on the current selection. That means that the currently waiting commands will <b>not</b> be processed anymore.</p>
 
 <hr/>
 
-<h3><code>$.unwait([queue])</code></h3>
+<h3><a name="$.unwait"></a><code>$.unwait(<em>[queue]</em>)</code></h3>
 
 <p>The static version of the <code>unwait</code> method can be used quite similar to the version above, but uses an optional queue name instead of a selection.</p>
 
@@ -439,7 +510,7 @@ The condition when to stop the repeat loop can be defined in three ways:</p>
 
 <hr/>
 
-<h3><code>.now(<em>callback</em>)</code></h3>
+<h3><a name=".now"></a><code>.now(<em>callback</em>)</code></h3>
 
 <p>The <code>now</code> method just runs the given callback function at the time of invocation.</p>
 
@@ -451,7 +522,7 @@ The condition when to stop the repeat loop can be defined in three ways:</p>
 
 <hr/>
 
-<h3><code>$.now(<em>callback</em>,<em>[queue]</em>)</code></h3>
+<h3><a name="$.now"></a><code>$.now(<em>callback</em>,<em>[queue]</em>)</code></h3>
 
 <p>The static version of the <code>now</code> method can be used quite similar to the version above, but uses an optional queue name instead of a selection.</p>
 
