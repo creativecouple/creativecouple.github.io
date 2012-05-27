@@ -463,7 +463,7 @@ The condition when to stop the repeat loop can be defined in three ways:</p>
 <dt>conditionCallback</dt>
 <dd>If a callback function is given as argument to <code>.until</code> then this function is called after each loop iteration to determine whether to leave the loop or not.</dd>
 <dd>If the return value is numeric than it is compared to the number of passed iterations. Otherwise it is treated as boolean.</dd>
-<dd>The function is called with the current number or passed iterations as only argument.</dd>
+<dd>The arguments are the current iteration numbers of the surrounding repeat loops, starting from the innermost to the outermost loop.</dd>
 <dd>The function is called in the context (<code>this</code>) of the current jQuery selection object (which is the same context that the <code>.until</code> method is called itself).</dd>
 </dl>
 
