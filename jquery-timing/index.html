@@ -377,7 +377,7 @@ If you quickly press the <button onclick="$.unwait('myQueue')">cancel button</bu
 <h3><a name="example10"></a>Example 10: repeat() without interval timer - the jQueryfied <code>for</code>-loop</h3>
 <p>
 	Again we are generating a random password like in <a href="#example6">example 6</a>.<br/>
-	But this time we use the .repeat function without a timer and instead include a .wait within each iteration:
+	But this time we use the <code>.repeat</code> function without a timer and instead include a <code>.wait</code> within each iteration:
 </p>
 <pre>
 <b>$</b>(<i>'.example10'</i>).<em>unrepeat()</em>.<b>val</b>(<i>''</i>).<b>addClass</b>(<i>'load'</i>).<em>repeat()</em>.<b>val</b>(<i>function(){return $(this).val()+randomChar()}</i>).<em>wait(<b>200</b>)</em>.<em>until(<b>10</b>)</em>.<b>removeClass</b>(<i>'load'</i>);
