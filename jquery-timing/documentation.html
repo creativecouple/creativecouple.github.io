@@ -182,6 +182,8 @@ But there are several differences between <abbr>fxq</abbr> and <abbr>tic</abbr>,
 <tr><th>method support</th><td>only functions being designed to enqueue something</td><td>any jQuery function that returns a jQuery object</td></tr>
 <tr><th>stopping execution</th><td>stop ongoing animation immediately at the current state</td><td>interrupt ongoing timeouts or intervals only</td></tr>
 <tr><th>scope</th><td>each <abbr>fxq</abbr> can be accessed from anywhere</td><td>each <abbr>tic</abbr> is restricted by its invocation chain</td></tr>
+<tr><th>method delay</th><td><code>.delay(<em>timeout</em>).queue(<em>callback</em>)</code></td><td><code>.wait(<em>timeout</em>,<em>callback</em>)</code></td></tr>
+<tr><th>loop iterations</th><td>not possible</td><td><code>.repeat()</code> and <code>.until()</code> with custom end conditions</td></tr>
 </table>
 <p>
 As you can see both techniques have their pros and cons.
