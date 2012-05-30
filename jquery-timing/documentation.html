@@ -142,7 +142,7 @@ jQuery highly bases on exactly that method concatenation schema:
 <pre title="example for a jQuery invocation chain"><b>$</b>(&hellip;)&#8203;.<b>show</b>()&#8203;.<b>css</b>(&hellip;)&#8203;.<b>click</b>(&hellip;)&#8203;.<b>find</b>(&hellip;)&#8203;.<b>hover</b>(&hellip;).<b>keypress</b>(&hellip;)&#8203;.<b>each</b>(&hellip;)&#8203;.<b>first</b>(&hellip;).<b>css</b>(&hellip;)... // etc</pre>
 <p>
 And that's the point!<br/>
-Using methods on jQuery selection objects almost always return the same or another jQuery object to work with.
+Using a method on jQuery selection objects almost always returns the same or another jQuery object to work with.
 So it is an invocation chain where all objects in between again are jQuery selection objects.
 </p>
 <h3>And what does that knowledge help me?</h3>
@@ -173,7 +173,7 @@ Thus we achieve a Timed Invocation Chain &ndash; <abbr>tic</abbr>.
 <p>
 Some might ask if it's necessary to hack such a weird stuff when we already have a working effects queue in jQuery.
 Actually the jQuery effects queue, which I will abbreviate as <abbr>fxq</abbr> from now on, does support a wide range of animations, delays, custom queuing and unqueuing, etc.
-But there are several differents between <abbr>fxq</abbr> and <abbr>tic</abbr>, which I try to explain with the following table:
+But there are several differences between <abbr>fxq</abbr> and <abbr>tic</abbr>, which I try to explain with the following table:
 </p>
 <table>
 <tr><td></td><th><abbr>fxq</abbr> &ndash; jQuery effects queue</th><th><abbr>tic</abbr> &ndash; timed invocation chain</th></tr>
