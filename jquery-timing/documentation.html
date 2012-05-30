@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="keywords" content="jQuery-timing,wait,repeat,delay,timed invocation chain,effects queue,tic,fxq" />
 <meta name="author" content="CreativeCouple"/>
-<title>timing: a jQuery plugin introducing the Timed Invocation Chain (TIC) as counterpart to the jQuery Effects Queue (FXQ)</title>
+<title>timing: a jQuery plugin - Documentation of TIC</title>
 <link type="text/css" rel="stylesheet" href="style.css"/>
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="jquery-timing.min.js"></script>
@@ -36,33 +36,31 @@
 </div>
 
 <h1><a href="./">timing</a> <small>&mdash; a jQuery plugin<br/>
-<small>introducing the Timed Invocation Chain (<abbr>tic</abbr>) as counterpart to the jQuery Effects Queue (<abbr>fxq</abbr>)</small>
+<small><a name="reference"></a>Documentation</small>
 </small></h1>
+
 <div class="left">
-<p>
-<em>jquery-timing</em> provides easy-to-use methods to define timeouts and intervals just in line with all your <a href="http://jquery.com/">jQuery</a> stuff.<br/>
-It supplements the existing functionality from the jQuery effects queue (<abbr>fxq</abbr>) by introducing a new timed invocation chain technique (<abbr>tic</abbr>).
-</p>
+<p>On this page you find heavy technical stuff explaining how the Timed Invocation Chain (<abbr>tic</abbr>) is working and how it compares to the jQuery effects queue (<abbr>fxq</abbr>).</p>
 <p>
 Follow the navigation for documentation, examples, references, and further information.<br/>
 &ndash; Have fun!
 </p>
-</div> 
+</div>
 
 <div class="navigation">
 <div class="left">
 <h2>Navigation</h2>
 <ul class="treeview">
-	<li class=""><span>Precondition</span>
+	<li class="closed"><span>Precondition</span>
 		<ul>
 			<li><span><a href="./#precondition">Dependencies</a></span></li>
 			<li><span><a href="./#inclusion">Include in your page</a></span></li>
 			<li><span><a href="./#download">Download &amp; License</a></span></li>
 		</ul>
 	</li>
-	<li class="closed"><span>Documentation</span>
+	<li class=""><span>Documentation</span>
 		<ul>
-			<li><span><a href="documentation.html#documentation">Introducing <abbr>tic</abbr>: the Timed Invocation Chain</a></span></li>
+			<li><span><a href="documentation.html#tic">Introducing <abbr>tic</abbr>: the Timed Invocation Chain</a></span></li>
 			<li><span><a href="documentation.html#comparison">Effects Queue (<abbr>fxq</abbr>) vs. Timed Invocation Chain (<abbr>tic</abbr>)</a></span></li>
 			<li><span><a href="documentation.html#combination"><abbr>fxq</abbr> and <abbr>tic</abbr> combined: why friends have to <code>.join()</code></a></span></li>
 		</ul>
@@ -124,34 +122,89 @@ $('.treeview').treeview();
 </div>
 
 <div class="content">
+
+<a name="tic"></a>
 <div class="block">
-<h2><a name="dependency"></a>Dependencies</h2>
+<h2>Introducing <abbr>tic</abbr>: the Timed Invocation Chain</h2>
+
+<p>After long time working with jQuery in different projects I found that there was one thing I always (re)invented again
+&ndash; convenient methods for timing.
+Of course, using <code>window.setTimeout()</code> and <code>window.setInterval()</code> is not a big deal.
+But it becomes one if you leave the easy examples and implement really sophisticated use cases.
+So at the end I decided to write this plugin you are studying right now &ndash; <em>jquery-timing</em>.</p>
+<p>With this plugin I use a technique which I use to call the Timed Invocation Chain.
+For less redundancy and faster reading I will abbreviate it with <abbr>tic</abbr> from now on.</p>
+<h3>But what does <abbr>tic</abbr> mean?</h3>
 <p>
-You need to use <a href="http://jquery.com/">jQuery</a> on your page, any version since <strong>1.2 and above</strong>.
+<abbr>tic</abbr> is an easy way to postpone method execution when written in a jQuery style &ndash; a long method call concation, always using the return value of the previous function call as object to work on with the next function.
+jQuery highly bases on exactly that method concatenation schema:
 </p>
+<pre title="example for a jQuery invocation chain"><b>$</b>(&hellip;)&#8203;.<b>show</b>()&#8203;.<b>css</b>(&hellip;)&#8203;.<b>click</b>(&hellip;)&#8203;.<b>find</b>(&hellip;)&#8203;.<b>hover</b>(&hellip;).<b>keypress</b>(&hellip;)&#8203;.<b>each</b>(&hellip;)&#8203;.<b>first</b>(&hellip;).<b>css</b>(&hellip;)... // etc</pre>
+<p>
+And that's the point!<br/>
+Using methods on jQuery selection objects almost always return the same or another jQuery object to work with.
+So it is an invocation chain where all objects in between again are jQuery selection objects.
+</p>
+<h3>And what does that knowledge help me?</h3>
+<p>
+If you know that any object reult in between a long invocation chain is of the same type (or for other programming languages the same class or interface),
+then you also know that they share a common set of methods that be invoked.
+In our case we just have to look at the very first object <code><b>$</b>(&hellip;)</code> and list all the methods that can be invoked on that object.
+We then can <em>forecast</em> that each and every invocation step in the long invocation chain will allow us to call <em>exactly these methods</em>.
+</p>
+<h3>How it works</h3>
+<p>
+So this is the simple way how it works: The first call to <code>.wait()</code>, <code>.repeat()</code>, or <code>.join()</code> will internally create a placeholder object being aware of all the methods that <em>could</em> be called.
+When they are then called in the invocation chain, meaning when JavaScript does execute the code, then the smart placeholder object collects all invocations in a call stack.
+It stores the function names and the arguments that were given on each call.
+The outcome is a call stack that allows us to iterate in any possible manner.
+With this call stack in our hands we can include waiting, repeating, and a lot other stuff which would break the scope of this plugin.
+</p>
+<p>
+Thus we achieve a Timed Invocation Chain &ndash; <abbr>tic</abbr>.
+</p>
+
 </div>
 
+<a name="comparison"></a>
 <div class="block">
-<h2><a name="inclusion"></a>Include in your page</h2>
+<h2>Effects Queue (<abbr>fxq</abbr>) vs. Timed Invocation Chain (<abbr>tic</abbr>)</h2>
+
 <p>
-All you need is to include the javascript file <a href="http://creativecouple.github.com/jquery-timing/jquery-timing.js">jquery-timing.js</a>
-or the minified version <a href="http://creativecouple.github.com/jquery-timing/jquery-timing.min.js">jquery-timing.min.js</a>:
+Some might ask if it's necessary to hack such a weird stuff when we already have a working effects queue in jQuery.
+Actually the jQuery effects queue, which I will abbreviate as <abbr>fxq</abbr> from now on, does support a wide range of animations, delays, custom queuing and unqueuing, etc.
+But there are several differents between <abbr>fxq</abbr> and <abbr>tic</abbr>, which I try to explain with the following table:
 </p>
+<table>
+<tr><td></td><th><abbr>fxq</abbr> &ndash; jQuery effects queue</th><th><abbr>tic</abbr> &ndash; timed invocation chain</th></tr>
+<tr><th>underlying technique</th><td>enqueue explicite animations and effects</td><td>postpone method invocations themselves</td></tr>
+<tr><th>return value of methods</th><td>same jQuery object</td><td>placeholder object collecting all concatenated function calls</td></tr>
+<tr><th>method support</th><td>only functions being designed to enqueue something</td><td>any jQuery function that returns a jQuery object</td></tr>
+<tr><th>stopping execution</th><td>stop ongoing animation immediately at the current state</td><td>interrupt ongoing timeouts or intervals only</td></tr>
+<tr><th>scope</th><td>each <abbr>fxq</abbr> can be accessed from anywhere</td><td>each <abbr>tic</abbr> is restricted by its invocation chain</td></tr>
+</table>
 <p>
-<small><code>
-&lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/&lt;preferred-version&gt;/jquery.min.js&quot;&gt;&lt;/script&gt;<br/>
-&lt;script type=&quot;text/javascript&quot; src=&quot;http://creativecouple.github.com/jquery-timing/jquery-timing.min.js&quot;&gt;&lt;/script&gt;
-</code></small>
-</p>
+As you can see both techniques have their pros and cons.
+And we see that <abbr>tic</abbr> is not <em>better</em> than <abbr>fxq</abbr>.
+It neither claims to be an improvement.</p>
+<p>
+I just say that <abbr>fxq</abbr> is one way to time your stuff and <abbr>tic</abbr> is another way to do so.</p>
 </div>
 
+<a name="combination"></a>
 <div class="block">
-<h2><a name="download"></a>Download &amp; License</h2>
+<h2><abbr>fxq</abbr> and <abbr>tic</abbr> combined: why friends have to <code>.join()</code></h2>
+
+<p>Good news: You can have all advantages from both worlds!</p>
 <p>
-The source code is hosted at <a href="https://github.com/creativecouple/jquery-timing">github.com/creativecouple/jquery-timing</a>
-under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.
+The <abbr>tic</abbr>-method <code>.join(<em>[queueName]</em>)</code> allows a timed invocation chain to wait until all the animations and effects currently being queued in a <abbr>fxq</abbr> finished.
+That also means that in case of <code>.stop()</code>ing the <abbr>fxq</abbr> our <abbr>tic</abbr> will not continue. This can be good or bad &ndash; depending on your use case and your code. 
 </p>
+<p>So maybe now it's time to check out the examples for ultimate time control with jQuery: <a href="ultimate.html"><abbr>fxq</abbr> and <abbr>tic</abbr> combined</a>.</p>
+<p>And don't forget: <em>write less. do more.</em></p>
+
 </div>
+
 </div>
 
 </body>

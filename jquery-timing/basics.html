@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="keywords" content="jQuery-timing,wait,repeat,delay,timed invocation chain,effects queue,tic,fxq" />
 <meta name="author" content="CreativeCouple"/>
-<title>timing: a jQuery plugin introducing the Timed Invocation Chain (TIC) as counterpart to the jQuery Effects Queue (FXQ)</title>
+<title>timing: a jQuery plugin - Basic examples</title>
 <link type="text/css" rel="stylesheet" href="style.css"/>
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="jquery-timing.min.js"></script>
@@ -36,24 +36,24 @@
 </div>
 
 <h1><a href="./">timing</a> <small>&mdash; a jQuery plugin<br/>
-<small>introducing the Timed Invocation Chain (<abbr>tic</abbr>) as counterpart to the jQuery Effects Queue (<abbr>fxq</abbr>)</small>
+<small><a name="basics"></a>Basic examples</small>
 </small></h1>
+
 <div class="left">
 <p>
-<em>jquery-timing</em> provides easy-to-use methods to define timeouts and intervals just in line with all your <a href="http://jquery.com/">jQuery</a> stuff.<br/>
-It supplements the existing functionality from the jQuery effects queue (<abbr>fxq</abbr>) by introducing a new timed invocation chain technique (<abbr>tic</abbr>).
+This page contains some usage examples for the <em>jquery-timing</em> plugin.
 </p>
 <p>
 Follow the navigation for documentation, examples, references, and further information.<br/>
 &ndash; Have fun!
 </p>
-</div> 
+</div>
 
 <div class="navigation">
 <div class="left">
 <h2>Navigation</h2>
 <ul class="treeview">
-	<li class=""><span>Precondition</span>
+	<li class="closed"><span>Precondition</span>
 		<ul>
 			<li><span><a href="./#precondition">Dependencies</a></span></li>
 			<li><span><a href="./#inclusion">Include in your page</a></span></li>
@@ -67,9 +67,9 @@ Follow the navigation for documentation, examples, references, and further infor
 			<li><span><a href="documentation.html#combination"><abbr>fxq</abbr> and <abbr>tic</abbr> combined: why friends have to <code>.join()</code></a></span></li>
 		</ul>
 	</li>
-	<li class="closed"><span>Basic Examples</span>
+	<li class=""><span>Basic Examples</span>
 		<ul>
-			<li><span><a href="basics.html#basics">Example 1: Blinking by repeated toggling of CSS class</a></span></li>
+			<li><span><a href="basics.html#example1">Example 1: Blinking by repeated toggling of CSS class</a></span></li>
 			<li><span><a href="basics.html#example2">Example 2: Blinking a given number of times</a></span></li>
 			<li><span><a href="basics.html#example3">Example 3: Wait a timeout before blinking</a></span></li>
 			<li><span><a href="basics.html#example4">Example 4: Clock display with one short blink per second</a></span></li>
@@ -124,35 +124,65 @@ $('.treeview').treeview();
 </div>
 
 <div class="content">
+
+<a name="example1"></a>
 <div class="block">
-<h2><a name="dependency"></a>Dependencies</h2>
+<h2>Example 1: Blinking by repeated toggling of CSS class</h2>
+<pre><b>$</b>(<i>'.example1'</i>)&#8203;.<em>repeat(<b>300</b>)</em>&#8203;.<b>toggleClass</b>(<i>'blink'</i>);</pre>
 <p>
-You need to use <a href="http://jquery.com/">jQuery</a> on your page, any version since <strong>1.2 and above</strong>.
+	Here is a <span class="example1">blinking</span> text.<br/>
+	The interval between each CSS class change is given with 300 millis.
+</p>
+<script>$('.example1').repeat(300).toggleClass('blink');</script>
+</div>
+
+<a name="example2"></a>
+<div class="block">
+<h2>Example 2: Blinking a given number of times</h2>
+<pre><b>$</b>(<i>'.example2'</i>)&#8203;.<em>repeat(<b>100</b>)</em>&#8203;.<b>toggleClass</b>(<i>'blink'</i>)&#8203;.<em>until(<b>4</b>)</em>;</pre>
+<p>
+	Here is a <span class="example2">text that blinks two times</span> (toggling CSS class four times) after clicking <button onclick="$('.example2').repeat(200).toggleClass('blink').until(4)">this button</button>.<br/>
+	Due to an even number of repeats the CSS class is being removed with the last toggle.
 </p>
 </div>
 
+<a name="example3"></a>
 <div class="block">
-<h2><a name="inclusion"></a>Include in your page</h2>
+<h2>Example 3: Wait a timeout before blinking</h2>
+<pre><b>$</b>(<i>'.example3'</i>)&#8203;.<em>wait(<b>500</b>)</em>&#8203;.<b>addClass</b>(<i>'blink'</i>)&#8203;.<em>wait(<b>200</b>)</em>&#8203;.<b>removeClass</b>(<i>'blink'</i>);</pre>
 <p>
-All you need is to include the javascript file <a href="http://creativecouple.github.com/jquery-timing/jquery-timing.js">jquery-timing.js</a>
-or the minified version <a href="http://creativecouple.github.com/jquery-timing/jquery-timing.min.js">jquery-timing.min.js</a>:
-</p>
-<p>
-<small><code>
-&lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/&lt;preferred-version&gt;/jquery.min.js&quot;&gt;&lt;/script&gt;<br/>
-&lt;script type=&quot;text/javascript&quot; src=&quot;http://creativecouple.github.com/jquery-timing/jquery-timing.min.js&quot;&gt;&lt;/script&gt;
-</code></small>
+	Here is a <span class="example3">text that blinks</span> 0.5s after clicking <button onclick="$('.example3').wait(500).addClass('blink').wait(200).removeClass('blink')">this button</button>.<br/>
+	The <code>wait(*)</code> function is similar to <code>repeat(*)...until(1)</code> when repeating only one time.
+	The only difference is that <code>wait</code> and <code>repeat</code> can be interrupted independently - see advanced techniques for examples on interrupting timeouts and intervals.<br/>
+	In this example a concatenation of two <code>wait</code> functions achieves the delayed short blink.
 </p>
 </div>
 
+<a name="example4"></a>
 <div class="block">
-<h2><a name="download"></a>Download &amp; License</h2>
+<h2>Example 4: Clock display with one short blink per second</h2>
+<pre><b>$</b>(<i>'.example4'</i>)&#8203;.<em>repeat(<b>1000</b>,<b>true</b>)</em>&#8203;.<b>text</b>(<b>Date</b>)&#8203;.<b>addClass</b>(<i>'blink'</i>)&#8203;.<em>wait(<b>100</b>)</em>&#8203;.<b>removeClass</b>(<i>'blink'</i>);</pre>
 <p>
-The source code is hosted at <a href="https://github.com/creativecouple/jquery-timing">github.com/creativecouple/jquery-timing</a>
-under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.
+	Here is a clock: <span class="example4">--</span>.<br/>
+	In this code the object <code>Date</code> is used as a callback function to get a simple example for changing text.<br/>
+	The whole method chain <code>.text(Date).addClass('blink').wait(100).removeClass('blink')</code> is repeated every 1000 millis, meaning once per second.
+	The first call runs immediately, not waiting for 1000ms.<br/>
+	As you see you can put any jQuery stuff in the line to be processed later.
 </p>
-</div>
+<script>$('.example4').repeat(1000,true).text(Date).addClass('blink').wait(100).removeClass('blink');</script>
 </div>
 
+<a name="example5"></a>
+<div class="block">
+<h2>Example 5: Clock display with double blink per second (combination of examples 2 and 4)</h2>
+<pre><b>$</b>(<i>'.example5'</i>)&#8203;.<em>repeat(<b>1000</b>)</em>&#8203;.<b>text</b>(<b>Date</b>)&#8203;.<em>repeat(<b>100</b>,<b>true</b>)</em>&#8203;.<b>toggleClass</b>(<i>'blink'</i>)&#8203;.<em>until(<b>4</b>)</em>;</pre>
+<p>
+	Again here is a clock: <span class="example5">--</span>.<br/>
+	We combined two <code>repeat</code>s resulting in nested loops.<br/>
+	Remark that the call to <code>until</code> only affects the inner (latest) repetition loop.
+</p>
+<script>$('.example5').repeat(1000).text(Date).repeat(100,true).toggleClass('blink').until(4);</script>
+</div>
+</div>
 </body>
 </html>
