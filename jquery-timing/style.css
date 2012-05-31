@@ -211,3 +211,50 @@ ul.example7 li, ul.example8 li {
 li.clazz {
 	color: green;
 }
+
+.example11 {
+	width: 60px;
+	height: 60px;
+	background: red;
+	border: none;
+	padding: 5px;
+	margin: 1em auto;
+	position: relative;
+	text-align: center;
+	color: white;
+}
+
+.example12 {
+	text-align: center;
+	height: 200px;
+	position: relative;
+	background: #eee;	
+}
+.example12 span {
+	width: 40px;
+	height: 40px;
+	padding: 5px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	text-align: center;
+	color: white;
+	margin: 0;
+	padding: 0;
+}
+.example12 .stick {
+	width: 20px;
+	background: #888;
+	border: 1px solid #ccc;
+}
+.example12 .stick:last-child {
+	left:400px;
+}
+.example12 .ball {
+	left: 20px;
+	background: orange;
+	border: 1px solid red;
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
+	border-radius: 20px;
+}

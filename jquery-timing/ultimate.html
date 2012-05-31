@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="keywords" content="jQuery-timing,wait,repeat,delay,timed invocation chain,effects queue,tic,fxq" />
 <meta name="author" content="CreativeCouple"/>
-<title>timing: a jQuery plugin - Basic examples</title>
+<title>timing: a jQuery plugin - Ultimate timing control with TIC and FXQ</title>
 <link type="text/css" rel="stylesheet" href="style.css"/>
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="jquery-timing.min.js"></script>
@@ -36,12 +36,13 @@
 </div>
 
 <h1><a href="./">timing</a> <small>&mdash; a jQuery plugin<br/>
-<small><a name="basics"></a>Basic examples</small>
+<small><a name="ultimate"></a>Ultimate timing control with <abbr>tic</abbr> and <abbr>fxq</abbr></small>
 </small></h1>
 
 <div class="left">
 <p>
-This page contains some usage examples for the <em>jquery-timing</em> plugin.
+The best solution to time your jQuery stuff and method calls seems to be a well-balanced combination of <abbr>tic</abbr> and <abbr>fxq</abbr>.<br/>
+The examples below will try to give a clue what amazing things you can do with jQuery's built-in effects and <em>jQuery-timing</em>.<br/>
 </p>
 <p>
 Follow the navigation for documentation, examples, references, and further information.<br/>
@@ -67,9 +68,9 @@ Follow the navigation for documentation, examples, references, and further infor
 			<li><span><a href="documentation.html#combination"><abbr>fxq</abbr> and <abbr>tic</abbr> combined: why friends have to <code>.join()</code></a></span></li>
 		</ul>
 	</li>
-	<li class=""><span>Basic Examples</span>
+	<li class="closed"><span>Basic Examples</span>
 		<ul>
-			<li><span><a href="basics.html#example1">Example 1: Blinking by repeated toggling of CSS class</a></span></li>
+			<li><span><a href="basics.html#basics">Example 1: Blinking by repeated toggling of CSS class</a></span></li>
 			<li><span><a href="basics.html#example2">Example 2: Blinking a given number of times</a></span></li>
 			<li><span><a href="basics.html#example3">Example 3: Wait a timeout before blinking</a></span></li>
 			<li><span><a href="basics.html#example4">Example 4: Clock display with one short blink per second</a></span></li>
@@ -85,9 +86,9 @@ Follow the navigation for documentation, examples, references, and further infor
 			<li><span><a href="advanced.html#example10">Example 10: the jQueryfied <code>for</code>-loop</a></span></li>
 		</ul>
 	</li>
-	<li class="closed"><span>Ultimate timing control with <abbr>tic</abbr> and <abbr>fxq</abbr></span>
+	<li class=""><span>Ultimate timing control with <abbr>tic</abbr> and <abbr>fxq</abbr></span>
 		<ul>
-			<li><span><a href="ultimate.html#ultimate">Example 11: repeated fading</a></span></li>
+			<li><span><a href="ultimate.html#example11">Example 11: repeated fading</a></span></li>
 			<li><span><a href="ultimate.html#example12">Example 12: scheduling different elements' animations</a></span></li>
 			<li><span><a href="ultimate.html#outlook">Outlook: Something missing here?</a></span></li>
 		</ul>
@@ -127,64 +128,88 @@ $('.treeview').treeview();
 
 <div class="content">
 
-<a name="example1"></a>
+<a name="example11"></a>
 <div class="block">
-<h2>Example 1: Blinking by repeated toggling of CSS class</h2>
-<pre><b>$</b>(<i>'.example1'</i>)&#8203;.<em>repeat(<b>300</b>)</em>&#8203;.<b>toggleClass</b>(<i>'blink'</i>);</pre>
+<h2>Example 11: repeated fading</h2>
 <p>
-	Here is a <span class="example1">blinking</span> text.<br/>
-	The interval between each CSS class change is given with 300 millis.
+To see the difference I will show an example of coding this the old-fashioned way with only <abbr>fxq</abbr> and one version also using the new <abbr>tic</abbr> methods.
 </p>
-<script>$('.example1').repeat(300).toggleClass('blink');</script>
-</div>
-
-<a name="example2"></a>
-<div class="block">
-<h2>Example 2: Blinking a given number of times</h2>
-<pre><b>$</b>(<i>'.example2'</i>)&#8203;.<em>repeat(<b>100</b>)</em>&#8203;.<b>toggleClass</b>(<i>'blink'</i>)&#8203;.<em>until(<b>4</b>)</em>;</pre>
+<h3>With <abbr>fxq</abbr> only:</h3>
+<pre class="old">
+<b>function</b> <i>fadeInAndOut</i>() {
+	<b>$</b>(<i>'.example11'</i>)&#8203;.<b>animate</b>({<i>opacity</i>:<b>0</b>})&#8203;.<b>animate</b>({<i>opacity</i>:<b>1</b>})
+		.<b>queue</b>(<b>function</b>(<i>next</i>){
+			<i>fadeInAndOut</i>();
+			<i>next</i>();
+		});
+}
+<i>fadeInAndOut</i>();
+</pre>
+<h3>With both <abbr>fxq</abbr> and <abbr>tic</abbr>:</h3>
+<pre><b>$</b>(<i>'.example11'</i>)&#8203;.<em>repeat()</em>&#8203;.<b>animate</b>({<i>opacity</i>:<b>0</b>})&#8203;.<b>animate</b>({<i>opacity</i>:<b>1</b>})&#8203;.<em>join()</em>;</pre>
+<div class="example11">Look at me fading!</div>
+<script type="text/javascript">$('.example11').repeat().animate({opacity:0}).animate({opacity:1}).join();</script>
 <p>
-	Here is a <span class="example2">text that blinks two times</span> (toggling CSS class four times) after clicking <button onclick="$('.example2').repeat(200).toggleClass('blink').until(4)">this button</button>.<br/>
-	Due to an even number of repeats the CSS class is being removed with the last toggle.
-</p>
-</div>
-
-<a name="example3"></a>
-<div class="block">
-<h2>Example 3: Wait a timeout before blinking</h2>
-<pre><b>$</b>(<i>'.example3'</i>)&#8203;.<em>wait(<b>500</b>)</em>&#8203;.<b>addClass</b>(<i>'blink'</i>)&#8203;.<em>wait(<b>200</b>)</em>&#8203;.<b>removeClass</b>(<i>'blink'</i>);</pre>
-<p>
-	Here is a <span class="example3">text that blinks</span> 0.5s after clicking <button onclick="$('.example3').wait(500).addClass('blink').wait(200).removeClass('blink')">this button</button>.<br/>
-	The <code>wait(*)</code> function is similar to <code>repeat(*)...until(1)</code> when repeating only one time.
-	The only difference is that <code>wait</code> and <code>repeat</code> can be interrupted independently - see advanced techniques for examples on interrupting timeouts and intervals.<br/>
-	In this example a concatenation of two <code>wait</code> functions achieves the delayed short blink.
+	I do like the shorter way.
 </p>
 </div>
 
-<a name="example4"></a>
+<a name="example12"></a>
 <div class="block">
-<h2>Example 4: Clock display with one short blink per second</h2>
-<pre><b>$</b>(<i>'.example4'</i>)&#8203;.<em>repeat(<b>1000</b>,<b>true</b>)</em>&#8203;.<b>text</b>(<b>Date</b>)&#8203;.<b>addClass</b>(<i>'blink'</i>)&#8203;.<em>wait(<b>100</b>)</em>&#8203;.<b>removeClass</b>(<i>'blink'</i>);</pre>
+<h2>Example 12: scheduling different elements' animations</h2>
+<pre>
+<b>var</b> <i>options</i> = { <i>duration</i>:<b>2000</b>, <i>easing</i>:<i>'linear'</i>, <i>queue</i>:<i>'myFX'</i> };
+<b>$</b>(<i>'.example12 .ball'</i>)&#8203;.<em>repeat()</em>&#8203;.<b>animate</b>({<i>left</i>:<b>360</b>},<i>options</i>)&#8203;.<b>animate</b>({<i>left</i>:<b>20</b>},<i>options</i>)&#8203;.<em>join(<i>'myFX'</i>)</em>;
+<b>$</b>(<i>'.example12 .ball'</i>)&#8203;.<em>wait()</em>&#8203;.<b>dequeue</b>(<i>'myFX'</i>); // why this line?
+
+<b>var</b> <i>options</i> = { <i>duration</i>:<b>900</b>, <i>easing</i>:<i>'linear'</i> };
+<b>$</b>(<i>'.example12 span'</i>)&#8203;.<em>repeat()</em>&#8203;.<b>animate</b>({<i>top</i>:<b>160</b>},<i>options</i>)&#8203;.<b>animate</b>({<i>top</i>:<b>0</b>},<i>options</i>)&#8203;.<em>join()</em>;
+</pre>
+<div class="example12">
+<span class="stick">&nbsp;</span>
+<span class="ball">&nbsp;</span>
+<span class="stick">&nbsp;</span>
+</div>
+<script type="text/javascript">
+var options = { duration:2000, easing:'linear', queue:'myFX' };
+$('.example12 .ball').repeat().animate({left:360},options).animate({left:20},options).join('myFX');
+$('.example12 .ball').wait().dequeue('myFX'); // why this line?
+
+var options = { duration:900, easing:'linear' };
+$('.example12 span').repeat().animate({top:160},options).animate({top:0},options).join();
+</script>
+
 <p>
-	Here is a clock: <span class="example4">--</span>.<br/>
-	In this code the object <code>Date</code> is used as a callback function to get a simple example for changing text.<br/>
-	The whole method chain <code>.text(Date).addClass('blink').wait(100).removeClass('blink')</code> is repeated every 1000 millis, meaning once per second.
-	The first call runs immediately, not waiting for 1000ms.<br/>
-	As you see you can put any jQuery stuff in the line to be processed later.
+The horizontal animation for the ball uses the <abbr>fxq</abbr> named <em>'myFX'</em>.<br/>
+For some strange reason I have to start that queue manually with the second line using <code>.dequeue(<em>'myFX'</em>)</code>.
+Seems to be a jQuery issue.
 </p>
-<script>$('.example4').repeat(1000,true).text(Date).addClass('blink').wait(100).removeClass('blink');</script>
+<p>
+The vertical animation uses the default <abbr>fxq</abbr> which always starts on their own. 
+It works on all three elements.
+</p>
 </div>
 
-<a name="example5"></a>
+
+<a name="outlook"></a>
 <div class="block">
-<h2>Example 5: Clock display with double blink per second (combination of examples 2 and 4)</h2>
-<pre><b>$</b>(<i>'.example5'</i>)&#8203;.<em>repeat(<b>1000</b>)</em>&#8203;.<b>text</b>(<b>Date</b>)&#8203;.<em>repeat(<b>100</b>,<b>true</b>)</em>&#8203;.<b>toggleClass</b>(<i>'blink'</i>)&#8203;.<em>until(<b>4</b>)</em>;</pre>
+<h2>Outlook: Something missing here?</h2>
 <p>
-	Again here is a clock: <span class="example5">--</span>.<br/>
-	We combined two <code>repeat</code>s resulting in nested loops.<br/>
-	Remark that the call to <code>until</code> only affects the inner (latest) repetition loop.
+Wanna have more examples?  
 </p>
-<script>$('.example5').repeat(1000).text(Date).repeat(100,true).toggleClass('blink').until(4);</script>
+<p>
+I would like to include more stuff.
+But now I ask you: What kind of example is missing here?<br/>
+Use my email address to leave a message. I'd like to read your ideas.
+</p>
+<p>
+But no spam please. Questions concerning <em>why this and that doesn't work in my project</em> should be discussed in a jQuery forum. What about <a href="https://forum.jquery.com/using-jquery-plugins">Using jQuery Plugins</a>?</p>
+</p>
+<p>
+ - Have fun!    
+</p>
 </div>
+
 </div>
 </body>
 </html>
