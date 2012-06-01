@@ -82,11 +82,15 @@ p {
 
 address {
 	position: relative;
+	cursor: pointer;
 }
 address > span {
 	position: absolute;
 	font-family: monospace;
 	white-space: pre;
+}
+address:hover > span {
+	text-decoration: underline;
 }
 
 table {
