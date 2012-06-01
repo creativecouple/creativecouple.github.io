@@ -157,12 +157,11 @@ To see the difference I will show an example of coding this the old-fashioned wa
 <a name="example12"></a>
 <div class="block">
 <h2>Example 12: scheduling different elements' animations</h2>
-<pre>
-<b>var</b> <i>options</i> = { <i>duration</i>:<b>2000</b>, <i>easing</i>:<i>'linear'</i>, <i>queue</i>:<i>'myFX'</i> };
-<b>$</b>(<i>'.example12 .ball'</i>)&#8203;.<em>repeat()</em>&#8203;.<b>animate</b>({<i>left</i>:<b>360</b>},<i>options</i>)&#8203;.<b>animate</b>({<i>left</i>:<b>20</b>},<i>options</i>)&#8203;.<em>join(<i>'myFX'</i>)</em>;
+<pre><small><b>var</b> <i>options</i> = { <i>duration</i>:<b>2000</b>, <i>easing</i>:<i>'linear'</i>, <i>queue</i>:<i>'myFX'</i> };</small>
+<b>$</b>(<i>'.example12 .ball'</i>)&#8203;.<em>repeat()</em>&#8203;.<b>animate</b>({<i>left</i>:<b>350</b>},<i>options</i>)&#8203;.<b>animate</b>({<i>left</i>:<b>10</b>},<i>options</i>)&#8203;.<em>join(<i>'myFX'</i>)</em>;
 <b>$</b>(<i>'.example12 .ball'</i>)&#8203;.<em>wait()</em>&#8203;.<b>dequeue</b>(<i>'myFX'</i>); // why this line?
 
-<b>var</b> <i>options</i> = { <i>duration</i>:<b>900</b>, <i>easing</i>:<i>'linear'</i> };
+<small><b>var</b> <i>options</i> = { <i>duration</i>:<b>900</b>, <i>easing</i>:<i>'linear'</i> };</small>
 <b>$</b>(<i>'.example12 span'</i>)&#8203;.<em>repeat()</em>&#8203;.<b>animate</b>({<i>top</i>:<b>160</b>},<i>options</i>)&#8203;.<b>animate</b>({<i>top</i>:<b>0</b>},<i>options</i>)&#8203;.<em>join()</em>;
 </pre>
 <div class="example12">
@@ -172,7 +171,7 @@ To see the difference I will show an example of coding this the old-fashioned wa
 </div>
 <script type="text/javascript">
 var options = { duration:2000, easing:'linear', queue:'myFX' };
-$('.example12 .ball').repeat().animate({left:360},options).animate({left:20},options).join('myFX');
+$('.example12 .ball').repeat().animate({left:350},options).animate({left:10},options).join('myFX');
 $('.example12 .ball').wait().dequeue('myFX'); // why this line?
 
 var options = { duration:900, easing:'linear' };
@@ -186,7 +185,7 @@ Seems to be a jQuery issue.
 </p>
 <p>
 The vertical animation uses the default <abbr>fxq</abbr> which always starts on their own. 
-It works on all three elements.
+It includes all three moving elements at once.
 </p>
 </div>
 

@@ -231,8 +231,13 @@ li.clazz {
 .example12 {
 	text-align: center;
 	height: 200px;
+	width: 400px;
+	padding: 0;
+	margin: 1em auto;
 	position: relative;
-	background: #eee;	
+	background: none transparent;
+	border: solid #666;
+	border-width: 0 1px
 }
 .example12 span {
 	width: 40px;
@@ -251,11 +256,14 @@ li.clazz {
 	background: #888;
 	border: 1px solid #ccc;
 }
+.example12 .stick:first-child {
+	left: -10px;
+}
 .example12 .stick:last-child {
-	left:400px;
+	left: 390px;
 }
 .example12 .ball {
-	left: 20px;
+	left: 10px;
 	background: orange;
 	border: 1px solid red;
 	-moz-border-radius: 20px;
