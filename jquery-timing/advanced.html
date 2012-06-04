@@ -168,21 +168,21 @@ function randomChar() {
 <a name="example7"></a>
 <div class="block">
 <h2>Example 7: Removing DOM elements one by one</h2>
-<pre><b>$</b>(<i>'.example7'</i>)&#8203;.<em>repeat(<b>4000</b>,<b>true</b>)</em>&#8203;.<em>repeat(<b>300</b>)</em>&#8203;.<b>prepend</b>(<i>'&lt;li&gt;green'</i>)&#8203;.<em>wait(<b>200</b>)</em>&#8203;.<b>append</b>(<i>'&lt;li&gt;bottle'</i>)&#8203;.<em>until(<b>5</b>)</em>&#8203;.<em>repeat(<b>100</b>)</em>&#8203;.<b>find</b>(<i>'li'</i>)&#8203;.<b>not</b>(<i>'.clazz'</i>)&#8203;.<b>first</b>()&#8203;.<b>remove</b>()&#8203;.<em>until()</em>;</pre>
+<pre><b>$</b>(<i>'.example7'</i>)&#8203;.<em>repeat(<b>3000</b>,<b>true</b>)</em>&#8203;.<em>repeat(<b>300</b>)</em>&#8203;.<b>prepend</b>(<i>'&lt;li&gt;green'</i>)&#8203;.<em>wait(<b>200</b>)</em>&#8203;.<b>append</b>(<i>'&lt;li&gt;bottle'</i>)&#8203;.<em>until(<b>3</b>)</em>&#8203;.<em>repeat(<b>100</b>)</em>&#8203;.<b>find</b>(<i>'li'</i>)&#8203;.<b>not</b>(<i>'.clazz'</i>)&#8203;.<b>first</b>()&#8203;.<b>remove</b>()&#8203;.<em>until()</em>;</pre>
 
 <ul class="example7">
 <li class="clazz">Green bottles?</li>
 </ul>
-<script>$('.example7').repeat(4000,true).repeat(300).prepend('<li>green').wait(200).append('<li>bottle').until(5).repeat(100).find('li').not('.clazz').first().remove().until();</script>
+<script>$('.example7').repeat(3000,true).repeat(300).prepend('<li>green').wait(200).append('<li>bottle').until(3).repeat(100).find('li').not('.clazz').first().remove().until();</script>
 
 <p>To see what's going on here it might help to write it down in nested manner with comments:</p>
 <pre><b>$</b>(<i>'.example7'</i>)
-  .<em>repeat(<b>4000</b>,<b>true</b>)</em>  // start every 4 seconds over again, first run right now:
+  .<em>repeat(<b>3000</b>,<b>true</b>)</em>  // start every 3 seconds over again, first run right now:
   
         .<em>repeat(<b>300</b>)</em>                          // every 300ms do
              .<b>prepend</b>(<i>'&lt;li&gt;green'</i>)            // add new element as first child
              .<em>wait(<b>200</b>)</em>.<b>append</b>(<i>'&lt;li&gt;bottle'</i>)  // after more 200ms add new element as last child
-        .<em>until(<b>5</b>)</em>                             // this addition stuff for 5 times
+        .<em>until(<b>3</b>)</em>                             // this addition stuff for 5 times
   
         .<em>repeat(<b>100</b>)</em>                    // with interval of 100ms do
              .<b>find</b>(<i>'li'</i>).<b>not</b>(<i>'.clazz'</i>)  // search our added elements
@@ -196,13 +196,13 @@ function randomChar() {
 <a name="example8"></a>
 <div class="block">
 <h2>Example 8: Invoke callback function on timing</h2>
-<pre><b>$</b>(<i>'.example8'</i>)&#8203;.<em>repeat(<b>100</b>)</em>&#8203;.<b>append</b>(<i>'&lt;li&gt;Test'</i>)&#8203;.<em>until(<b>10</b>)</em>&#8203;.<em>then(<i>function(){alert('Hello :-)');}</i>)</em>&#8203;.<b>children</b>()&#8203;.<b>not</b>(<i>':first'</i>)&#8203;.<b>remove</b>();</pre>
+<pre><b>$</b>(<i>'.example8'</i>)&#8203;.<em>repeat(<b>100</b>)</em>&#8203;.<b>append</b>(<i>'&lt;li&gt;Test'</i>)&#8203;.<em>until(<b>6</b>)</em>&#8203;.<em>then(<i>function(){alert('Hello :-)');}</i>)</em>&#8203;.<b>children</b>()&#8203;.<b>not</b>(<i>':first'</i>)&#8203;.<b>remove</b>();</pre>
 <ul class="example8">
 	<li>example</li>
 </ul>
 <p>
-	There is a list above which is filled whith elements on clicking <button onclick="$('.example8').repeat(100).append('<li>Test').until(10).then(function(){alert('Hello :-)');}).children().not(':first').remove()">this button</button>.<br/>
-	After having added 10 elements an alert box is shown up as simple callback example.
+	There is a list above which is filled whith elements on clicking <button onclick="$('.example8').repeat(100).append('<li>Test').until(6).then(function(){alert('Hello :-)');}).children().not(':first').remove()">this button</button>.<br/>
+	After having added 6 elements an alert box is shown up as simple callback example.
 	After that the elements are removed again.
 </p>
 </div>
