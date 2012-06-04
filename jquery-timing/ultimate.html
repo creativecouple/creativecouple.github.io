@@ -90,7 +90,8 @@ Follow the navigation for documentation, examples, references, and further infor
 	<li class=""><span>Ultimate timing control with <abbr>tic</abbr> and <abbr>fxq</abbr></span>
 		<ul>
 			<li><span><a href="ultimate.html#example11">Example 11: repeated fading</a></span></li>
-			<li><span><a href="ultimate.html#example12">Example 12: scheduling different elements' animations</a></span></li>
+			<li><span><a href="ultimate.html#example12">Example 12: playing pong</a></span></li>
+			<li><span><a href="ultimate.html#example13">Example 13: scheduling different elements' animations</a></span></li>
 			<li><span><a href="ultimate.html#outlook">Outlook: Something missing here?</a></span></li>
 		</ul>
 	</li>
@@ -157,10 +158,10 @@ To see the difference I will show an example of coding this the old-fashioned wa
 
 <a name="example12"></a>
 <div class="block">
-<h2>Example 12: scheduling different elements' animations</h2>
+<h2>Example 12: Playing pong</h2>
 <pre><small><b>var</b> <i>options</i> = { <i>duration</i>:<b>2000</b>, <i>easing</i>:<i>'linear'</i>, <i>queue</i>:<i>'myFX'</i> };</small>
 <b>$</b>(<i>'.example12 .ball'</i>)&#8203;.<em>repeat()</em>&#8203;.<b>animate</b>({<i>left</i>:<b>350</b>},<i>options</i>)&#8203;.<b>animate</b>({<i>left</i>:<b>10</b>},<i>options</i>)&#8203;.<em>join(<i>'myFX'</i>)</em>;
-<b>$</b>(<i>'.example12 .ball'</i>)&#8203;.<em>wait()</em>&#8203;.<b>dequeue</b>(<i>'myFX'</i>); // why this line?
+<b>$</b>(<i>'.example12 .ball'</i>)&#8203;.<em>wait()</em>&#8203;.<b>dequeue</b>(<i>'myFX'</i>);
 
 <small><b>var</b> <i>options</i> = { <i>duration</i>:<b>900</b>, <i>easing</i>:<i>'linear'</i> };</small>
 <b>$</b>(<i>'.example12 span'</i>)&#8203;.<em>repeat()</em>&#8203;.<b>animate</b>({<i>top</i>:<b>160</b>},<i>options</i>)&#8203;.<b>animate</b>({<i>top</i>:<b>0</b>},<i>options</i>)&#8203;.<em>join()</em>;
@@ -173,7 +174,7 @@ To see the difference I will show an example of coding this the old-fashioned wa
 <script type="text/javascript">
 var options = { duration:2000, easing:'linear', queue:'myFX' };
 $('.example12 .ball').repeat().animate({left:350},options).animate({left:10},options).join('myFX');
-$('.example12 .ball').wait().dequeue('myFX'); // why this line?
+$('.example12 .ball').wait().dequeue('myFX');
 
 var options = { duration:900, easing:'linear' };
 $('.example12 span').repeat().animate({top:160},options).animate({top:0},options).join();
@@ -181,12 +182,49 @@ $('.example12 span').repeat().animate({top:160},options).animate({top:0},options
 
 <p>
 The horizontal animation for the ball uses the <abbr>fxq</abbr> named <em>'myFX'</em>.<br/>
-For some strange reason I have to start that queue manually with the second line using <code>.dequeue(<em>'myFX'</em>)</code>.
+We have to start that queue manually with the second line using <code>.dequeue(<em>'myFX'</em>)</code>.
 Seems to be a jQuery issue.
 </p>
 <p>
 The vertical animation uses the default <abbr>fxq</abbr> which always starts on their own. 
 It includes all three moving elements at once.
+</p>
+</div>
+
+
+<a name="example13"></a>
+<div class="block">
+<h2>Example 13: scheduling different elements' animations</h2>
+<pre><b>var</b> <i>$items</i> = <b>$</b>(<i>'.example13 span'</i>);
+
+<b>var</b> <em><i>X</i></em> = <em>$$</em>&#8203;.<b>mod</b>(<i>$items</i>.<i>length</i>);
+<i>$items</i>&#8203;.<em>repeat(<i>X</i>)</em>&#8203;.<b>text</b>(<em><i>X</i>.$</em>)&#8203;.<b>eq</b>(<em><i>X</i></em>)&#8203;.<b>animate</b>(<i>{opacity:0,top:-50}</i>)&#8203;.<em>join()</em>&#8203;.<b>animate</b>(<i>{opacity:1,top:0}</i>);</pre>
+<div class="example13">
+<span style="background:maroon">A</span>
+<span style="background:green">B</span>
+<span style="background:navy">C</span>
+<span style="background:orange">D</span>
+<span style="background:fuchsia">E</span>
+</div>
+<script type="text/javascript">
+var $items = $('.example13 span');
+
+var X = $$.mod($items.length);
+$items.repeat(X).text(X.$).eq(X).animate({opacity:0,top:-50}).join().animate({opacity:1,top:0});
+</script>
+
+<p>
+In this example a deferred variable <code>X</code> is used as cycle counter.
+The selector <code>.eq(X)</code> will only select the element with the current cycle counter's value.
+Thus the animation iterates.
+</p>
+<p>
+In each iteration step we wait until the element is shift up using <code>.animate({opacity:0,top:-50}).join()​</code>.
+Then the next animation is queued, which shifts the element down again. Without waiting the loop starts its next iteration, now using the next element.
+So we have one element going up and another element going down simultaneously.
+</p>
+<p>
+In the call of <code>.text(X.$)</code> we have to explicitely use the read-only version, <code>X.$</code>, of our deferred variable so it is not treated as callback function. 
 </p>
 </div>
 
