@@ -188,6 +188,55 @@ th:first-child {
  * example stuff
  */
 
+p.example.block {
+	background-color: #fffaf8;
+	border-color: #fdc;
+	display: block;
+	margin: 0 4em 2em;
+	text-align: center;
+	float: left;
+}
+p.example + p {
+	clear: left;
+}
+.example span {
+	color: black;
+}
+.example span.bold {
+	text-decoration: underline;
+	color: blue;
+	text-shadow: orange 1px 1px 3px;
+}
+.example code {
+	font-size: 0.9em;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+	color: gray;
+	display: block;
+	padding: 0;
+	margin: 1em 0 0 0;
+	text-align: left;
+}
+.example code i {
+	font-style: inherit;
+	font-weight: inherit;
+	text-decoration: inherit;
+	color: blue;
+}
+.example code b {
+	font-style: inherit;
+	font-weight: inherit;
+	text-decoration: inherit;
+	color: black;
+}
+.example code em {
+	font-style: inherit;
+	font-weight: inherit;
+	text-decoration: inherit;
+	color: maroon;
+}
+
 .example1, .example2, .example3, .example4, .example5 {
 	text-decoration: underline;
 }
