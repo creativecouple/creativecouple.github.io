@@ -224,7 +224,9 @@ Then the next animation is queued, which shifts the element down again. Without 
 So we have one element going up and another element going down simultaneously.
 </p>
 <p>
-In the call of <code>.text(X.$)</code> we have to explicitely use the read-only version, <code>X.$</code>, of our deferred variable so it is not treated as callback function. 
+In the call of <code>.text(X.$)</code> we have to explicitely use the read-only version, <code>X.$</code>, of our deferred variable. So it is not treated as callback function for <code>.text()</code>.
+This call is just to see that the loop always starts working on the jQuery selection <code>$('.example13 span')</code>.
+After the invocation of <code>.eq(X)</code> we work on the Xth element only.
 </p>
 </div>
 
