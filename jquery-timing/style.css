@@ -38,6 +38,7 @@ pre {
 	text-decoration: none;
 	color: #999;
 	white-space: pre-wrap;
+	position: relative;
 }
 pre i {
 	font-style: inherit;
@@ -56,6 +57,32 @@ pre em {
 	font-weight: bold;
 	text-decoration: inherit;
 	color: #fa8;
+}
+
+pre a.fiddle {
+	position: absolute;
+	top: -1em;
+	right: -1em;
+	border: 2px dotted #f8faff;
+	background: #333;
+	margin: 0;
+	padding: 0.3em;
+	display: block;
+	float: left;
+	text-decoration: none;
+	font-variant: normal;
+	font-family: sans-serif;
+	color: white;
+}
+pre a.fiddle:hover {
+	text-decoration: underline;
+}
+pre a.fiddle:visited {
+	color: #ccc;
+}
+pre a.fiddle:before {
+	content: url(http://jsfiddle.net/favicon.png);
+	vertical-align: middle;
 }
 
 em, dt {

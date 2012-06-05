@@ -22,4 +22,11 @@ $(document).ready(function(){
 			});
 			window.location = 'mailto:'+targetAddress.join('');
 		});
+		
+		$('pre').each(function(){
+			var fiddle = $(this).data('fiddle');
+			if (fiddle) {
+				$('<a class="fiddle">&nbsp;this on jsFiddle &laquo;</a>').attr('href', fiddle).appendTo(this);
+			}
+		});
 });
