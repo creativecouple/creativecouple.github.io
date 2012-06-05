@@ -26,7 +26,7 @@ $(document).ready(function(){
 		$('pre, .example').each(function(){
 			var fiddle = $(this).data('fiddle');
 			if (fiddle) {
-				$('<a class="fiddle" title="see this example this on jsFiddle">&nbsp;copy code</a>').attr('href', fiddle).appendTo(this);
+				$('<a class="fiddle" title="see this example on jsFiddle">&nbsp;copy code</a>').attr('href', fiddle).appendTo(this);
 			}
 		});
 });
