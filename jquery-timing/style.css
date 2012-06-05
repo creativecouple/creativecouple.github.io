@@ -74,17 +74,6 @@ a.fiddle {
 	font-family: sans-serif;
 	color: white;
 }
-a.fiddle:hover {
-	text-decoration: underline;
-}
-a.fiddle:visited {
-	color: #ccc;
-}
-a.fiddle:before {
-	content: url(http://jsfiddle.net/favicon.png);
-	vertical-align: middle;
-}
-
 .example a.fiddle {
 	background-color: #fffaf8;
 	border: 1px solid #fdc;
@@ -94,6 +83,19 @@ a.fiddle:before {
 	border-radius: 20px;
 	top: -0.75em;
 	right: -1em;
+}
+
+a.fiddle:hover {
+	background: maroon;
+	color: white;
+	text-decoration: none;
+}
+a.fiddle:visited {
+	color: #ccc;
+}
+a.fiddle:before {
+	content: url(http://jsfiddle.net/favicon.png);
+	vertical-align: middle;
 }
 
 em, dt {
