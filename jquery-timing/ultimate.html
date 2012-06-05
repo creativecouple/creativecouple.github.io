@@ -197,7 +197,7 @@ It includes all three moving elements at once.
 <h2>Example 13: scheduling different elements' animations</h2>
 <pre><b>var</b> <i>$items</i> = <b>$</b>(<i>'.example13 span'</i>);
 
-<b>var</b> <em><i>X</i></em> = <em>$$</em>&#8203;.<b>mod</b>(<i>$items</i>.<i>length</i>);
+<b>var</b> <em><i>X</i></em> = <em>$$()</em>&#8203;.<b>mod</b>(<i>$items</i>.<i>length</i>);
 <i>$items</i>&#8203;.<em>repeat(<i>X</i>)</em>&#8203;.<b>text</b>(<em><i>X</i>.$</em>)&#8203;.<b>eq</b>(<em><i>X</i></em>)&#8203;.<b>animate</b>(<i>{opacity:0,top:-50}</i>)&#8203;.<em>join()</em>&#8203;.<b>animate</b>(<i>{opacity:1,top:0}</i>);</pre>
 <div class="example13">
 <span style="background:maroon">A</span>
@@ -209,7 +209,7 @@ It includes all three moving elements at once.
 <script type="text/javascript">
 var $items = $('.example13 span');
 
-var X = $$.mod($items.length);
+var X = $$().mod($items.length);
 $items.repeat(X).text(X.$).eq(X).animate({opacity:0,top:-50}).join().animate({opacity:1,top:0});
 </script>
 
