@@ -59,6 +59,7 @@ Follow the navigation for documentation, examples, references, and further infor
 			<li><span><a href="#dependency">Dependencies</a></span></li>
 			<li><span><a href="#inclusion">Include in your page</a></span></li>
 			<li><span><a href="#download">Download &amp; License</a></span></li>
+			<li><span><a href="#todo">Ongoing work</a></span></li>
 		</ul>
 	</li>
 	<li class="closed"><span>Documentation</span>
@@ -128,8 +129,10 @@ $('.treeview').treeview();
 </div>
 
 <div class="content">
+
+<a name="simplicity"></a>
 <div class="block">
-<h2><a name="simplicity"></a>Simplicity</h2>
+<h2>Simplicity</h2>
 <p>
 If you like the simplicity of this very first example then I promise you that this plugin will be a good friend in all your future jQuery projects:
 </p>
@@ -142,15 +145,17 @@ If you like the simplicity of this very first example then I promise you that th
 <p>This is the <em>complete</em> code for the animated text line above. &ndash; <em>write less. do more.</em></p>
 </div>
 
+<a name="dependency"></a>
 <div class="block">
-<h2><a name="dependency"></a>Dependencies</h2>
+<h2>Dependencies</h2>
 <p>
 You need to use <a href="http://jquery.com/">jQuery</a> on your page, any version since <strong>1.2</strong> and above.
 </p>
 </div>
 
+<a name="inclusion"></a>
 <div class="block">
-<h2><a name="inclusion"></a>Include in your page</h2>
+<h2>Include in your page</h2>
 <p>
 All you need is to include the javascript file <a href="http://creativecouple.github.com/jquery-timing/jquery-timing.min.js">jquery-timing.min.js</a>:
 </p>
@@ -162,14 +167,38 @@ All you need is to include the javascript file <a href="http://creativecouple.gi
 </p>
 </div>
 
+<a name="download"></a>
 <div class="block">
-<h2><a name="download"></a>Download &amp; License</h2>
+<h2>Download &amp; License</h2>
 <p>
 The source code is hosted at <a href="https://github.com/creativecouple/jquery-timing">github.com/creativecouple/jquery-timing</a>
 under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.
 </p>
 </div>
+
+<a name="todo"></a>
+<div class="block">
+<h2>Ongoing work</h2>
+<p>
+There are few things left to do, which would make this plugin a perfect little helper.<br/>
+All open issues are planned to be implemented until 2012-06-10:
+</p>
+<dl class="todo">
+<dt><code>.join()</code></dt>
+<dd>instant invocation in case of empty <abbr>fxq</abbr>. (currently invocation is deferred a bit)</dd>
+<dt><code>.wait()</code></dt>
+<dd>support event names as trigger. (currently only timeouts are supported)</dd>
+<dt class="done"><code>.unwait()</code></dt>
+<dt><code>.repeat()</code></dt>
+<dd>instant invocation in case of no trigger or <code>firstRunNow==true</code>. (currently invocation is deferred a bit)</dd>
+<dd>support event names as trigger. (currently only intervals are supported)</dd>
+<dt class="done"><code>.unrepeat()</code></dt>
+<dt class="done"><code>.until()</code></dt>
+<dt><code>$$()</code></dt>
+<dd>add documentation of &quot;deferred variables&quot;</dd>
+</dl>
 </div>
 
+</div>
 </body>
 </html>

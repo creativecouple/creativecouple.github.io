@@ -224,6 +224,25 @@ th:first-child {
 	margin: 0;
 }
 
+dl.todo dt {
+	margin: 1em 0 0 0;
+}
+dl.todo dt + dd {
+	margin-bottom: 0;
+}
+dl.todo dt:after {
+	content: " - to do:";
+	font-style: italic;
+	color: #aaa;
+}
+dl.todo dd:before {
+	content: url(todo.png)" - ";
+	font-style: italic;
+	color: #aaa;
+}
+dl.todo dt.done:after {
+	content: " - done "url(done.png);
+}
 
 /*
  * example stuff
