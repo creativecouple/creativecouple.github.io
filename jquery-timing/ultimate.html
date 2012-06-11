@@ -8,7 +8,7 @@
 <title>timing: a jQuery plugin - Ultimate timing control with TIC and FXQ</title>
 <link type="text/css" rel="stylesheet" href="style.css"/>
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-<script type="text/javascript" src="jquery-timing.min.js?v=1.0"></script>
+<script type="text/javascript" src="jquery-timing.min.js?v=3801d37250e947211e4eda76ada07bd266290cf6"></script>
 <script type="text/javascript" src="documentation.js"></script>
 
 <link type="text/css" rel="stylesheet" href="http://jquery.bassistance.de/treeview/jquery.treeview.css"/>
@@ -174,12 +174,14 @@ To see the difference I will show an example of coding this the old-fashioned wa
 <span class="stick">&nbsp;</span>
 </div>
 <script type="text/javascript">
-var options = { duration:2000, easing:'linear', queue:'myFX' };
-$('.example12 .ball').repeat().animate({left:350},options).animate({left:10},options).join('myFX');
-$('.example12 .ball').wait().dequeue('myFX');
+var options = { duration:3000, easing:'linear', queue:'myFX' };
+var X=$$();
+$('.example12 .ball').repeat(X).animate({left:350},options).animate({left:10},options).text(X.$).join('myFX');
+$('.example12 .ball').dequeue('myFX');
 
-var options = { duration:900, easing:'linear' };
-$('.example12 span').repeat().animate({top:160},options).animate({top:0},options).join();
+var options = { duration:1400, easing:'linear' };
+var Y=$$();
+$('.example12 span').repeat(Y).animate({top:160},options).animate({top:0},options).join().filter('.stick').text(Y.$);
 </script>
 
 <p>
