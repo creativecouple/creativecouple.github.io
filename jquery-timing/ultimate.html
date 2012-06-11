@@ -174,14 +174,12 @@ To see the difference I will show an example of coding this the old-fashioned wa
 <span class="stick">&nbsp;</span>
 </div>
 <script type="text/javascript">
-var options = { duration:3000, easing:'linear', queue:'myFX' };
-var X=$$();
-$('.example12 .ball').repeat(X).animate({left:350},options).animate({left:10},options).text(X.$).join('myFX');
-$('.example12 .ball').dequeue('myFX');
+var options = { duration:2000, easing:'linear', queue:'myFX' };
+$('.example12 .ball').repeat().animate({left:350},options).animate({left:10},options).join('myFX');
+$('.example12 .ball').wait().dequeue('myFX');
 
-var options = { duration:1400, easing:'linear' };
-var Y=$$();
-$('.example12 span').repeat(Y).animate({top:160},options).animate({top:0},options).join().filter('.stick').text(Y.$);
+var options = { duration:900, easing:'linear' };
+$('.example12 span').repeat().animate({top:160},options).animate({top:0},options).join();
 </script>
 
 <p>
