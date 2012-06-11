@@ -7,7 +7,7 @@
 <title>timing: a jQuery plugin introducing the Timed Invocation Chain (TIC) as counterpart to the jQuery Effects Queue (FXQ)</title>
 <link type="text/css" rel="stylesheet" href="style.css"/>
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-<script type="text/javascript" src="jquery-timing.min.js"></script>
+<script type="text/javascript" src="jquery-timing.min.js?v=1.0"></script>
 <script type="text/javascript" src="documentation.js"></script>
 
 <link type="text/css" rel="stylesheet" href="http://jquery.bassistance.de/treeview/jquery.treeview.css"/>
@@ -180,25 +180,29 @@ under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT Licen
 <div class="block">
 <h2>Ongoing work</h2>
 <p>
-There are few things left to do, which would make this plugin a perfect little helper.<br/>
-All open issues are planned to be implemented until 2012-06-10:
+Implementation done! Everything works fine.
 </p>
 <dl class="todo">
-<dt><code>.join()</code></dt>
-<dd>instant invocation in case of empty <abbr>fxq</abbr>. (currently invocation is deferred a bit)</dd>
-<dt><code>.wait()</code></dt>
-<dd>support event names as trigger. (currently only timeouts are supported)</dd>
+<dt class="done"><code>.join()</code> does instant invocation in case of empty queue</dt>
+<dt class="done"><code>.join()</code> runs partially with jQuery 1.4, fully with jQuery 1.7</dt>
+<dt class="done"><code>.wait()</code> supports both timeouts and events</dt>
 <dt class="done"><code>.unwait()</code></dt>
-<dt><code>.repeat()</code></dt>
-<dd>instant invocation in case of no trigger or <code>firstRunNow==true</code>. (currently invocation is deferred a bit)</dd>
-<dd>support event names as trigger. (currently only intervals are supported)</dd>
+<dt class="done"><code>.repeat()</code> does instant invocation in case of no trigger or <code>firstRunNow==true</code></dt>
+<dt class="done"><code>.repeat()</code> supports both timeouts and events</dt>
 <dt class="done"><code>.unrepeat()</code></dt>
-<dt class="done"><code>.until()</code></dt>
-<dt><code>$$()</code></dt>
-<dd>add documentation of &quot;deferred variables&quot;</dd>
+<dt class="done"><code>$$()</code> with automatic tests</dt>
 </dl>
-</div>
-
+<p>
+Any doubts? &ndash; Just take a quick <a href="test.html">look at 1.416 test cases</a>. 
+</p>
+<h3>So what's left?</h3>
+<p>
+Now only the documentation has to be updated&hellip; &ndash; any volunteers out there?<br/>
+I'll do my best to complete it soon.
+</p>
+<p>
+Have fun!
+</p>
 </div>
 </body>
 </html>

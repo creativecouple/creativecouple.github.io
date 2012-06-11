@@ -24,16 +24,10 @@
 	var TIMEOUTS = '__timeouts', INTERVALS = '__intervals',
 	
 	/**
-	 * constants for typeof operator,
+	 * constant for JavaScript constants,
 	 * will shrink in minimization
 	 */
-	STRING = "string",
-	
-	/**
-	 * constant for testing undefined,
-	 * will shrink in minimization
-	 */
-	UNDEFINED = undefined,
+	UNDEFINED = undefined, TRUE = true,
 	
 	/**
 	 * jQuery default effects queue,
@@ -47,12 +41,12 @@
 	 */
 	JQUERY_TIMING = {};
 	
-	function isObject(object) {
-		return typeof object == "object";
-	}
-	
 	function isFunction(object) {
 		return typeof object == "function";
+	}
+
+	function isString(object) {
+		return typeof object == "string";
 	}
 
 	/**
@@ -91,443 +85,377 @@
 	}
 	
 	/**
-	 * Generate a placeholder object that has fake methods to fill a call stack on each following method invocation.
-	 * This is the core functionality which ensures that the method chain is working although invoked later.
+	 * Initialize a new timed invocation chain. First entry is the given method.
 	 * 
 	 * @author CreativeCouple
 	 * @author Peter Liske
-	 * @param context the method context to be faked
+	 * 
+	 * @param context
+	 * @param firstMethodName
+	 * @param firstMethodArguments
+	 * @returns the placeholder to collect all concatenated function calls
 	 */
-	function createPlaceholderCallStack(context) {
-		// placeholder will be a substitute for the context
-		var _placeholder = {},
-		
-		// callStack is a linked list of method invocations
-		callStack = {
-				_token: JQUERY_TIMING,
-				_placeholder: _placeholder
+	function createTIC(context, firstMethodName, firstMethodArguments) {
+		var chainEnd = {
+			_isChainEnd: TRUE,
+			_trigger: {}
 		},
-		
-		// each context's member is checked
-		member;
-		
-		for (member in context) {
-			if (isFunction(context[member])) {
-				(function(functionName){
-					_placeholder[functionName] = function(){
-						callStack = callStack._next = {
-								_name: functionName,
-								_args: arguments,
-								_token: JQUERY_TIMING
+		lastAddedEntry = {
+			_next: chainEnd,
+			_context: context,
+			_methodName: firstMethodName,
+			_methodArguments: firstMethodArguments
+		},
+		timedInvocationChain = {
+			_activeExecutionPoint: lastAddedEntry,
+			_ongoingLoops: [],
+			_openEndLoopTimeout: window.setTimeout(function(){
+				timedInvocationChain._openEndLoopTimeout = UNDEFINED;
+				runTimedInvocationChain(timedInvocationChain, chainEnd);
+			}, 0)
+		},
+		placeholder = {},
+		key;
+		for (key in context) {
+			if (isFunction(context[key])) {
+				(function(name){
+					placeholder[name] = function(){
+						lastAddedEntry = lastAddedEntry._next = {
+								_next: chainEnd,
+								_context: chainEnd._context,
+								_methodName: name,
+								_methodArguments: arguments 
 						};
-						return _placeholder;
+						if (timedInvocationChain._activeExecutionPoint._isChainEnd) {
+							timedInvocationChain._activeExecutionPoint = lastAddedEntry;
+							runTimedInvocationChain(timedInvocationChain);
+						}
+						return placeholder;
 					};
-				})(member);
+				})(key);
 			}
 		}
-		return callStack;
+		runTimedInvocationChain(timedInvocationChain);
+		return placeholder;
 	}
 	
 	/**
-	 * Invoke the methods in a call stack - up to #until method.
-	 * At #until methods it is checked whether to go on or break the invocation chain.
-	 * 
+	 * Invoke all the methods currently in the timed invocation chain.
 	 * @author CreativeCouple
 	 * @author Peter Liske
-	 * @param callStack the call stack to iterate
-	 * @param context the method context to be faked
-	 * @param _repeat internally used data object for concatenated calls of #repeat, #wait, #until, #then, and #then
+	 * 
+	 * @param timedInvocationChain
+	 * @param triggeredState optional state to be triggered
 	 */
-	function invokeCallStack(callStack, context, _repeat) {
-		// first run optional callback method
-		runMethodWithRepeatCounts(context, callStack._callback, _repeat);
-
-		if (!callStack._next) {
-			// if we start here without next step then check for method chain ending on repeat without a timer
-			for (; _repeat && (_repeat._token === JQUERY_TIMING) && isObject(_repeat._timer); _repeat = _repeat._prev) {
-				// if repeat loop without interval timer is not interrupted then we have to start it over again right here
-				if (!_repeat._timer._interrupted) {
-					context = _repeat._context;
-					callStack = _repeat._invocation;
-					_repeat._count++;
-					// run optional callback method
-					runMethodWithRepeatCounts(context, callStack._callback, _repeat);
+	function runTimedInvocationChain(timedInvocationChain, triggeredState) {
+		if (triggeredState) {
+			// inform trigger to fire
+			triggeredState._trigger._isTriggered = TRUE;
+			if (timedInvocationChain._activeExecutionPoint != triggeredState) {
+				return;
+			}
+		}
+		for (var executionState, context, method, trigger; executionState = timedInvocationChain._activeExecutionPoint;) {
+			if (executionState._isChainEnd) {
+				if (timedInvocationChain._ongoingLoops[0] && !timedInvocationChain._openEndLoopTimeout) {
+					// start open repeat loop over again at the end of the chain
+					timedInvocationChain._activeExecutionPoint = timedInvocationChain._ongoingLoops[0];
+					timedInvocationChain._activeExecutionPoint._count++;
+					continue;
+				}
+				break;
+			}
+			trigger = executionState._trigger;
+			if (trigger) {
+				if (trigger._isTriggered && !trigger._isInterrupted) {
+					gotoNextStep(timedInvocationChain);
+				} else {
 					break;
 				}
 			}
-		}
-		
-		// now invoke method chain up to first #until, #wait, or #join
-		for (var invocation = callStack._next, object = context, repetition = _repeat, method, repetition_end; invocation; invocation = invocation._next) {
-			// first run optional callback method
-			runMethodWithRepeatCounts(object, invocation._callback, repetition);
-			method = object[invocation._name];
-			// check if we reached one of our own methods
-			if (method === until) {
-				// forward repetition data and invocation stack to #until method
-				repetition_end = until.call(object, invocation._args[0], repetition);
-				if (repetition_end) {
-					// the loop has come to an end :-)
-					if (isObject(repetition._timer)) {
-						// we have an interruption object instead of an interval timer
-						repetition._timer._interrupted = true;
-					} else {
-						window.clearInterval(repetition._timer);
-					}
-					// clean interval arrays
-					repetition._context.each(function(){
-						removeArrayElement($(this).data(INTERVALS), repetition._timer);
-					});
-					repetition = repetition_end;
+			context = executionState._context;
+			method = context[executionState._methodName];
+			
+			if (method == wait) {
+				(trigger && trigger._isTriggered ? removeWaitTrigger : setupWaitTrigger)(timedInvocationChain,executionState);
+			} else if (method == join) {
+				(trigger && trigger._isTriggered ? removeJoinTrigger : setupJoinTrigger)(timedInvocationChain,executionState);
+			} else if (method == then) {
+				executionState._callback = executionState._methodArguments[0];
+				gotoNextStep(timedInvocationChain);
+			} else if (method == repeat) {
+				(trigger && trigger._isTriggered ? resetRepeatTrigger : setupRepeatTrigger)(timedInvocationChain,executionState);
+			} else if (method == until && timedInvocationChain._ongoingLoops[0]) {
+				if (evaluateUntilCondition(timedInvocationChain,executionState)) {					
+					gotoNextStep(timedInvocationChain);
+					removeRepeatTrigger(timedInvocationChain);
 				} else {
-					// the #until method said that it want to do more iterations, so we break our method chain here
-					if (isObject(repetition._timer)) {
-						// if repeat loop runs without interval timer we start it over by faking the method chain's end
-						invocation = {};
-					} else {
-						break;
-					}
+					timedInvocationChain._activeExecutionPoint = timedInvocationChain._ongoingLoops[0];
+					timedInvocationChain._activeExecutionPoint._count++;
+					continue;
 				}
-			} else if (method === repeat) {
-				// forward repetition data and invocation stack to #repeat method
-				repeat.call(object, invocation._args[0], invocation._args[1], invocation._args[2], repetition, invocation);
-				break;
-			} else if ((method === wait) || (method === join)) {
-				// forward repetition data and invocation stack to #wait and #join method
-				method.call(object, invocation._args[0], invocation._args[1], repetition, invocation);
-				break;
-			} else if (method === then) {
-				// forward repetition data and invocation stack to #then method
-				object = then.call(object, invocation._args[0], repetition);
 			} else {
-				object = method.apply(object, invocation._args);
-			}
-			if (!invocation._next) {
-				// if we come here then the method chain ends without setting a new timer
-				for (; repetition && (repetition._token === JQUERY_TIMING) && isObject(repetition._timer); repetition = repetition._prev) {
-					// if repeat loop without interval timer is not interrupted then we have to start it over again right here
-					if (!repetition._timer._interrupted) {
-						object = repetition._context;
-						invocation = repetition._invocation;
-						repetition._count++;
-						// run optional callback method
-						runMethodWithRepeatCounts(object, invocation._callback, repetition);
-						break;
-					}
-				}
-			}
+				context = method.apply(context, executionState._methodArguments);
+				gotoNextStep(timedInvocationChain);
+			}			
+			timedInvocationChain._activeExecutionPoint._context = context;
 		}
 	}
 	
 	/**
-	 * Delay all chained method calls to later invocation.
-	 * The timeout can be cancelled by calling #unwait on the same object. 
+	 * Go on one step in the timed invocation chain.
+	 * Optionally call callback method.
 	 * 
-	 * @author CreativeCouple
-	 * @author Peter Liske
-	 * @param timeout the timeout in milliseconds to wait before invoking the delayed method chain
-	 * @param callback optional method to be invoked right after the pause
-	 * @param _repeat internally used data object for concatenated calls of #repeat, #wait, #until, #then, and #then
-	 * @param _callStack internally used data object for concatenated calls of #repeat, #wait, #until, #then, and #then
+	 * @param timedInvocationChain
+	 * @param executionState - ignored from arguments, just here without "var" to save bytes in the minimized version
 	 */
-	function wait(timeout, callback, _repeat, _callStack){
-		// fix parameters
-		if (isFunction(timeout)) {
-			callback = timeout;
-			timeout = 0;
+	function gotoNextStep(timedInvocationChain, executionState) {
+		executionState = timedInvocationChain._activeExecutionPoint;		
+		if (isFunction(executionState._callback)) {
+			callbackWithLoopCounts(timedInvocationChain, executionState._context, executionState._callback);
 		}
-		// store context
-		var original = this,
-		
-		// create new call stack if necessary 
-		callStack = (_callStack && _callStack._token === JQUERY_TIMING) ? _callStack : createPlaceholderCallStack(original),
-		
-		timer;
-		
-		// register callback function
-		callStack._callback = callback;
-		// define timer
-		timer = window.setTimeout(function(){
-			// now invoke the stuff
-			invokeCallStack(callStack, original, _repeat);
-			// clean timer arrays
-			original.each(function(){
-				removeArrayElement($(this).data(TIMEOUTS), timer);
-			});
-		}, Math.max(0, timeout || 0));
-		
-		// update timer array
-		original.each(function(){
-			$(this).data(TIMEOUTS, addArrayElement($(this).data(TIMEOUTS), timer));
+		timedInvocationChain._activeExecutionPoint = executionState._next;
+	}
+	
+	/**
+	 * Run a callback method and hand current iteration numbers as arguments.
+	 * 
+	 * @param timedInvocationChain
+	 * @param context the context to apply on
+	 * @param callback the method to use
+	 * @param loopCounts - ignored from arguments, just here without "var" to save bytes in the minimized version
+	 */
+	function callbackWithLoopCounts(timedInvocationChain, context, callback, loopCounts) {
+		loopCounts = [];
+		$.each(timedInvocationChain._ongoingLoops, function(){
+			loopCounts.push(this._count);
 		});
-		
-		return callStack._placeholder;
+		return callback.apply(context, loopCounts);
 	}
 	
 	/**
-	 * Break all waiting timers from any invocation of #wait on this jQuery object. 
+	 * Define timeout or binding to wait for.
 	 * 
-	 * @author CreativeCouple
-	 * @author Peter Liske
+	 * @param timedInvocationChain
+	 * @param executionState
+	 * @param trigger - ignored from arguments, just here without "var" to save bytes in the minimized version
 	 */
-	function unwait(){
-		return this.each(function(){
-			var timers = $(this).data(TIMEOUTS);
-			while (timers && timers.length){
-				window.clearTimeout(timers.pop());
-			}
-		});
-	}
-	
-	/**
-	 * Repeat all chained method calls on a given interval.
-	 * The loop can be stopped by using the #until method within the method chain or at some time calling #unrepeat on the same object.
-	 * 
-	 * @author CreativeCouple
-	 * @author Peter Liske
-	 * @param timeout the timeout in milliseconds between each invocation of the method chain.
-	 *   If skipped then the loop is run immediately.
-	 * @param firstCallNow a boolean whether to run the first invocation now or only after the given timeout, defaults to <code>false</code>
-	 * @param callback optional method to be invoked with each iteration
-	 * @param _repeat internally used data object for concatenated calls of #repeat, #wait, #until, #then, and #then
-	 * @param _callStack internally used data object for concatenated calls of #repeat, #wait, #until, #then, and #then
-	 */
-	function repeat(timeout, firstCallNow, callback, _repeat, _callStack){
-		// fix parameters
-		if (isFunction(timeout)) {
-			callback = timeout;
-			timeout = 0;
+	function setupWaitTrigger(timedInvocationChain, executionState, trigger) {
+		function triggerAction(){
+			runTimedInvocationChain(timedInvocationChain, executionState);
 		}
-		if (isFunction(firstCallNow)) {
-			callback = firstCallNow;
-			firstCallNow = false;
-		}
-		// store context
-		var original = this,
 		
-		// create new call stack if necessary 
-		callStack = (_callStack && _callStack._token === JQUERY_TIMING) ? _callStack : createPlaceholderCallStack(original);
-				
-		// define internal repetition information
-		_repeat = {
-				_count: -1,
-				_context: original,
-				_prev: (_repeat && (_repeat._token === JQUERY_TIMING)) ? _repeat : {},
-				_token: JQUERY_TIMING,
-				_invocation: callStack
+		if (isFunction(executionState._methodArguments[0])) {
+			executionState._callback = executionState._methodArguments[0];
+		} else {
+			trigger = executionState._methodArguments[0];
+			executionState._callback = executionState._methodArguments[1];
+		}
+		
+		executionState._trigger = isString(trigger) ? {
+			_type: '_event_',
+			_action: triggerAction,
+			_context: executionState._context.bind(trigger, triggerAction),
+			_value: trigger
+		} : {
+			_type: '_timeout_',
+			_action: triggerAction,
+			_value: window.setTimeout(triggerAction, Math.max(0,trigger))
 		};
-
-		// the action method
-		function action(){
-			// increase repetition counter
-			_repeat._count++;
-			// now invoke the stuff
-			invokeCallStack(callStack, original, _repeat);
-		}
-		
-		// register callback function
-		callStack._callback = callback;
-		
-		if (firstCallNow || !timeout) {
-			window.setTimeout(action, 0);
-		}
-		
-		_repeat._timer = timeout ?
-			// define timer as interval
-			window.setInterval(action, Math.max(0, timeout)) :
-			// or define timer as interruption object
-			{ _interrupted: false };
-		
-		
-		// update interval array
-		original.each(function(){
-			$(this).data(INTERVALS, addArrayElement($(this).data(INTERVALS), _repeat._timer));
-		});
-
-		return callStack._placeholder;
-	}
-	
-	/**
-	 * Interrupt all waiting interval timers from any invocation of #repeat on this jQuery object. 
-	 * 
-	 * @author CreativeCouple
-	 * @author Peter Liske
-	 */
-	function unrepeat() {
-		return this.each(function(){
-			var timers = $(this).data(INTERVALS),
-			timer;
-			while (timers && timers.length) {
-				timer = timers.pop();
-				if (isObject(timer)) {
-					timer._interrupted = true;
-				} else {
-					window.clearInterval(timer);
-				}
-			}
+		executionState._context.each(function(index,element){
+			$(element).data(TIMEOUTS, addArrayElement($(element).data(TIMEOUTS), executionState._trigger));
 		});
 	}
-	
+
 	/**
-	 * Calls a method within a specified context and gives the repeat counts as arguments.
+	 * Clear timeout or remove binding for a waiting trigger.
 	 * 
-	 * @param context the context to apply the method on
-	 * @param method the function to be used
-	 * @param _repeat internally used data object for concatenated calls of #repeat, #wait, #until, #then, and #then
+	 * @param trigger
 	 */
-	function runMethodWithRepeatCounts(context, method, _repeat) {
-		if (isFunction(method)) {
-			var args = [], repetition;
-			for (repetition = _repeat; repetition && (repetition._token === JQUERY_TIMING); repetition = repetition._prev) {
-				args.push(repetition._count);
-			}
-			return method.apply(context, args);
+	function stopWaitTrigger(trigger) {
+		if (trigger._type == '_event_') {
+			trigger._context.unbind(trigger._value, trigger._action);
 		}
+		if (trigger._type == '_timeout_') {
+			window.clearTimeout(trigger._value);
+		}
+		trigger._isInterrupted = TRUE;
 	}
 	
-	/**
-	 * Define when to stop a repeat-loop.
-	 * 
-	 * @author CreativeCouple
-	 * @author Peter Liske
-	 * @param condition optional parameter to define the stop condition
-	 * <ul>
-	 *  <li>If not given then the loop stops as soon as the jQuery selection is empty.</li>
-	 *  <li>If given as boolean the loop stops in case of <code>true</code> and goes on and on in case of <code>false</code>.</li>
-	 *  <li>If given as numeric integer the loop stops in case at that number of iteration have passed.
-	 *      Values lower than <code>1</code> are treated as <code>1</code>.</li>
-	 *  <li>If given as callback function it is called with the number of passed iterations as only argument.
-	 *      The <code>this</code> context is the current jQuery selection.
-	 *      The return value is treated as boolean or number as defined above.</li>
-	 * </ul>
-	 * @param _repeat internally used data object to perceive concatenated calls of #repeat, #wait, #until, #then, and #then
-	 */
-	function until(condition, _repeat){
-		if (!_repeat || _repeat._token !== JQUERY_TIMING) {
-			throw new Error(".until() method cannot be called without previous use of .repeat()");
+	function removeWaitTrigger(timedInvocationChain, executionState) {
+		stopWaitTrigger(executionState._trigger);
+		executionState._context.each(function(index,element){
+			$(element).data(TIMEOUTS, removeArrayElement($(element).data(TIMEOUTS), executionState._trigger));
+		});
+		executionState._trigger = UNDEFINED;
+	}
+
+	function setupJoinTrigger(timedInvocationChain, executionState, queueName) {
+		if (isFunction(executionState._methodArguments[0])) {
+			executionState._callback = executionState._methodArguments[0];
+		} else {
+			queueName = executionState._methodArguments[0];
+			executionState._callback = executionState._methodArguments[1];
 		}
-		if (condition === UNDEFINED) {
-			condition = this.length <= 0;
+		executionState._trigger = {};
+		executionState._context.queue(queueName == UNDEFINED ? JQUERY_DEFAULT_EFFECTS_QUEUE : queueName, function(next){
+			runTimedInvocationChain(timedInvocationChain, executionState);
+			next();
+		});
+	}
+
+	function removeJoinTrigger(timedInvocationChain, executionState) {
+		executionState._trigger = UNDEFINED;
+	}
+	
+	function setupRepeatTrigger(timedInvocationChain, executionState, trigger, firstRunNow) {
+		function triggerAction(){
+			runTimedInvocationChain(timedInvocationChain, executionState);
+		}
+		
+		// determine parameters
+		if (isFunction(executionState._methodArguments[0])) {
+			executionState._callback = executionState._methodArguments[0];
+		} else if (isFunction(executionState._methodArguments[1])) {
+			trigger = executionState._methodArguments[0];
+			executionState._callback = executionState._methodArguments[1];
+		} else {
+			trigger = executionState._methodArguments[0];
+			firstRunNow = executionState._methodArguments[1];
+			executionState._callback = executionState._methodArguments[2];
+		}
+		
+		executionState._trigger = trigger == UNDEFINED ? {
+			_isTriggered: TRUE
+		} : isString(trigger) ? {
+			_type: '_event_',
+			_action: triggerAction,
+			_context: executionState._context.bind(trigger, triggerAction),
+			_value: trigger,
+			_isTriggered: firstRunNow
+		} : {
+			_type: '_interval_',
+			_action: triggerAction,
+			_value: window.setInterval(triggerAction, Math.max(0,trigger)),
+			_isTriggered: firstRunNow
+		};
+		executionState._context.each(function(index,element){
+			$(element).data(INTERVALS, addArrayElement($(element).data(INTERVALS), executionState._trigger));
+		});
+		executionState._count = 0;
+		timedInvocationChain._ongoingLoops.unshift(executionState);
+	}
+	
+	function resetRepeatTrigger(timedInvocationChain, executionState) {
+		executionState._trigger._isTriggered = !executionState._trigger._type;
+	}
+
+	function stopRepeatTrigger(trigger) {
+		if (trigger._type == '_event_') {
+			trigger._context.unbind(trigger._value, trigger._action);
+		}
+		if (trigger._type == '_interval_') {
+			window.clearInterval(trigger._value);
+		}
+		trigger._isInterrupted = TRUE;
+	}
+	
+	function removeRepeatTrigger(timedInvocationChain, executionState) {
+		executionState = timedInvocationChain._ongoingLoops.shift();
+		stopRepeatTrigger(executionState._trigger);
+		executionState._context.each(function(index,element){
+			$(element).data(INTERVALS, removeArrayElement($(element).data(INTERVALS), executionState._trigger));
+		});
+		executionState._trigger = UNDEFINED;
+	}
+	
+	function evaluateUntilCondition(timedInvocationChain, executionState, condition) {
+		condition = executionState._methodArguments[0];
+		if (condition == UNDEFINED) {
+			condition = !executionState._context.size();
 		}
 		if (isFunction(condition)) {
-			condition = runMethodWithRepeatCounts(this, condition, _repeat);
+			condition = callbackWithLoopCounts(timedInvocationChain, executionState._context, condition);
 		}
-		if (isObject(condition)) {
+		if (typeof condition == "object") {
 			condition = condition.toString();
 		}
-		if (typeof condition == "number") {
-			condition = _repeat._count >= condition-1;
-		}
-		return condition ? _repeat._prev : false;
+		return typeof condition == "number" ? timedInvocationChain._ongoingLoops[0]._count >= condition-1 : condition;
+	}
+
+
+
+	/**
+	 * start new timed invocation chain and apply wait method 
+	 */
+	function wait() {
+		return createTIC(this,'wait',arguments);
+	}
+	
+	function unwait() {
+		return this.each(function(triggers){
+			triggers = $(this).data(TIMEOUTS);
+			while (triggers && triggers.length){
+				stopWaitTrigger(triggers.pop());
+			}
+		});
+	}
+
+	function repeat() {
+		return createTIC(this,'repeat',arguments);
 	}
 	
 	/**
-	 * Invoke a callback function when this method is called.
-	 * 
-	 * @author CreativeCouple
-	 * @author Peter Liske
-	 * @param callback function which is called in the context of the jQuery selection object. 
-	 * The only argument when invoking is the current number of repeat operations - if any. 
-	 * @param _repeat internally used data object to perceive concatenated calls of #repeat, #wait, #until, #then, and #then
+	 * start new timed invocation chain and apply unrepeat method 
 	 */
-	function then(callback, _repeat) {
-		runMethodWithRepeatCounts(this, callback, _repeat);
+	function unrepeat() {
+		return this.each(function(triggers){
+			triggers = $(this).data(INTERVALS);
+			while (triggers && triggers.length){
+				stopRepeatTrigger(triggers.pop());
+			}
+		});
+	}
+	
+	/**
+	 * start new timed invocation chain and apply until method 
+	 */
+	function until() {
+		throw '.until() method must be used after .repeat() only';
+	}
+	
+	/**
+	 * start new timed invocation chain and apply then method 
+	 */
+	function then(callback) {
+		callback.apply(this);
 		return this;
 	}
 	
 	/**
-	 * Wait for a jQuery queue to finalize. 
-	 * This waiting can be cancelled by calling .stop() on the jQuery object. 
-	 * 
-	 * @author CreativeCouple
-	 * @author Peter Liske
-	 * @param queueName optional queue name to wait for
-	 * @param callback optional method to be invoked right after the queue finalized
-	 * @param _repeat internally used data object for concatenated calls of #repeat, #wait, #until, #then, and #then
-	 * @param _callStack internally used data object for concatenated calls of #repeat, #wait, #until, #then, and #then
+	 * start new timed invocation chain and apply join method 
 	 */
-	function join(queueName, callback, _repeat, _callStack){
-		// fix parameters
-		if (queueName === UNDEFINED) {
-			// use the default jQuery queue if none given
-			queueName = JQUERY_DEFAULT_EFFECTS_QUEUE;
-		} else if (isFunction(queueName)) {
-			callback = queueName;
-			// use the default jQuery queue if none given
-			queueName = JQUERY_DEFAULT_EFFECTS_QUEUE;
-		}
-		// store context
-		var original = this,
-		
-		// create new call stack if necessary 
-		callStack = (_callStack && _callStack._token === JQUERY_TIMING) ? _callStack : createPlaceholderCallStack(original);
-		
-		// register callback function
-		callStack._callback = callback;
-
-		window.setTimeout(function(){
-			// wait for jQuery queue to finalize
-			original.queue(queueName, function(next){
-				// now invoke our stuff
-				invokeCallStack(callStack, original, _repeat);
-				// and let the queue go on
-				next();
-			});
-		}, 0);
-		
-		return callStack._placeholder;
+	function join() {
+		return createTIC(this,'join',arguments);
 	}
 	
-
 	/**
-	 * Start a new queue to apply all the timing methods on.
+	 * Start a new thread to apply all the timing methods on.
 	 * This will be used in the static variants.
 	 *   
 	 * @param threadName the optional name of the timing thread 
 	 * @param method the method to be called
 	 * @param args the original function arguments
 	 */
-	function startQueue(threadName, method, args){
-		if (typeof threadName == STRING) {
+	function useThread(threadName, method, args){
+		if (isString(threadName)) {
 			Array.prototype.shift.apply(args);
 		} else {
 			threadName = '';
 		}
-		JQUERY_TIMING[threadName] = JQUERY_TIMING[threadName] || $('<div>');
-		return method.apply(JQUERY_TIMING[threadName], args);
+		return method.apply(JQUERY_TIMING[threadName] = (JQUERY_TIMING[threadName] || $('<div>').text(threadName)), args);
 	}
 	
-	/*
-	 * now put the whole stuff into jQuery and let the games begin...
-	 */
-	$.fn.extend({
-		wait: wait,
-		unwait: unwait,
-		repeat: repeat,
-		unrepeat: unrepeat,
-		until: until,
-		then: then,
-		join: join,
-		$: $
-	});
-	$.extend({
-		wait: function(threadName) {
-			return startQueue(threadName, wait, arguments);
-		},
-		unwait: function(threadName) {
-			return startQueue(threadName, unwait, arguments);
-		},
-		repeat: function(threadName) {
-			return startQueue(threadName, repeat, arguments);
-		},
-		unrepeat: function(threadName) {
-			return startQueue(threadName, unrepeat, arguments);
-		},
-		then: function(threadName) {
-			return startQueue(threadName, then, arguments);
-		}
-	});
-
 	/**
 	 * $$ defines deferred variables that can be used in timed invocation chains 
 	 * 
@@ -535,7 +463,7 @@
 	 * @author Peter Liske
 	 */
 	function $$(compute, $n){
-		if (typeof compute == STRING) {
+		if (isString(compute)) {
 			compute = new Function('x','return '+compute);
 		}
 		var hasRelatedVariable = isFunction($n),
@@ -555,7 +483,7 @@
 			return hasComputation ? compute(x) : x;
 		};
 		deferredVariable.$ = {
-			toString: deferredVariable.toString
+				toString: deferredVariable.toString
 		};
 		deferredVariable.mod = function(val){
 			return $$(function(x){
@@ -577,5 +505,41 @@
 	};
 	
 	window.$$ = $$;
+	
+	/*
+	 * now put the whole stuff into jQuery and let the games begin...
+	 */
+	$.fn.extend({
+		wait: wait,
+		unwait: unwait,
+		repeat: repeat,
+		unrepeat: unrepeat,
+		until: until,
+		then: then,
+		join: join,
+		$: $
+	});
+	$.extend({
+		wait: function(threadName) {
+			return useThread(threadName, wait, arguments);
+		},
+		unwait: function(threadName) {
+			return useThread(threadName, unwait, arguments);
+		},
+		repeat: function(threadName) {
+			return useThread(threadName, repeat, arguments);
+		},
+		unrepeat: function(threadName) {
+			return useThread(threadName, unrepeat, arguments);
+		},
+		then: function(threadName) {
+			return useThread(threadName, then, arguments);
+		},
+		join: function(threadName) {
+			return useThread(threadName, join, arguments);
+		},
+		$$: $$
+	});
+
 
 })(jQuery, window);
