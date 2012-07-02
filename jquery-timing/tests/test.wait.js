@@ -33,12 +33,14 @@ suite = {
 		".wait() +…+ .then(callback)" : function($, test) {
 			var x = 0;
 			var callback = function(){ x++; test.check(); };
-			var TIC = $.wait();
+			var $x = $('<div>');
+			var TIC = $x.wait();
 			test.assertEquals(".wait() should defer", 0, x);
 			window.setTimeout(function(){				
 				test.assertEquals("TIC should wait until .then()", 0, x);
-				TIC.then(callback);
+				var $y = TIC.then(callback);
 				test.assertEquals(".wait() should have fired after short waiting", 1, x);
+				test.assertEquals("instant .then() should return original jQuery object", $x, $y);
 				window.setTimeout(function(){
 					test.assertEquals(".wait() should not fire anymore", 1, x);
 					test.done();
@@ -264,8 +266,10 @@ suite = {
 			window.setTimeout(function(){
 				$x.trigger(event);
 				test.assertEquals(".wait() should have not fired before TIC knows to do so", 0, x);
-				TIC.then(callback);
+				var $y = TIC.then(callback);
 				test.assertEquals(".wait() should have fired after telling TIC", 1, x);
+				test.assertNotEquals("instant .then() should not return TIC object", TIC, $y);
+				test.assertEquals("instant .then() should return jQuery object", 1, $y.size());
 				$x.trigger(event);
 				test.assertEquals(".wait() should not fire anymore", 1, x);
 				window.setTimeout(function(){
@@ -592,6 +596,37 @@ suite = {
 				test.assertEquals(".wait() should not have fired anymore", 1, x);
 				test.done();
 			}, 100);
+		},
+		
+		"accessing interim states": null,
+		
+		"tic=$('.some').wait().next() + $(tic)": function($, test){
+			var $x = $('<div><p>1</p><p>2</p><p>3</p></div>').children(':first');
+			var tic = $x.wait().next();
+			test.assertNotEquals("waiting tic is not the same as original object", $x, tic);
+			var $t = $(tic);
+			test.assertEquals("tic should currently hold one element", 1, $t.size());
+			test.assertEquals("tic should currently stay on first child", "1", $t.text());
+			window.setTimeout(function(){
+				test.assertEquals("after wait tic should stay on second child", "2", $(tic).text());
+				var $y = tic.next();
+				test.assertEquals("after second next tic should stay on third child", "3", $(tic).text());
+				test.assertNotEquals("instant call to .next() should return original object instead of tic", tic, $y);
+				test.done();
+			}, 1);
+		},
+		
+		"$('.multiple').wait(event) + $('#single').trigger(event)": function($, test){
+			var $x = $('<div><p>1</p><p>2</p><p>3</p></div>').children();
+			var event = 'myEvent';
+			var tic = $x.wait(event);
+			test.assertNotEquals("waiting tic is not the same as original object", $x, tic);
+			test.assertEquals("tic should stay on all elements", 3, $(tic).size());
+			$x.eq(1).trigger(event);
+			test.assertEquals("tic should now stay on triggered element", '2', $(tic).text());
+			var $y = tic.then();
+			test.assertEquals("after event only matched element can go on", '2', $y.text());
+			test.done();
 		},
 		
 };

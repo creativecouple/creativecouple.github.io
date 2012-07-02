@@ -8,6 +8,7 @@ suite = {
 			var $x = $('<div>');
 			var TIC = $x.join(callback);
 			test.assertEquals("instant .join() should fire", 1, x);
+			test.assertEquals("instant .join() should return original jQuery object", $x, TIC);
 			$x.dequeue();
 			test.assertEquals("instant .join() should not fire anymore after .dequeue()", 1, x);
 			window.setTimeout(function(){
@@ -24,6 +25,7 @@ suite = {
 			var $x = $('<div>');
 			var TIC = $x.join();
 			test.assertEquals("TIC must not fire before .then()", 0, x);
+			test.assertEquals("instant .join() should return original jQuery object", $x, TIC);
 			TIC.then(callback);
 			test.assertEquals("instant .join() should fire after .then()", 1, x);
 			$x.dequeue();
@@ -42,6 +44,7 @@ suite = {
 			var $x = $('<div>');
 			var TIC = $x.join(callback);
 			test.assertEquals("instant .join() should fire", 1, x);
+			test.assertEquals("instant .join() should return original jQuery object", $x, TIC);
 			$x.stop();
 			test.assertEquals("instant .join() should not fire anymore after .stop()", 1, x);
 			$x.dequeue();
@@ -60,6 +63,7 @@ suite = {
 			var $x = $('<div>');
 			var TIC = $x.join(callback);
 			test.assertEquals("instant .join() should fire", 1, x);
+			test.assertEquals("instant .join() should return original jQuery object", $x, TIC);
 			$x.stop(true);
 			test.assertEquals("instant .join() should not fire anymore after .stop(true)", 1, x);
 			$x.dequeue();
@@ -78,6 +82,7 @@ suite = {
 			var $x = $('<div>');
 			var TIC = $x.join();
 			test.assertEquals("TIC must not fire before .then()", 0, x);
+			test.assertEquals("instant .join() should return original jQuery object", $x, TIC);
 			TIC.then(callback);
 			test.assertEquals("instant .join() should fire after .then()", 1, x);
 			$x.stop();
@@ -98,6 +103,7 @@ suite = {
 			var $x = $('<div>');
 			var TIC = $x.join();
 			test.assertEquals("TIC must not fire before .then()", 0, x);
+			test.assertEquals("instant .join() should return original jQuery object", $x, TIC);
 			TIC.then(callback);
 			test.assertEquals("instant .join() should fire after .then()", 1, x);
 			$x.stop(true);
@@ -118,6 +124,7 @@ suite = {
 			var $x = $('<div>');
 			var TIC = $x.join();
 			test.assertEquals("TIC must not fire before .then()", 0, x);
+			test.assertEquals("instant .join() should return original jQuery object", $x, TIC);
 			$x.stop();
 			test.assertEquals("TIC must not fire after .stop() before .then()", 0, x);
 			TIC.then(callback);
@@ -138,6 +145,7 @@ suite = {
 			var $x = $('<div>');
 			var TIC = $x.join();
 			test.assertEquals("TIC must not fire before .then()", 0, x);
+			test.assertEquals("instant .join() should return original jQuery object", $x, TIC);
 			$x.stop(true);
 			test.assertEquals("TIC must not fire after .stop(true) before .then()", 0, x);
 			TIC.then(callback);
@@ -158,6 +166,7 @@ suite = {
 			var $x = $('<div>');
 			var TIC = $x.join();
 			test.assertEquals("TIC must not fire before .then()", 0, x);
+			test.assertEquals("instant .join() should return original jQuery object", $x, TIC);
 			$x.unwait();
 			test.assertEquals("TIC must not fire after .unwait() before .then()", 0, x);
 			TIC.then(callback);
@@ -178,6 +187,7 @@ suite = {
 			var $x = $('<div>');
 			var TIC = $x.join();
 			test.assertEquals("TIC must not fire before .then()", 0, x);
+			test.assertEquals("instant .join() should return original jQuery object", $x, TIC);
 			$x.unrepeat();
 			test.assertEquals("TIC must not fire after .unwait() before .then()", 0, x);
 			TIC.then(callback);
@@ -192,14 +202,14 @@ suite = {
 			}, 100);
 		},
 		
-		"join multiple elements": function($, test) {
+		"$('.multiple').join() instantly": function($, test) {
 			var x = 0;
 			var callback = function(){ x++; test.check(); };
-			var $x = $(['<div>','<span>','<p>']);
+			var $x = $('<div>').add('<span>').add('<p>');
+			test.assertEquals("not enough objects", 3, $x.size());
 			var TIC = $x.join(callback);
-			test.assertEquals("join should fire once, even for multiple objects", 1, x);
-			var TIC = $x.join(callback);
-			test.assertEquals("join again should fire once, even for multiple objects", 2, x);
+			test.assertEquals("join should fire once for multiple objects", 1, x);
+			test.assertEquals("instant .join() should return original jQuery object", $x, TIC);
 			test.done();
 		},
 
@@ -415,707 +425,27 @@ suite = {
 			}, 100);
 		},
 		
-		"joining empty named queue instantly": null,
-
-		".join(queue,callback) + .dequeue(queue)" : function($, test) {
+		"$('.multiple').join() deferred": function($, test) {
 			var x = 0;
-			var queue = 'myFX';
 			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue, callback);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should fire after .dequeue(queue)", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
+			var $x = $('<div>').add('<span>').add('<p>');
+			var timeout = 100;
+			$x.eq(0).delay(timeout);
+			$x.eq(2).delay(timeout*2);
+			var TIC = $x.join(callback);
+			test.assertEquals("join should wait until all elements joined", 0, x);
 			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue).then(callback) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue).then(callback);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should fire after .dequeue(queue)", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
+				test.assertEquals("join should still wait until all elements joined", 0, x);
+				window.setTimeout(function(){
+					test.assertEquals("join should have fired once", 1, x);
+					window.setTimeout(function(){
+						test.assertEquals("join should not fire anymore", 1, x);
+						test.done();
+					}, timeout);
+				}, timeout);
+			}, timeout*1.5);
 		},
 
-		".join(queue) + .dequeue(queue) + .then(callback)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("TIC should wait until .then()", 0, x);
-			TIC.then(callback);
-			test.assertEquals("TIC should fire after .then() because of .dequeue(queue)", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
-		},
-
-		".join(queue,callback) + .stop(queue) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue,callback);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.stop(queue);
-			test.assertEquals(".join(queue) should fire on .stop(queue)", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.stop(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .stop(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue,callback) + .stop(queue,true) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue,callback);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.stop(queue,true);
-			test.assertEquals(".join(queue) must not fire on .stop(queue,true)", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 0, x);
-				$x.stop(queue,true);
-				test.assertEquals(".join(queue) should not have fired anymore after .stop(queue,true)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 0, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue).then(callback) + .stop(queue) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue).then(callback);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.stop(queue);
-			test.assertEquals(".join(queue) should fire on .stop(queue)", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.stop(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .stop(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue).then(callback) + .stop(queue,true) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue).then(callback);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.stop(queue,true);
-			test.assertEquals(".join(queue) must not fire on .stop(queue,true)", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 0, x);
-				$x.stop(queue,true);
-				test.assertEquals(".join(queue) should not have fired anymore after .stop(queue,true)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 0, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue) + .stop(queue) + .then(callback) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.stop(queue);
-			test.assertEquals("TIC must wait until .then()", 0, x);
-			TIC.then(callback);
-			test.assertEquals(".join(queue) should fire on .stop(queue)", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.stop(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .stop(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue) + .stop(queue,true) + .then(callback) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.stop(queue,true);
-			test.assertEquals("TIC must wait until .then()", 0, x);
-			TIC.then(callback);
-			test.assertEquals(".join(queue) must not fire on .stop(queue,true)", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 0, x);
-				$x.stop(queue,true);
-				test.assertEquals(".join(queue) should not have fired anymore after .stop(queue,true)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 0, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue,callback) + .unwait() + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue, callback);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.unwait(queue);
-			test.assertEquals(".join(queue) must not fire on .unwait(queue)", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.unwait(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .unwait(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue).then(callback) + .unwait() + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue).then(callback);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.unwait(queue);
-			test.assertEquals(".join(queue) must not fire on .unwait(queue)", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.unwait(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .unwait(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue) + .unwait() + .then(callback) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.unwait(queue);
-			test.assertEquals("TIC must wait until .then()", 0, x);
-			TIC.then(callback);
-			test.assertEquals(".join(queue) must not fire on .unwait(queue)", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.unwait(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .unwait(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue,callback) + .unrepeat() + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue, callback);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.unrepeat(queue);
-			test.assertEquals(".join(queue) must not fire on .unrepeat(queue)", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.unrepeat(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .unrepeat(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue).then(callback) + .unrepeat() + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue).then(callback);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.unrepeat(queue);
-			test.assertEquals(".join(queue) must not fire on .unrepeat(queue)", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.unrepeat(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .unrepeat(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
-		},
-		
-		".join(queue) + .unrepeat() + .then(callback) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue);
-			test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-			$x.unrepeat(queue);
-			test.assertEquals("TIC must wait until .then()", 0, x);
-			TIC.then(callback);
-			test.assertEquals(".join(queue) must not fire on .unrepeat(queue)", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-			$x.dequeue(queue);
-			test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-			window.setTimeout(function(){
-				test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-				$x.unrepeat(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .unrepeat(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-				test.done();
-			}, 100);
-		},
-		
-		"joining empty named queue deferred": null,
-
-		".join(queue,callback) +…+ .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue, callback);
-			window.setTimeout(function(){
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should fire after .dequeue(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue) +…+ .then(callback) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue)
-			window.setTimeout(function(){
-				TIC.then(callback);
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should fire after .dequeue(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-
-		".join(queue) +…+ .dequeue(queue) + .then(callback)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue);
-			window.setTimeout(function(){
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals("TIC should wait until .then()", 0, x);
-				TIC.then(callback);
-				test.assertEquals("TIC should fire after .then() because of .dequeue(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-
-		".join(queue,callback) +…+ .stop(queue) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue,callback);
-				window.setTimeout(function(){
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.stop(queue);
-				test.assertEquals(".join(queue) must fire because of .stop(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.stop(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .stop(queue)", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue,callback) +…+ .stop(queue,true) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue,callback);
-				window.setTimeout(function(){
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.stop(queue,true);
-				test.assertEquals(".join(queue) must not fire on .stop(queue,true)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 0, x);
-					$x.stop(queue,true);
-					test.assertEquals(".join(queue) should not have fired anymore after .stop(queue,true)", 0, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 0, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue) +…+ .then(callback) + .stop(queue) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue)
-			window.setTimeout(function(){
-				TIC.then(callback);
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.stop(queue);
-				test.assertEquals(".join(queue) must fire because of .stop(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.stop(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .stop(queue)", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue) +…+ .then(callback) + .stop(queue,true) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue)
-			window.setTimeout(function(){
-				TIC.then(callback);
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.stop(queue,true);
-				test.assertEquals(".join(queue) must not fire on .stop(queue,true)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 0, x);
-					$x.stop(queue,true);
-					test.assertEquals(".join(queue) should not have fired anymore after .stop(queue,true)", 0, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 0, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue) +…+ .stop(queue) + .then(callback) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue);
-			window.setTimeout(function(){
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.stop(queue);
-				test.assertEquals("TIC must wait until .then()", 0, x);
-				TIC.then(callback);
-				test.assertEquals(".join(queue) must fire because of .stop(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.stop(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .stop(queue)", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue) +…+ .stop(queue,true) + .then(callback) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue);
-			window.setTimeout(function(){
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.stop(queue,true);
-				test.assertEquals("TIC must wait until .then()", 0, x);
-				TIC.then(callback);
-				test.assertEquals(".join(queue) must not fire on .stop(queue,true)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 0, x);
-					$x.stop(queue,true);
-					test.assertEquals(".join(queue) should not have fired anymore after .stop(queue,true)", 0, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 0, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue,callback) +…+ .unwait() + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue, callback);
-			window.setTimeout(function(){
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.unwait(queue);
-				test.assertEquals(".join(queue) must not fire on .unwait(queue)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.unwait(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .unwait(queue)", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue) +…+ .then(callback) + .unwait() + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue)
-			window.setTimeout(function(){
-				TIC.then(callback);
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.unwait(queue);
-				test.assertEquals(".join(queue) must not fire on .unwait(queue)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.unwait(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .unwait(queue)", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue) +…+ .unwait() + .then(callback) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue);
-			window.setTimeout(function(){
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.unwait(queue);
-				test.assertEquals("TIC must wait until .then()", 0, x);
-				TIC.then(callback);
-				test.assertEquals(".join(queue) must not fire on .unwait(queue)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.unwait(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .unwait(queue)", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue,callback) +…+ .unrepeat() + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue, callback);
-			window.setTimeout(function(){
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.unrepeat(queue);
-				test.assertEquals(".join(queue) must not fire on .unrepeat(queue)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.unrepeat(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .unrepeat(queue)", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue) +…+ .then(callback) + .unrepeat() + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue);
-			window.setTimeout(function(){
-				TIC.then(callback);
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.unrepeat(queue);
-				test.assertEquals(".join(queue) must not fire on .unrepeat(queue)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.unrepeat(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .unrepeat(queue)", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
-		".join(queue) +…+ .unrepeat() + .then(callback) + .dequeue(queue)" : function($, test) {
-			var x = 0;
-			var queue = 'myFX';
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.join(queue);
-			window.setTimeout(function(){
-				test.assertEquals("empty named queues should wait until .dequeue()", 0, x);
-				$x.unrepeat(queue);
-				test.assertEquals("TIC must wait until .then()", 0, x);
-				TIC.then(callback);
-				test.assertEquals(".join(queue) must not fire on .unrepeat(queue)", 0, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should fire after .dequeue()", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-					$x.unrepeat(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .unrepeat(queue)", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-					test.done();
-				}, 100);
-			}, 100);
-		},
-		
 		"joining ongoing default queue": null,
 		
 		".delay(timeout).join(callback)" : function($, test) {
@@ -1474,403 +804,4 @@ suite = {
 			}, timeout / 2);
 		},
 		
-		"joining ongoing named queue": null,
-		
-		".delay(timeout,queue).join(queue,callback)" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue,callback);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must have fired after delay is over", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue).then(callback)" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue).then(callback);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must have fired after delay is over", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-
-		".delay(timeout,queue).join(queue,callback) + .stop(queue)" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue,callback);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.stop(queue);
-				test.assertEquals(".join(queue) should fire after .stop(queue)", 1, x);
-				$x.dequeue(queue);
-				test.assertEquals(".join(queue) should not fire again after .dequeue(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must not have fired again", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire again after .dequeue(queue)", 1, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue,callback) + .stop(queue,true)" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue,callback);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.stop(queue,true);
-				test.assertEquals(".join(queue) should not fire after .stop(queue,true)", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must not have fired after delay is over, because of .stop(queue,true)", 0, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire again after .dequeue(queue)", 0, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 0, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 0, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue).then(callback) + .stop(queue)" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue).then(callback);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.stop(queue);
-				test.assertEquals(".join(queue) should fire after .stop(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must not have again", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire again after .dequeue(queue)", 1, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue).then(callback) + .stop(queue,true)" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue).then(callback);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.stop(queue,true);
-				test.assertEquals(".join(queue) should not fire after .stop(queue,true)", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must not have fired after delay is over, because of .stop(queue,true)", 0, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire again after .dequeue(queue)", 0, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 0, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 0, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue) + .stop(queue) + .then(callback)" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.stop(queue);
-				test.assertEquals("TIC must wait until .then()", 0, x);
-				TIC.then(callback);
-				test.assertEquals(".join(queue) should fire after .stop(queue)", 1, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must not have fired again", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire again after .dequeue(queue)", 1, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue) + .stop(queue,true) + .then(callback)" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.stop(queue,true);
-				test.assertEquals("TIC must wait until .then()", 0, x);
-				TIC.then(callback);
-				test.assertEquals(".join(queue) should not fire after .stop(queue,true)", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must not have fired again", 0, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire again after .dequeue(queue)", 0, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 0, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 0, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue,callback) + .unwait()" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue,callback);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.unwait();
-				test.assertEquals(".join(queue) should not fire in case of .unwait()", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must have fired after delay is over", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue).then(callback) + .unwait()" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue).then(callback);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.unwait();
-				test.assertEquals(".join(queue) should not fire in case of .unwait()", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must have fired after delay is over", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue) + .unwait() + .then(callback)" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.unwait();
-				test.assertEquals("TIC has to wait until .then()", 0, x);
-				TIC.then(callback);
-				test.assertEquals(".join(queue) should not fire in case of .unwait()", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must have fired after delay is over", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue,callback) + .unrepeat()" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue,callback);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.unrepeat();
-				test.assertEquals(".join(queue) should not fire in case of .unrepeat()", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must have fired after delay is over", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue).then(callback) + .unrepeat()" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue).then(callback);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.unrepeat();
-				test.assertEquals(".join(queue) should not fire in case of .unrepeat()", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must have fired after delay is over", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
-		
-		".delay(timeout,queue).join(queue) + .unrepeat() + .then(callback)" : function($, test) {
-			var x = 0;
-			var queue='myFX';
-			var timeout = 100;
-			var callback = function(){ x++; test.check(); };
-			var $x = $('<div>');
-			var TIC = $x.delay(timeout,queue).join(queue);
-			test.assertEquals("active queue should wait", 0, x);
-			$x.dequeue(queue);
-			test.assertEquals("active queue should still wait", 0, x);
-			window.setTimeout(function(){
-				test.assertEquals("active queue should wait until delay is over", 0, x);
-				$x.unrepeat();
-				test.assertEquals("TIC has to wait until .then()", 0, x);
-				TIC.then(callback);
-				test.assertEquals(".join(queue) should not fire in case of .unrepeat()", 0, x);
-				window.setTimeout(function(){
-					test.assertEquals(".join(queue) must have fired after delay is over", 1, x);
-					$x.dequeue(queue);
-					test.assertEquals(".join(queue) should not fire anymore after .dequeue(queue)", 1, x);
-					window.setTimeout(function(){
-						test.assertEquals(".join(queue) should not have fired anymore", 1, x);
-						$x.dequeue(queue);
-						test.assertEquals(".join(queue) should not have fired anymore after .dequeue(queue)", 1, x);
-						test.done();
-					}, 100);
-				}, timeout);
-			}, timeout / 2);
-		},
 };
