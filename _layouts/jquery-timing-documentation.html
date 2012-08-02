@@ -1,0 +1,22 @@
+---
+layout: jquery-timing
+---
+
+<h2>DOCUMENTATION</h2>
+{{content}}
+
+<ul>
+{% capture cat_string %}{% for cat in site.categories %}{{ cat | first | replace: ' ', '_' }} {% endfor %}{% endcapture %}
+{% capture cat_count %}{{ cat_string | split:' ' |  sort | join:' ' | number_of_words }}{% endcapture %}
+{% for item in (1..cat_count) %}
+  {% capture cat_name %}{{ cat_string | split:' ' |  sort | join:' ' | truncatewords:item | remove:'...' | split:' '  | last | replace: '_', ' ' }}{% endcapture %}
+  <li><span>{{ cat_name }}</span>
+		<ul>
+		{% for post in site.posts %}
+			<li><span><a href="{{ post.url }}">{{ post.title }}</a></span></li>
+		{% endfor %}
+		</ul>
+  </li>
+{% endfor %}
+</ul>
+

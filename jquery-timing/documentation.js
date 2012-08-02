@@ -23,10 +23,77 @@ $(document).ready(function(){
 			window.location = 'mailto:'+targetAddress.join('');
 		});
 		
-		$('pre, .example').each(function(){
-			var fiddle = $(this).data('fiddle');
-			if (fiddle) {
-				$('<a class="fiddle" title="see this example on jsFiddle">&nbsp;copy code</a>').attr('href', fiddle).appendTo(this);
+		$('a.jsfiddle').each(function(){
+			$(this).text('​').attr('title','this on jsFiddle.net').addClass('fiddle').appendTo($(this).next('.highlight').children('pre'));
+		});
+		
+		$('.highlight .nx').each(function(){
+			$(this).addClass($(this).text());
+		});
+		
+		$(window).scroll(function(){
+			$('#navigation').css('top',Math.max($(window).scrollTop() - 60 - $('#header').outerHeight(), 0));
+		});
+		
+		$('a').each(function(){
+			var hovering = $(this).data('hover');
+			if (hovering) {
+				$(this).mouseover($).$(hovering).mouseover()
+				._.mouseout($).$(hovering).mouseout();
 			}
+		});
+		
+		var localAPI = ['wait','unwait','join','animate','load','all','until','bind','on','one','live','delegate','each','repeat','unrepeat','$','_','then'];
+		
+		$($('.highlight .nx').get().reverse()).each(function(){
+			var $this = $(this);
+			if (!$this.prev().text().match(/\.$/) || !$this.next().text().match(/^\(/)) {
+				return;
+			}
+			
+			var text = $this.text();
+			var $highlighted = $this;
+			
+			$.each({each:'all', repeat:'until'}, function(key,value){
+				if (text == value) {
+					for (n = $highlighted; n.length && (n.is(':not(.p)') || n.text().substr(0,2).indexOf(')') < 0); n=n.next()) {
+						$highlighted = $highlighted.add(n);
+					}
+					$this.data('high', $highlighted.add(n));
+					return false;
+				}
+				if (text == key) {
+					for (n = $highlighted; n.length && (n.is(':not(.nx)') || ['all','until','_'].indexOf(n.text())<0); n=$highlighted.last().next()) {
+						$highlighted = $highlighted.add(n).add(n.data('high'));
+					}
+					if (n.text() == value) {
+						$highlighted = $highlighted.add(n.data('high'));
+						n.data('high', $highlighted);
+					}
+					$this.data('high', $highlighted);
+					return false;
+				}
+			});
+			$this.addClass((localAPI.indexOf(text) >= 0) ? 'localAPI' : 'jqueryAPI');
+		})
+		.on('mouseover mouseout').each().data('high').all().toggleClass('high');
+		
+		$('.localAPI').each(function(){
+			var title = $(this).text();
+			var text = title.replace(/[.();]/g,'');
+			if ($(this).prev().text() == '.' && $(this).prev().prev().text() == '$') {
+				text = 'jQuery.'+text;
+			}
+			var url = '/jquery-timing/api/#'+text;
+			$(this).text('').append($('<a>').attr({href:url, title:'check API'}).text(title));
+		});
+		$('.jqueryAPI').each(function(){
+			var title = $(this).text();
+			var text = title.replace(/[.();]/g,'');
+			if ($(this).prev().text() == '.' && $(this).prev().prev().text() == '$') {
+				text = 'jQuery.'+text;
+			}
+			var url = 'http://api.jquery.com/'+text+'/';
+			$(this).text('').append($('<a>').attr({href:url, title:'check jQuery API'}).text(title));
 		});
 });

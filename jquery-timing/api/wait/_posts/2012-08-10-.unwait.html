@@ -1,0 +1,18 @@
+---
+layout: jquery-timing-api-signature
+title: breaking current waits
+subtitle: <code>.unwait()</code>
+signature: .unwait()
+description:
+  Stop ongoing <span class="localAPI">.wait()</span>s for the selected elements. 
+friends:
+  - wait
+---
+
+<dl>
+	<dt>- no parameters -</dt>
+</dl>
+<hr/>
+<p class="description">
+If multiple elements are used in a .wait() context and only a subset does .unwait() then the invocation chain can still go on with the remaining elements.
+</p>

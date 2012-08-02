@@ -1,175 +1,74 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link type="image/gif" rel="shortcut icon" href="/favicon.gif"/>
-<meta name="keywords" content="jQuery-timing,wait,repeat,delay,timed invocation chain,effects queue,tic,fxq" />
-<meta name="author" content="CreativeCouple"/>
-<title>timing: a jQuery plugin introducing the Timed Invocation Chain (TIC) as counterpart to the jQuery Effects Queue (FXQ)</title>
-<link type="text/css" rel="stylesheet" href="style.css"/>
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-<script type="text/javascript" src="jquery-timing.min.js?v=a3e22f7b84e7f4c5cc81ce51de1af79dded78727"></script>
-<script type="text/javascript" src="documentation.js"></script>
+---
+layout: jquery-timing
+title: timing &mdash; a jQuery core plugin
+subtitle: introducing the Timed Invocation Chain
+description:
+  <p><em>jquery-timing</em> provides easy-to-use methods to define
+  iterations, timeouts, intervals, and event-based loops and handlers
+  just in line with all your <a href="//jquery.com/">jQuery</a> stuff.
+  </p>
 
-<link type="text/css" rel="stylesheet" href="http://jquery.bassistance.de/treeview/jquery.treeview.css"/>
-<script type="text/javascript" src="http://jquery.bassistance.de/treeview/jquery.treeview.js"></script>
-</head>
-<body>
-<div style="float:right">
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/de_DE/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-<script type="text/javascript">
-  (function() {
-    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/plusone.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-  })();
-</script>
-<div class="fb-like" data-href="http://creativecouple.github.com/jquery-timing/" data-send="true" data-layout="button_count" data-width="250" data-show-faces="false" data-font="verdana"></div>
-<br/>
-<div class="g-plusone" data-annotation="inline" data-width="250" data-href="http://creativecouple.github.com/jquery-timing/"></div>
-</div>
+---
 
-<h1><a href="./">timing</a> <small>&mdash; a jQuery plugin<br/>
-<small>introducing the Timed Invocation Chain (<abbr>tic</abbr>) as counterpart to the jQuery Effects Queue (<abbr>fxq</abbr>)</small>
-</small></h1>
-<div class="left">
+<h2>Welcome to jquery-timing</h2>
 <p>
-<em>jquery-timing</em> provides easy-to-use methods to define iterations, timeouts, intervals, and event-based loops just in line with all your <a href="http://jquery.com/">jQuery</a> stuff.<br/>
-It supplements the existing functionality from the jQuery effects queue (<abbr>fxq</abbr>) by introducing a new timed invocation chain technique (<abbr>tic</abbr>).
-</p>
-<p>
-Follow the navigation for documentation, examples, references, and further information.<br/>
-&ndash; Have fun!
-</p>
-</div> 
+This jQuery plugin supplements the existing functionality
+from the effects queue (<abbr>fxq</abbr>) and the <em>jQuery.Deferred</em> object
+by introducing a new timed invocation chain technique (<abbr>tic</abbr>).
+<br/>Follow the navigation for documentation, examples, references, and further information.</p>
+<p>&ndash; Have fun!</p>
 
-<div class="navigation">
-<div class="left">
-<h2>Navigation</h2>
-<ul class="treeview">
-	<li class=""><span>Precondition</span>
-		<ul>
-			<li><span><a href="#simplicity">Simplicity</a></span></li>
-			<li><span><a href="#dependency">Dependencies</a></span></li>
-			<li><span><a href="#inclusion">Include in your page</a></span></li>
-			<li><span><a href="#download">Download &amp; License</a></span></li>
-			<li><span><a href="#todo">Ongoing work</a></span></li>
-		</ul>
-	</li>
-	<li class="closed"><span>Documentation</span>
-		<ul>
-			<li><span><a href="documentation.html#documentation">Introducing <abbr>tic</abbr>: the Timed Invocation Chain</a></span></li>
-			<li><span><a href="documentation.html#comparison">Effects Queue (<abbr>fxq</abbr>) vs. Timed Invocation Chain (<abbr>tic</abbr>)</a></span></li>
-			<li><span><a href="documentation.html#combination"><abbr>fxq</abbr> and <abbr>tic</abbr> combined: why friends have to <code>.join()</code></a></span></li>
-		</ul>
-	</li>
-	<li class="closed"><span>Basic Examples</span>
-		<ul>
-			<li><span><a href="basics.html#basics">Example 1: Blinking by repeated toggling of CSS class</a></span></li>
-			<li><span><a href="basics.html#example2">Example 2: Blinking a given number of times</a></span></li>
-			<li><span><a href="basics.html#example3">Example 3: Wait a timeout before blinking</a></span></li>
-			<li><span><a href="basics.html#example4">Example 4: Clock display with one short blink per second</a></span></li>
-			<li><span><a href="basics.html#example5">Example 5: Clock display with double blink per second</a></span></li>
-		</ul>
-	</li>
-	<li class="closed"><span>Advanced techniques with <abbr>tic</abbr></span>
-		<ul>
-			<li><span><a href="advanced.html#advanced">Example 6: Generating password with fake progress</a></span></li>
-			<li><span><a href="advanced.html#example7">Example 7: Removing DOM elements one by one</a></span></li>
-			<li><span><a href="advanced.html#example8">Example 8: Invoke callback function on timing</a></span></li>
-			<li><span><a href="advanced.html#example9">Example 9: Static usage of wait() &amp; co</a></span></li>
-			<li><span><a href="advanced.html#example10">Example 10: the jQueryfied <code>for</code>-loop</a></span></li>
-		</ul>
-	</li>
-	<li class="closed"><span>Ultimate timing control with <abbr>tic</abbr> and <abbr>fxq</abbr></span>
-		<ul>
-			<li><span><a href="ultimate.html#ultimate">Example 11: repeated fading</a></span></li>
-			<li><span><a href="ultimate.html#example12">Example 12: playing pong</a></span></li>
-			<li><span><a href="ultimate.html#example13">Example 13: scheduling different elements' animations</a></span></li>
-			<li><span><a href="ultimate.html#outlook">Outlook: Something missing here?</a></span></li>
-		</ul>
-	</li>
-	<li class="closed"><span>Method reference</span>
-		<ul>
-			<li><span><a href="reference.html#reference"><code>.join()</code></a></span></li>
-			<li><span><a href="reference.html#.repeat"><code>.repeat()</code></a></span></li>
-			<li><span><a href="reference.html#$.repeat"><code>$.repeat()</code></a></span></li>
-			<li><span><a href="reference.html#.then"><code>.then()</code></a></span></li>
-			<li><span><a href="reference.html#$.then"><code>$.then()</code></a></span></li>
-			<li><span><a href="reference.html#.unrepeat"><code>.unrepeat()</code></a></span></li>
-			<li><span><a href="reference.html#$.unrepeat"><code>$.unrepeat()</code></a></span></li>
-			<li><span><a href="reference.html#.until"><code>.until()</code></a></span></li>
-			<li><span><a href="reference.html#.unwait"><code>.unwait()</code></a></span></li>
-			<li><span><a href="reference.html#$.unwait"><code>$.unwait()</code></a></span></li>
-			<li><span><a href="reference.html#.wait"><code>.wait()</code></a></span></li>
-			<li><span><a href="reference.html#$.wait"><code>$.wait()</code></a></span></li>
-		</ul>
-	</li>
-</ul>
-<script>
-$('.treeview').treeview();
-</script>
-</div>
-<div class="left">
-<h2><a name="contact"></a>Contact</h2>
-<address>
-	<span><span style="color:#800">C   t</span>   <span style="color:#006">C   l</span>   m   e</span>
-	<span>  <span style="color:#800">e   v</span>   <span style="color:#006">u</span>   &#64;   .</span>
-	<span>   <span style="color:#800">a   e</span>   <span style="color:#006">p</span>   g   n</span>
-	<span> <span style="color:#800">r   i</span>   <span style="color:#006">o   e</span>   x   t</span>
-</address>
-<p><small>Copyright &copy; 2012 &ndash; <a href="http://www.creativecouple.de/">CreativeCouple</a>, Peter Liske</small></p>
-</div>
-</div>
 
-<div class="content">
-
-<a name="simplicity"></a>
-<div class="block">
+<div id="simplicity" class="block">
 <h2>Simplicity</h2>
 <p>
-If you like the simplicity of this very first example then I promise you that this plugin will be a good friend in all your future jQuery projects:
+If you like the short syntax in this very first example then I promise you
+ that this plugin will be a good friend in all your jQuery projects:
 </p>
-<p class="example block" data-fiddle="http://jsfiddle.net/creativecouple/yzKFL/">
+
+<a href="http://jsfiddle.net/creativecouple/yzKFL/" class="jsfiddle"></a>
+{% highlight js %}
+$('.example span').repeat(1000)
+  .each($).toggleClass('bold').wait(50).all();
+{% endhighlight %}
+<span>&rArr;</span>
+<p class="result very-first-example">
 <span>This </span><span>is </span><span>a </span><span>sam</span><span>ple </span><span>sen</span><span>tence </span><span>with </span><span>some </span><span>words.</span>
-<br/>
-<code><b>var</b> <i>X</i>=<em>$$()</em>;<br/><b>$</b>(<i>'.example span'</i>).<em>repeat</em>(<b>80</b>,<i>X</i>).<b>eq</b>(<em><i>X</i>.mod(<b>15</b>)</em>).<b>toggleClass</b>(<i>'bold'</i>);</code> 
-<script type="text/javascript">var X=$$(); $('.example span').repeat(80,X).eq(X.mod(15)).toggleClass('bold');</script>
 </p>
-<p>This is the <em>complete</em> code for the animated text line above. &ndash; <em>write less. do more.</em></p>
+<script type="text/javascript">$('.very-first-example span').repeat(1000).each($).toggleClass('bold').wait(50).all();</script>
+
 </div>
 
-<a name="dependency"></a>
-<div class="block">
+<div id="dependency" class="block">
 <h2>Dependencies</h2>
 <p>
 You need to use <a href="http://jquery.com/">jQuery</a> on your page, any version since <strong>1.2</strong> and above.
 </p>
+<p>
+If you want to combine timing with animations then you should use jQuery 1.4 or above. See our <a href="/jquery-timing/tests/">tests section</a> for details.
+</p>   
 </div>
 
-<a name="inclusion"></a>
-<div class="block">
+<div id="include" class="block">
 <h2>Include in your page</h2>
 <p>
-All you need is to include the javascript file <a href="http://creativecouple.github.com/jquery-timing/jquery-timing.min.js">jquery-timing.min.js</a>:
+All you need is to include the javascript file
+<a href="http://creativecouple.github.com/jquery-timing/jquery-timing.min.js">jquery-timing.min.js</a>
+after jQuery:
 </p>
+<div style="font-size:small">
+{% highlight html %}
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/--version--/jquery.min.js"></script>
+<script type="text/javascript" src="http://creativecouple.github.com/jquery-timing/jquery-timing.min.js"></script>
+{% endhighlight %}
+</div>
 <p>
 <small><code>
-&lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/&lt;preferred-version&gt;/jquery.min.js&quot;&gt;&lt;/script&gt;<br/>
-&lt;script type=&quot;text/javascript&quot; src=&quot;http://creativecouple.github.com/jquery-timing/jquery-timing.min.js&quot;&gt;&lt;/script&gt;
 </code></small>
 </p>
 </div>
 
-<a name="download"></a>
-<div class="block">
+<div id="download" class="block">
 <h2>Download &amp; License</h2>
 <p>
 The source code is hosted at <a href="https://github.com/creativecouple/jquery-timing">github.com/creativecouple/jquery-timing</a>
@@ -177,33 +76,21 @@ under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT Licen
 </p>
 </div>
 
-<a name="todo"></a>
-<div class="block">
-<h2>Ongoing work</h2>
-<p>
-Implementation done! Everything works fine.
-</p>
-<dl class="todo">
-<dt class="done"><code>.join()</code> does instant invocation in case of empty queue</dt>
-<dt class="done"><code>.join()</code> runs partially with jQuery 1.4, fully with jQuery 1.7</dt>
-<dt class="done"><code>.wait()</code> supports both timeouts and events</dt>
-<dt class="done"><code>.unwait()</code></dt>
-<dt class="done"><code>.repeat()</code> does instant invocation in case of no trigger or <code>firstRunNow==true</code></dt>
-<dt class="done"><code>.repeat()</code> supports both timeouts and events</dt>
-<dt class="done"><code>.unrepeat()</code></dt>
-<dt class="done"><code>$$()</code> with automatic tests</dt>
-</dl>
-<p>
-Any doubts? &ndash; Just take a quick <a href="test.html">look at 1324 test cases</a>. 
-</p>
-<h3>So what's left?</h3>
-<p>
-Now only the documentation has to be updated&hellip; &ndash; any volunteers out there?<br/>
-I'll do my best to complete it soon.
-</p>
-<p>
-Have fun!
-</p>
+<div id="contact" class="block">
+<h2>Contact</h2>
+<form class="donate" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="XSSZZC46C3EEG">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+</form>
+<br style="clear:both"/>
+<address>
+	<span>C   t   C   l   m   e</span>
+	<span>  e   v   u   &#64;   .</span>
+	<span>   a   e   p   g   n</span>
+	<span> r   i   o   e   x   t</span>
+</address>
+<br style="clear:both"/>
+<br/>
 </div>
-</body>
-</html>

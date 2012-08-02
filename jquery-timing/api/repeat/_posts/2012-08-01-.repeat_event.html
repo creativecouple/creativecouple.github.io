@@ -1,0 +1,26 @@
+---
+layout: jquery-timing-api-signature
+title: the event-triggered loop
+subtitle: <code>.repeat(events <span class="optional">,firstRunNow</span> <span class="optional">,callback</span>)</code>
+signature: .repeat(event)
+description:
+  Begin a <a href="/jquery-timing/usage/loops/sequential-loop.html">sequential loop</a> that is triggered by events on any of the selected elements.
+friends:
+ - until
+ - unrepeat
+---
+
+<dl>
+	<dt>events &ndash; <code>string</code></dt>
+	<dd>A string containing one or more event types, such as "click" or "submit" or custom event names.</dd>
+	<dt>firstRunNow &ndash; <code>boolean</code>, optional</dt>
+	<dd>whether to start the loop immediately.</dd>
+	<dd>Defaults to <code>false</code>.</dd>
+	<dt>callback &ndash; <code>function(count…)</code>, optional</dt>
+	<dd>a method that is called once per loop iteration.</dd>
+	<dd>All current iteration counts (from inner-most to outer-most loop) are passed as arguments.</dd>
+</dl>
+<hr/>
+<p class="description">
+  The beginning context for each loop iteration depends on the usage of <code class="localAPI">.until()</code>.
+</p>

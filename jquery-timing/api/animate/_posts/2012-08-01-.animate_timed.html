@@ -1,0 +1,23 @@
+---
+layout: jquery-timing-api-signature
+title: timed version of <code class="jqueryAPI">.animate()</code>
+subtitle: <code>.animate(…, $)</code>
+signature: .animate($)
+description:
+  Queue an animation onto the <abbr>fxq</abbr> and wait with ongoing invocation until the animation finished.
+friends:
+ - join
+---
+
+<dl>
+	<dt>… &ndash; miscellaneous parameters</dt>
+	<dd>any animation parameter accepted by the original <code class="jqueryAPI">.animate()</code>.</dd>
+	<dt>$ &ndash; the <code>jQuery</code> token</dt>
+	<dd>use <strong>$ instead of &quot;complete&quot; function</strong> for <code class="jqueryAPI">.animate()</code>.</dd>
+</dl>
+<hr/>
+<p class="description">
+<strong>Tip:</strong> Many other methods that internally call <code>.animate()</code> and pass the callback function will automatically support that timing, too:
+<br/>
+<code>.<span class="jqueryAPI">fadeIn</span>(…,$)</code>, <code>.<span class="jqueryAPI">fadeOut</span>(…,$)</code>, <code>.<span class="jqueryAPI">fadeToggle</span>(…,$)</code>, <code>.<span class="jqueryAPI">slideUp</span>(…,$)</code>, <code>.<span class="jqueryAPI">slideDown</span>(…,$)</code>, <code>.<span class="jqueryAPI">slideToggle</span>(…,$)</code>, etc…
+</p> 

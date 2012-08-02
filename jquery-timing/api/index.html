@@ -1,0 +1,50 @@
+---
+layout: jquery-timing
+title: jquery-timing API
+subtitle: compete method reference
+description:
+  The list below contains all methods in alphabetical order.
+
+---
+
+
+{% for method in site.posts %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}
+
+	<div id="{{ method.name }}" class="block">
+		{% capture signature_prefix %}.{{ method.name }}({% endcapture %}
+		
+		<div class="api">
+		<h2>{{ method.title }}</h2>
+		<div class="description">{{ method.content }}</div>
+		<dl class="no-code">
+		{% for api in site.posts %}{% capture path %}#{{ api.categories | join:'/' }}{% endcapture %}{% if path contains '#jquery-timing/api/' and api.signature contains signature_prefix %}
+				<dt><a href="{{ api.url }}">{{ api.subtitle }} &ndash; {{ api.title }}</a></dt>
+				<dd>{{ api.description }}</dd>
+		{% endif %}{% endfor %}
+		</dl>
+		</div>
+		
+		<div class="navi no-code">
+			<h3 class="roundTop">Usage of {{ method.title }}</h3>
+			<ul>
+			{% for api in site.posts %}{% capture path %}#{{ api.categories | join:'/' }}{% endcapture %}{% if path contains '#jquery-timing/api/' and api.signature contains signature_prefix %}
+					<li>&rarr; <a href="{{ api.url }}">{{ api.subtitle }}</a></li>
+			{% endif %}{% endfor %}
+			</ul>
+		</div>
+
+		{% capture others %}
+		{% for other in site.posts %}{% capture path %}{{ other.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' and method.see contains other.name %}
+				<li>&rarr; <a href="#{{ other.name }}">{{ other.title }}</a></li>
+		{% endif %}{% endfor %}
+		{% endcapture %}
+		{% if others contains 'li' %}
+			<div class="navi no-code">
+				<h3 class="roundTop">See also</h3>
+				<ul>{{ others }}</ul>
+			</div>
+		{% endif %}
+	</div>
+	<hr/>
+
+{% endif %}{% endfor %}

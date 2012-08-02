@@ -1,0 +1,31 @@
+---
+layout: jquery-timing-example
+title: cyclic button clicks
+signatures:
+  - .repeat()
+  - .until(bool)
+  - .one($)
+  - .each($)
+---
+
+<p>
+The buttons can be clicked one after the other. At the end the cycle starts over and over.
+</p>
+<p>
+Remark that the code is the same no matter how many buttons we have.
+</p>
+
+{% highlight javascript %}
+$('.example button').repeat().each($)
+   .attr('disabled',false).one('click')
+   .attr('disabled',true).until(false);
+{% endhighlight %}
+
+<span>&rArr;</span>
+
+<p class="result cyclic-button-clicks">
+<button disabled="disabled">Hit me first!</button>
+<button disabled="disabled">Then click me!</button>
+<button disabled="disabled">And then me!</button>
+</p>
+<script type="text/javascript">$('.cyclic-button-clicks button').repeat().each($).attr('disabled',false).one('click').attr('disabled',true).until(false);</script>

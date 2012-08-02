@@ -1,0 +1,30 @@
+---
+layout: jquery-timing-example
+title: wait a timeout after each click before blinking
+signatures:
+  - .repeat(event)
+  - .until(bool)
+  - .wait(timeout)
+---
+
+<p>
+With the concatenation of two .wait()s we achieve a single short blink.
+</p>
+<p>
+Instead of attaching an event handler explicitly we start an infinite event loop for the "click" event.
+Repeat loops are always sequential, i.e. the next iteration can start only if the previous one ended.
+You can see this behavior when double- or triple-clicking the button.
+</p>
+
+{% highlight javascript %}
+$('.example button').repeat('click').prev()
+   .wait(500).addClass('blink')
+   .wait(300).removeClass('blink');
+{% endhighlight %}
+<span>&rArr;</span>
+<p class="result wait-a-timeout-after-each-click-before-blinking">
+That <span>text blinks half a second</span> after hitting <button>this button</button>.
+</p>
+<script type="text/javascript">
+$('.wait-a-timeout-after-each-click-before-blinking button').repeat('click').prev().wait(500).addClass('blink').wait(300).removeClass('blink');
+</script>

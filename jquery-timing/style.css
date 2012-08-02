@@ -1,106 +1,54 @@
 body {
 	font-family: sans-serif;
-	font-size: 16px;
-	background: white url(left-blue.png) left top repeat-y scroll;
-	color: #445;
-	padding: 1em 2em 4em 4em;
+	font-size: 14px;
+	background: #39414A;
+	color: white;
+	padding: 60px 80px;
 	margin: 0;
+
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: "myriad pro", "Trebuchet MS", Verdana, Helvetica, Arial,sans-serif;
+	margin: 0;
+	padding: 0;
+	letter-spacing: 0;
+	border-bottom: 0;
 }
 h1 {
-	font-size: 3em;
-	margin: 1em 0 0.5em;
-	color: black;
+	font-size: 2em;
+	margin: 0 0 24px 0;
+	padding: 0;
+	color: inherit;
 }
 h1 a {
 	color: inherit;
 	text-decoration: inherit;
 }
+h1 code em {
+	font-style: inherit;
+	color: #666;
+}
+
 h2 {
-	font-size: 1.5em;
-	margin: 2em 0 0;
+	font-size: 1.25em;
+	margin: 24px 0;
+	padding: 0;
 	color: inherit;
+	border-bottom: 1px solid #0D5995;
 }
 h2:first-child {
 	margin-top: 0;
 }
+h2 code em {
+	font-style: inherit;
+	color: #666;
+}
+
 h3 {
 	font-size: 1.2em;
-	margin: 0 0;
+	margin: 24px 0;
+	padding: 0;
 	color: inherit;
-}
-pre {
-	margin: 2em;
-	padding: 1em;
-	border: 2px dotted #f8faff;
-	background: #333;
-	font-style: normal;
-	font-weight: normal;
-	text-decoration: none;
-	color: #999;
-	white-space: pre-wrap;
-	position: relative;
-}
-pre i {
-	font-style: inherit;
-	font-weight: inherit;
-	text-decoration: inherit;
-	color: #bdf;
-}
-pre b {
-	font-style: inherit;
-	font-weight: inherit;
-	text-decoration: inherit;
-	color: white;
-}
-pre em {
-	font-style: inherit;
-	font-weight: bold;
-	text-decoration: inherit;
-	color: #fa8;
-}
-
-a.fiddle {
-	position: absolute;
-	top: -1em;
-	right: -1em;
-	border: 2px dotted #f8faff;
-	background: #333;
-	margin: 0;
-	padding: 0.3em;
-	display: block;
-	float: left;
-	text-decoration: none;
-	font-variant: normal;
-	font-family: sans-serif;
-	color: white;
-}
-.example a.fiddle {
-	background-color: #fffaf8;
-	border: 1px solid #fdc;
-	font-size: 0.9em;
-	-moz-border-radius: 20px;
-	-webkit-border-radius: 20px;
-	border-radius: 20px;
-	top: -0.75em;
-	right: -1em;
-	color: navy;
-}
-
-a.fiddle:hover {
-	background: maroon;
-	color: white;
-	text-decoration: none;
-}
-a.fiddle:visited {
-	color: #ccc;
-}
-a.fiddle:before {
-	content: url(http://jsfiddle.net/favicon.png);
-	vertical-align: middle;
-}
-
-em, dt {
-	font-style: italic;
 }
 
 small {
@@ -117,9 +65,15 @@ abbr {
 }
 
 p {
-	margin: 1em 0;
+	margin: 0;
 	padding: 0;
 }
+
+a {
+	color: inherit;
+	text-decoration: underline;
+}
+
 
 address {
 	position: relative;
@@ -171,231 +125,223 @@ th:first-child {
 	text-align: right;
 }
 
-.left {
-	padding: 1em 1em;
+div.block {
+	background: none transparent;
+	padding: 40px 0 0 0;
+	margin: 0 0 1em 0;
+	clear: both;
+}
+
+hr {
+	height: 1px;
+	margin: 24px 0;
+	background: #0D5995;
+	clear: both;
+	padding: 0;
+	border: none;
+}
+
+#header {
+	display: block;
+	margin: 0;
+	padding: 1.5em;
+	background: #f6f6ff;
+	color: black;
+	position: relative;
+	width: 888px;
+}
+
+#content {
+	display: block;
+	padding: 1.5em;
+	margin: 0;
+	background: #f6f6ff;
+	color: black;
+	width: 888px;
+}
+#content p {
 	margin: 1em 0;
-	position: relative;
-	left: -1em;
-	background: white;
-	border-color: transparent transparent transparent #cdf;
-	border-style: solid;
-	border-width: 1px;
-	-moz-border-radius: 30px;
-	-webkit-border-radius: 30px;
-	border-radius: 30px;
-}
-.left:first-child {
-	margin: 0;
 }
 
-.block {
-	padding: 1em 1.2em;
-	margin: 1em 0 2em;
+#navigation {
+	display: block;
 	position: relative;
-	left: -1.2em;
-	background: #f8faff;
-	border-color: transparent #cdf transparent #cdf;
-	border-style: solid;
-	border-width: 1px;
-	-moz-border-radius: 20px;
-	-webkit-border-radius: 20px;
-	border-radius: 20px;
-}
-.block:first-child {
-	margin-top: 0;
-}
-
-.navigation {
-	width: 20em;
-	display: table-cell;
-	padding: 0;
+	padding: 8px 40px;
 	margin: 0;
+	background: #39414A;
+	width: 888px;
+	z-index: 5;
+	font-family: "myriad pro", "Trebuchet MS", Verdana, Helvetica, Arial,sans-serif;
 }
-.navigation h2 {
-	border: none;
-}
-.navigation li {
-	font-size: smaller;
-}
-.content {
+#navigation > a {
+	padding: 6px 10px;
+	position: relative;
+	display: inline-block;
+	border-right: 1px solid #0D5995;
+	border-bottom: 1px solid #0D5995;
+	border-left: 1px solid #1175AE;
+	border-top: 1px solid #1175AE;
+	background: #0F67A1;
+	color: #eee;
 	width: auto;
-	display: table-cell;
-	padding: 0;
-	margin: 0;
-}
-
-dl.todo dt {
-	margin: 1em 0 0 0;
-}
-dl.todo dt + dd {
-	margin-bottom: 0;
-}
-dl.todo dt:after {
-	content: " - to do:";
-	font-style: italic;
-	color: #aaa;
-}
-dl.todo dd:before {
-	content: url(todo.png)" - ";
-	font-style: italic;
-	color: #aaa;
-}
-dl.todo dt.done:after {
-	content: " - done "url(done.png);
-}
-
-/*
- * example stuff
- */
-
-p.example.block {
-	background-color: #fffaf8;
-	border-color: #fdc;
-	display: block;
-	margin: 0 4em 2em;
 	text-align: center;
-	float: left;
-}
-p.example + p {
-	clear: left;
-}
-.example span {
-	color: black;
-}
-.example span.bold {
-	text-decoration: underline;
-	color: blue;
-	text-shadow: orange 1px 1px 3px;
-}
-.example code {
-	font-size: 0.9em;
-	font-style: normal;
-	font-weight: normal;
-	text-decoration: none;
-	color: gray;
-	display: block;
-	padding: 0;
-	margin: 1em 0 0 0;
-	text-align: left;
-}
-.example code i {
-	font-style: inherit;
-	font-weight: inherit;
-	text-decoration: inherit;
-	color: blue;
-}
-.example code b {
-	font-style: inherit;
-	font-weight: inherit;
-	text-decoration: inherit;
-	color: black;
-}
-.example code em {
-	font-style: inherit;
-	font-weight: inherit;
-	text-decoration: inherit;
-	color: maroon;
-}
-
-.example1, .example2, .example3, .example4, .example5 {
-	text-decoration: underline;
-}
-
-.blink {
-	background: yellow;
 	text-decoration: none;
 }
-
-input[type=password] {
-	background: white none;
-	color: black;
-}
-input[type=password].load {
-	background: #eec url(load.gif) right center no-repeat;
-}
-
-
-ul.example7 li, ul.example8 li {
-	display: inline-block;
-	position: relative;
-	padding: 1em;
-}
-
-li.clazz {
-	color: green;
-}
-
-.example11 {
-	width: 60px;
-	height: 60px;
-	background: red;
-	border: none;
-	padding: 5px;
-	margin: 1em auto;
-	position: relative;
-	text-align: center;
+#navigation > a:hover {
+	background: #0D5995;
 	color: white;
+	text-decoration: underline;
 }
-
-.example12 {
-	text-align: center;
-	height: 200px;
-	width: 400px;
-	padding: 0;
-	margin: 1em auto;
-	position: relative;
-	background: none transparent;
-	border: solid #666;
-	border-width: 0 1px
+#navigation > a:first-child, .roundLeft {
+	-moz-border-radius-topleft: 6px;
+	-webkit-border-top-left-radius: 6px;
+	border-radius-topleft: 6px;
+	-moz-border-radius-bottomleft: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	border-radius-bottomleft: 6px;
 }
-.example12 span {
-	width: 40px;
-	height: 40px;
-	padding: 5px;
-	position: absolute;
-	left: 0;
+#navigation > a:last-child, .roundRight {
+	-moz-border-radius-topright: 6px;
+	-webkit-border-top-right-radius: 6px;
+	border-radius-topright: 6px;
+	-moz-border-radius-bottomright: 6px;
+	-webkit-border-bottom-right-radius: 6px;
+	border-radius-bottomright: 6px;
+}
+#navigation.fix {
+	position: fixed;
 	top: 0;
-	text-align: center;
-	color: white;
-	margin: 0;
-	padding: 0;
-}
-.example12 .stick {
-	width: 20px;
-	background: #888;
-	border: 1px solid #ccc;
-}
-.example12 .stick:first-child {
-	left: -10px;
-}
-.example12 .stick:last-child {
-	left: 390px;
-}
-.example12 .ball {
-	left: 10px;
-	background: orange;
-	border: 1px solid red;
-	-moz-border-radius: 20px;
-	-webkit-border-radius: 20px;
-	border-radius: 20px;
 }
 
-.example13 {
-	text-align: center;
-	padding: 0;
-	margin: 1em auto;
-	position: relative;
-	background: none transparent;
+div.social {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 1em 0;
 }
-.example13 span {
-	display: inline-block;
-	position: relative;
-	padding: 0;
-	margin: 0.5em;
-	width: 1.5em;
-	height: 1.5em;
-	text-align: center;
-	border: 2px solid black;
+#contact {
+	display: block;
+	background: url(/cclogo-small.png) no-repeat scroll left bottom;
+}
+#contact .donate {
+	float: right;
+}
+#contact address {
+	left: 90px;
+}
+
+#footer {
+	clear: both;
 	color: white;
-	font-size: 2em;
+}
+
+div.api {
+	margin: 0 1em 1em 0;
+	padding: 1em;
+	background: white;
+	color: black;
+	float: left;
+	width: 500px;
+	border: 1px solid #666;
+}
+
+dl {
+	font-family: "myriad pro", "Trebuchet MS", Verdana, Helvetica, Arial, sans-serif;
+}
+dt {
+	margin: 1em 0 0.4em 0;
+	font-family: "myriad pro", "Trebuchet MS", Verdana, Helvetica, Arial, sans-serif;
+	font-style: normal;
+}
+dd {
+	font-family: "myriad pro", "Trebuchet MS", Verdana, Helvetica, Arial, sans-serif;
+	font-style: italic;
+}
+
+div.navi > h3 {
+	border: none;
+	background: #0D5995;
+	color: white;
+	padding: 6px 20px;
+	font-size: inherit;
+	margin: 0;
+}
+div.navi > h3, .roundTop, #header, #content {
+	-moz-border-radius-topleft: 6px;
+	-moz-border-radius-topright: 6px;
+	-webkit-border-top-left-radius: 6px;
+	-webkit-border-top-right-radius: 6px;
+	border-radius-topleft: 6px;
+	border-radius-topright: 6px;
+}
+div.navi > ul, .roundBottom, #header, #content {
+	-moz-border-radius-bottomleft: 6px;
+	-moz-border-radius-bottomright: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	-webkit-border-bottom-right-radius: 6px;
+	border-radius-bottomleft: 6px;
+	border-radius-bottomright: 6px;
+}
+
+div.navi {
+	background: none;
+	margin: 0 0 1em 2em;
+	width: 310px;
+	float: right;
+}
+
+div.navi > ul {
+	margin: 0;
+	padding: 6px;
+	list-style-type: none;
+	background: white;
+	border: 1px solid #0D5995;
+	border-top: none;
+}
+div.navi > ul > li {
+	margin: 0;
+	padding: 6px 0;
+	list-style-type: none;
+	background: white;
+	border-bottom: 1px dotted #ddd;
+}
+div.navi > ul > li:hover {
+	background: #eee;
+}
+div.navi a {
+	text-decoration: none;
+}
+div.navi a:hover {
+	text-decoration: underline;
+}
+
+span.optional {
+	color: #666;
+}
+span.optional:before {
+	color: #aaa;
+	content: '[';
+}
+span.optional:after {
+	color: #aaa;
+	content: ']';
+}
+.no-code code, h1 code {
+	font: inherit;
+}
+.no-code a, .description a {
+	text-decoration: none;
+}
+.no-code a:hover, .description a:hover {
+	text-decoration: underline;
+}
+
+.description {
+	color: #777;
+	font-family: "myriad pro", "Trebuchet MS", Verdana, Helvetica, Arial, sans-serif;
+	font-size: 17px;
+	font-style: italic;
+}
+.description strong {
+	color: #333;
 }

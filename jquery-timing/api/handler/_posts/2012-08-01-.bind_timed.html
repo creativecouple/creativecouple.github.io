@@ -1,0 +1,32 @@
+---
+layout: jquery-timing-api-signature
+title: timed version of <code class="jqueryAPI">.bind()</code>
+subtitle: <code>.bind(events  <span class="optional">,data</span> <span class="optional">,$</span>)</code>
+signature: .bind($)
+description:
+  Attach the <abbr>tic</abbr> to one or more events.
+friends:
+ - 'on'
+ - one
+---
+
+<dl>
+	<dt>events &ndash; <code>string</code></dt>
+	<dd>A string containing one or more event types, such as "click" or "submit" or custom event names.</dd>
+	<dt>data &ndash; <code>object</code>, optional</dt>
+	<dd>A map of data that will be passed to the event handler.</dd>
+	<dt>$ &ndash; the <code>jQuery</code> token, optional</dt>
+	<dd>Use <strong>$ instead of a handler</strong> or leave it out.</dd>
+</dl>
+<hr/>
+<p class="description">
+<strong>Tip:</strong> Many other methods that internally call <code>.bind()</code> and pass the handler function will automatically support that timing, too:
+<br/>
+<code>.<span class="jqueryAPI">click</span>($)</code>,
+<code>.<span class="jqueryAPI">dblclick</span>($)</code>,
+<code>.<span class="jqueryAPI">mousedown</span>($)</code>,
+<code>.<span class="jqueryAPI">mouseup</span>($)</code>,
+<code>.<span class="jqueryAPI">mousemove</span>($)</code>,
+<code>.<span class="jqueryAPI">keydown</span>($)</code>,
+etc…
+</p> 

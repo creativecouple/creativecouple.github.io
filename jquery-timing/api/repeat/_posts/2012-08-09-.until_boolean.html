@@ -1,0 +1,21 @@
+---
+layout: jquery-timing-api-signature
+title: boolean loop end condition
+subtitle: <code>.until(bool <span class="optional">,loopContext</span>)</code>
+signature: .until(boolean)
+description:
+  The end for a <span class="localAPI">repeat</span> loop that finishes if the boolean parameter is true.
+friends:
+ - repeat
+ - unrepeat
+---
+
+<dl>
+	<dt>bool &ndash; <code>boolean</code></dt>
+	<dd>whether to stop the loop or not.</dd>
+	<dd>If false then the loop runs infinitely.</dd>
+	<dt>loopContext &ndash; <code>boolean</code>, optional</dt>
+	<dd>if true then the current jQuery context starts the next loop iteration.
+	Otherwise the original context from the .<span class="localAPI">repeat</span>() call is used for each iteration.</dd>
+	<dd>Defaults to false.</dd>
+</dl>

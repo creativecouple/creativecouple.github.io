@@ -1,0 +1,26 @@
+---
+layout: jquery-timing-example
+title: repeated blinking (like in the old days with the deprecated <code>&lt;blink&gt;</code> element)
+signatures:
+  - .repeat(interval)
+---
+
+<p>
+By using .<span class="jqueryAPI">toggleClass</span>() the CSS class switches from being added and removed after every interval timeout. 
+</p>
+<p>
+In this example the interval timeout is set to 400 milliseconds.
+</p>
+
+{% highlight javascript %}
+$('.blink').repeat(400).toggleClass('blink');
+{% endhighlight %}
+<span>&rArr;</span>
+<p class="result repeated-blinking">
+This is a <span class="blink">blinking</span> text.</span>
+</p>
+<script type="text/javascript">$('.repeated-blinking .blink').repeat(400).toggleClass('blink');</script>
+
+<p>
+See also <a href="/jquery-timing/examples/repeated-blinking-with-wait.html">another example</a> for the same task using <em>iterated timeouts</em> instead.
+</p>

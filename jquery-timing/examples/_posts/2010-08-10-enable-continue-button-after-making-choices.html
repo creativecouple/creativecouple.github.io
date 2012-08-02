@@ -1,0 +1,37 @@
+---
+layout: jquery-timing-example
+title: enable continue button only after making choices
+signatures:
+  - .each()
+  - .all()
+  - .wait(event)
+  - .$()
+---
+
+<p>
+In this example the continue button should get enabled only if for each choice the user has selected some value.
+</p>
+<p>
+The used .each()..all() loop waits for each line until some radio input is selected.
+The button's disabled-state is then removed. 
+</p>
+
+{% highlight javascript %}
+$('.example .choices li')
+  .each().children('input').wait('change').all()
+  .$('#continue').attr('disabled',false);
+{% endhighlight %}
+
+<span>&rArr;</span>
+
+<div class="result enable-continue-button-after-making-choices">
+<ul class="choices">
+	<li>Color: <input type="radio" name="color" value="red"/>red, <input type="radio" name="color" value="green"/>green, <input type="radio" name="color" value="blue"/>blue</li>
+	<li>Size: <input type="radio" name="size" value="XS"/>XS, <input type="radio" name="size" value="S"/>S, <input type="radio" name="size" value="M"/>M, <input type="radio" name="size" value="L"/>L, <input type="radio" name="size" value="XL"/>XL</li> 
+	<li>Textile: <input type="radio" name="textile" value="wool"/>wool, <input type="radio" name="textile" value="hemp"/>hemp, <input type="radio" name="textile" value="synthetic"/>synthetic</li> 
+</ul>
+<p style="text-align:center">
+	<button id="enable-continue-button-after-making-choices_continue" disabled="disabled">Go to shopping cart…</button>
+</p>
+</div>
+<script type="text/javascript">$('.enable-continue-button-after-making-choices .choices li').each().children().wait('change').all().$('#enable-continue-button-after-making-choices_continue').attr('disabled',false);</script>

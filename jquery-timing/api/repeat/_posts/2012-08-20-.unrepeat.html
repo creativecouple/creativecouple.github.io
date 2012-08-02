@@ -1,0 +1,19 @@
+---
+layout: jquery-timing-api-signature
+title: breaking loop repetition
+subtitle: <code>.unrepeat()</code>
+signature: .unrepeat()
+description:
+  Stop ongoing <span class="localAPI">repeat</span> loops for the selected elements. 
+friends:
+  - repeat
+  - until
+---
+
+<dl>
+	<dt>- no parameters -</dt>
+</dl>
+<hr/>
+<p class="description">
+If multiple elements are used in a .repeat() context and only a subset does .unrepeat() then the invocation chain can still go on with the remaining elements.
+</p>

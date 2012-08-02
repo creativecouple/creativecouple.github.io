@@ -1,0 +1,22 @@
+---
+layout: jquery-timing-api-signature
+title: timed version of <code class="jqueryAPI">.delegate()</code>
+subtitle: <code>.delegate(selector, events <span class="optional">,data</span> <span class="optional">,$</span>)</code>
+signature: .delegate($)
+description:
+  Attach the <abbr>tic</abbr> to one or more events for elements that match the selector, now or in the future, based on a specific set of root elements.
+friends:
+ - 'on'
+ - live
+---
+
+<dl>
+	<dt>selector &ndash; <code>string</code></dt>
+	<dd>A selector to filter the elements that trigger the event.</dd>
+	<dt>events &ndash; <code>string</code></dt>
+	<dd>A string containing one or more event types, such as "click" or "keydown," or custom event names.</dd>
+	<dt>data &ndash; <code>object</code>, optional</dt>
+	<dd>A map of data that will be passed to the event handler.</dd>
+	<dt>$ &ndash; the <code>jQuery</code> token, optional</dt>
+	<dd>Use <strong>$ instead of a handler</strong> or leave it out.</dd>
+</dl>

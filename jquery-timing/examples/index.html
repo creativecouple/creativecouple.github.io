@@ -1,0 +1,26 @@
+---
+layout: jquery-timing
+title: Examples
+subtitle: using <em>jquery-timing</em> features
+description: This page lists all examples, grouped by methods in alphabetical order.
+---
+
+<p>
+We are still working on more examples.
+If you need a specific one, just let us know.
+See <a href="/jquery-timing/#contact">contact section</a>.
+</p>
+{% for method in site.posts %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}
+	{% capture signature_prefix %}.{{ method.name }}({% endcapture %}
+	{% capture examples %}
+	{% for example in site.posts %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% capture all_signatures %}{{ example.signatures | join:'|' }}{% endcapture %}{% if path == 'jquery-timing/examples' and all_signatures contains signature_prefix %}
+		<li><a href="{{ example.url }}">{{ example.title }}</a></li>
+	{% endif %}{% endfor %}
+	{% endcapture %}
+	{% if examples contains 'li' %}
+		<div class="block">
+			<h2>Examples using {{ method.title }}</h2>
+			<ul>{{ examples }}</ul>
+		</div>
+	{% endif %}
+{% endif %}{% endfor %}

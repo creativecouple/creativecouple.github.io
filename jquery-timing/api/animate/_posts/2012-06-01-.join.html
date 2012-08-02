@@ -1,0 +1,19 @@
+---
+layout: jquery-timing-api-signature
+title: waiting for an <abbr>fxq</abbr>'s end 
+subtitle: <code>.join(<span class="optional">queue</span> <span class="optional">,callback</span>)</code>
+signature: .join()
+description:
+  Waits until all selected elements' animation queues reach their current end.
+friends:
+ - animate
+---
+
+<dl>
+	<dt>queue &ndash; <code>string</code>, optional</dt>
+	<dd>the name of the queue.</dd>
+	<dd>Defaults to <code>'fx'</code>, the name of the default <abbr>fxq</abbr>.</dd>
+	<dt>callback &ndash; <code>function(count…)</code>, optional</dt>
+	<dd>a method that is called once just before continuing the invocation chain.</dd>
+	<dd>All current iteration counts (from inner-most to outer-most loop) are passed as arguments.</dd>
+</dl>

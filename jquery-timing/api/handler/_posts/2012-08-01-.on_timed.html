@@ -1,0 +1,36 @@
+---
+layout: jquery-timing-api-signature
+title: timed version of <code class="jqueryAPI">.on()</code>
+subtitle: <code>.on(events <span class="optional">,selector</span> <span class="optional">,data</span> <span class="optional">,$</span>)</code>
+signature: .on($)
+description:
+  Attach the <abbr>tic</abbr> to one or more events.
+friends:
+ - one
+ - bind
+ - delegate
+ - live
+---
+
+<dl>
+	<dt>events &ndash; <code>string</code></dt>
+	<dd>One or more space-separated event types and optional namespaces, such as "click" or "keydown.myPlugin".</dd>
+	<dt>selector &ndash; <code>string</code>, optional</dt>
+	<dd>A selector string to filter the descendants of the selected elements that trigger the event. If the selector is null or omitted, the event is always triggered when it reaches the selected element.</dd>
+	<dt>data &ndash; <code>object</code>, optional</dt>
+	<dd>A map of data that will be passed to the event handler.</dd>
+	<dt>$ &ndash; the <code>jQuery</code> token, optional</dt>
+	<dd>Use <strong>$ instead of a handler</strong> or leave it out.</dd>
+</dl>
+<hr/>
+<p class="description">
+<strong>Tip:</strong> Many other methods that internally call <code>.on()</code> and pass the handler function will automatically support that timing, too:
+<br/>
+<code>.<span class="jqueryAPI">click</span>($)</code>,
+<code>.<span class="jqueryAPI">dblclick</span>($)</code>,
+<code>.<span class="jqueryAPI">mousedown</span>($)</code>,
+<code>.<span class="jqueryAPI">mouseup</span>($)</code>,
+<code>.<span class="jqueryAPI">mousemove</span>($)</code>,
+<code>.<span class="jqueryAPI">keydown</span>($)</code>,
+etc…
+</p>

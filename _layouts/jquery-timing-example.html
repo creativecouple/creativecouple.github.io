@@ -1,0 +1,22 @@
+---
+layout: jquery-timing
+title: Example
+subtitle: with <em>jquery-timing</em> methods
+---
+
+<div class="block">
+{% for post in site.posts %}{% if post.url == page.url %}
+	<h2>{{ post.title }}</h2>
+{% endif %}{% endfor %}
+
+{{content}}
+</div>
+
+<div class="block">
+<h2>Methods from <em>jquery-timing</em> used in this example</h2>
+<ul class="no-code">
+{% for api in site.posts %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and page.signatures contains api.signature %}
+	<li><a href="{{ api.url }}">{{ api.subtitle }}</a> &ndash; {{ api.title }}</li>
+{% endif %}{% endfor %}
+</ul>
+</div>

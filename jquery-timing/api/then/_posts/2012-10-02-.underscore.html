@@ -1,0 +1,16 @@
+---
+layout: jquery-timing-api-signature
+title: original jQuery context
+subtitle: <code>._</code> &nbsp; <span class="optional">underscore</span>
+signature: ._()
+description:
+  With ._ the original jQuery context before entering a <abbr>tic</abbr> is returned.
+  This allows compact definition of different invocation chains on the same context.
+friends:
+ - '$'
+ - then
+---
+
+<p class="description">
+  <strong>Tip:</strong> If an <abbr>tic</abbr> already returns the original context because of loop-free instant invocation then <code>._</code> works anyway.
+</p>

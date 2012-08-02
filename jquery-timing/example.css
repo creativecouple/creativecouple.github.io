@@ -1,0 +1,71 @@
+.result {
+	background: white;
+	color: maroon;
+	display: inline-block;
+	padding: 1em;
+	position: relative;
+	vertical-align: middle;
+	border: 1px dotted #666;
+}
+p.result {
+}
+div.result {
+	padding: 0;
+}
+
+.highlight + span {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 30px;
+	color: #666;
+}
+
+.bold {
+	text-decoration: underline;
+	color: navy;
+	text-shadow: blue 1px 1px 3px;
+}
+
+.blink {
+	text-decoration: underline;
+	color: navy;
+	background: yellow;
+}
+
+a.jsfiddle {
+	display: none;
+}
+
+a.fiddle {
+	position: absolute;
+	top: -10px;
+	right: -10px;
+	margin: 0;
+	padding: 5px;
+	display: block;
+	border: none;
+}
+
+a.fiddle:hover {
+	background: orange;
+	color: white;
+	text-decoration: none;
+}
+a.fiddle:visited {
+	color: #ccc;
+}
+a.fiddle:before {
+	content: url(http://jsfiddle.net/favicon.png);
+	vertical-align: middle;
+}
+
+.localAPI > a, .jqueryAPI > a {
+	text-decoration: inherit;
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+}
+.localAPI > a:hover, .jqueryAPI > a:hover {
+	color: navy;
+	text-decoration: underline;
+}

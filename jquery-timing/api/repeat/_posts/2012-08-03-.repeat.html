@@ -1,0 +1,21 @@
+---
+layout: jquery-timing-api-signature
+title: the instant loop
+subtitle: <code>.repeat(<span class="optional">callback</span>)</code>
+signature: .repeat()
+description:
+  Begin a <a href="/jquery-timing/usage/loops/sequential-loop.html">sequential loop</a> that iterates instantly.
+friends:
+ - until
+ - unrepeat
+---
+
+<dl>
+	<dt>callback &ndash; <code>function(count…)</code>, optional</dt>
+	<dd>a method that is called once per loop iteration.</dd>
+	<dd>All current iteration counts (from inner-most to outer-most loop) are passed as arguments.</dd>
+</dl>
+<hr/>
+<p class="description">
+  The beginning context for each loop iteration depends on the usage of <code class="localAPI">.until()</code>.
+</p>

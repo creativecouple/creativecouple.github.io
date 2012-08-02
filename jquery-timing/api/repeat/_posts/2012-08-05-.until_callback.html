@@ -1,0 +1,23 @@
+---
+layout: jquery-timing-api-signature
+title: conditional loop end
+subtitle: <code>.until(callback <span class="optional">,loopContext</span>)</code>
+signature: .until(callback)
+description:
+  The end for a <span class="localAPI">repeat</span> loop that finishes depending on the result value of the callback function.
+friends:
+ - repeat
+ - unrepeat
+---
+
+<dl>
+	<dt>callback &ndash; <code>function(count…)</code></dt>
+	<dd>a method that is called once per loop iteration.
+	The return value is evaluated according to its type.
+	See other versions of .until() for possible return values.</dd>
+	<dd>All current iteration counts (from inner-most to outer-most loop) are passed as arguments.</dd>
+	<dt>loopContext &ndash; <code>boolean</code>, optional</dt>
+	<dd>if true then the current jQuery context starts the next loop iteration.
+	Otherwise the original context from the .<span class="localAPI">repeat</span>() call is used for each iteration.</dd>
+	<dd>Defaults to false.</dd>
+</dl>
