@@ -233,6 +233,7 @@ div.social {
 #footer {
 	clear: both;
 	color: white;
+	padding: 10px;
 }
 
 div.api {
