@@ -69,3 +69,15 @@ a.fiddle:before {
 	color: navy;
 	text-decoration: underline;
 }
+
+
+#banners-random-banner-rotate {
+	position: relative;
+	width: 300px;
+	height:80px;
+}
+#banners-random-banner-rotate > * {
+	position: absolute;
+	width: 300px;
+	height: 80px;
+}

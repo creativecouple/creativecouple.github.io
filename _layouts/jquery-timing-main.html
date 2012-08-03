@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% assign title = page.title %}
+{% assign subtitle = page.subtitle %}
+{% include jquery-timing-head.html %}
+</head>
+<body>
+<div id="header">
+	<h1>{{page.title}}<br/>
+	<small>{{page.subtitle}}</small></h1>
+	<div class="description" style="text-align:justify">
+	  <div class="navi">
+	  <h3>Grab the latest version!</h3>
+	  <ul>
+	  <li>&raquo; <a href="/jquery-timing/jquery-timing.min.js" title="download jquery-timing.min.js">PRODUCTION (<strong>2KB</strong>, Minified and Gzipped)</a></li>
+	  <li>&raquo; <a href="/jquery-timing/jquery-timing.js" title="download jquery-timing.js for debugging">DEVELOPMENT (<strong>23KB</strong>, Uncompressed Code)</a></li>
+	  </ul>
+		build {{ site.time | date: '%Y-%m-%d %H:%M:%S' }}
+	  </div>
+	  <p><em>jquery-timing</em> provides easy-to-use methods to define
+	  iterations, timeouts, intervals, and event-based loops and handlers
+	  just in line with all your <a href="//jquery.com/">jQuery</a> stuff.
+	  <strong><em>jquery-timing</em> is designed to change the way that you use jQuery.</strong>
+	  <br style="clear:both"/>
+	  </p>
+	</div>
+	{% include jquery-timing-social.html %}
+</div>
+{% include jquery-timing-navigation.html %}
+
+<div id="content">
+{{content}}
+</div>
+
+{% include jquery-timing-footer.html %}
+
+</body>
+</html>

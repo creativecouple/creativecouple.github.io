@@ -27,7 +27,7 @@ description: This page provides detailed API information and corresponding examp
 				{% if api.url != page.url %}
 					{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}
 					{% if path contains 'jquery-timing/api/' and api.signature contains signature_prefix %}
-						<li>&rarr; <a href="{{ api.url }}">{{ api.subtitle }}</a></li>
+						<li>&rarr; <a href="{{ api.url }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 					{% endif %}
 				{% endif %}
 			{% endfor %}
@@ -43,7 +43,7 @@ description: This page provides detailed API information and corresponding examp
 			{% for api in site.posts reversed %}
 				{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}
 				{% if path contains 'jquery-timing/api/' and api.signature contains signature_prefix %}
-					<li>&rarr; <a href="{{ api.url }}">{{ api.subtitle }}</a></li>
+					<li>&rarr; <a href="{{ api.url }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 				{% endif %}
 			{% endfor %}
 		</ul>

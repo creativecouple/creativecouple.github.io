@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-{% capture nr %}{% assign i 1 %}{% for example in site.posts reversed %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and example.date < page.date %}{% capture i %}{{ i | plus:1 }}{% endcapture %}{% endif %}{% endfor %}{% endcapture %}
-{% capture title %}Example #{{ nr }}{% endcapture %} 
-{% capture subtitle %}with <em>jquery-timing</em> methods{% endcapture %}
+{% assign nr = 1 %}{% for example in site.posts reversed %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and example.date < page.date %}{% capture nr %}{{ nr | plus:1 }}{% endcapture %}{% endif %}{% endfor %}
+{% capture title %}Example #{{ nr }}{% endcapture %}
+{% assign subtitle = page.title %}
 {% include jquery-timing-head.html %}
 </head>
 <body>
 <div id="header">
 	<h1>{{title}}<br/>
-	<small>{{subtitle}}</small></h1>
-	<div class="description">{{ page.title }}</div>
+	<small>with <em>jquery-timing</em> methods</small></h1>
 	{% include jquery-timing-social.html %}
 </div>
 {% include jquery-timing-navigation.html %}
 
 <div id="content">
-	<div class="block">
+	
+	<div class="navi">
+	<h3>timing methods used in example #{{ nr }}</h3>
+		<ul class="no-code">
+		{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}{% capture signature_prefix %}.{{ method.name }}({% endcapture %}{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and page.signatures contains api.signature and api.signature contains signature_prefix %}
+			<li><a href="{{ api.url }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
+		{% endif %}{% endfor %}{% endif %}{% endfor %}
+		</ul>
+	</div>
+
+	<div class="block" style="clear:none">
+	<h2>Example #{{ nr }}: {{ page.title }}</h2>
 	{{content}}
 	</div>
 	
-	<div class="block">
-	<h2>Methods from <em>jquery-timing</em> used in this example</h2>
-	<ul class="no-code">
-	{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and page.signatures contains api.signature %}
-		<li><a href="{{ api.url }}">{{ api.subtitle }}</a> &ndash; {{ api.title }}</li>
-	{% endif %}{% endfor %}
-	</ul>
-	</div>
 </div>
 
 {% include jquery-timing-footer.html %}

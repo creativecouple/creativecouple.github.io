@@ -24,7 +24,7 @@ $(document).ready(function(){
 		});
 		
 		$('a.jsfiddle').each(function(){
-			$(this).text('​').attr('title','this on jsFiddle.net').addClass('fiddle').appendTo($(this).next('.highlight').children('pre'));
+			$(this).text('​').attr('title','see this example on jsFiddle.net').addClass('fiddle').appendTo($(this).next('.highlight').children('pre'));
 		});
 		
 		$('.highlight .nx').each(function(){

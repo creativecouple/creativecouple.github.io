@@ -1,7 +1,7 @@
 body {
 	font-family: sans-serif;
 	font-size: 14px;
-	background: #39414A url(background-texture-blue-tall.png) repeat scroll center top;
+	background: #112 url(background-texture-blue-tall.png) repeat scroll center top;
 	color: white;
 	padding: 60px 80px;
 	margin: 0;
@@ -360,4 +360,19 @@ span.optional:after {
 }
 .description strong {
 	color: #333;
+}
+
+.description .navi {
+	font-size: 12px;
+	margin-left: 6em;
+	margin-bottom: 0;
+	text-align: right;
+	padding-bottom: 0;
+	width: auto;
+}
+.description .navi > * {
+	text-align: left;
+}
+.description .navi > ul > li {
+	padding: 0;
 }

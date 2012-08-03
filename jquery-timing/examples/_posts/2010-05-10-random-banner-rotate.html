@@ -1,0 +1,51 @@
+---
+layout: jquery-timing-example
+title: change the banner randomly in an interval loop
+signatures:
+  - .repeat(interval)
+  - .until()
+  - .animate()
+---
+
+Given that you have a method which selects any element from the current jQuery set randomly,
+<br/>e.g. {% highlight javascript %}$.fn.random = function(){ return this.eq(
+  Math.floor(Math.random()*this.length)) }{% endhighlight %},<br/>
+then you can use that to build a banner rotator very easily.
+<p>
+In this example there are four different banners. Every 5 seconds another one fades in, randomly chosen.
+</p>
+<p>As we don't want to wait for the animations finishing we use the original version of <span class="jqueryAPI">.fadeIn()</span> and <span class="jqueryAPI">.fadeOut()</span> here.</p>
+
+<a href="http://jsfiddle.net/creativecouple/Duvz5/1/" class="jsfiddle"></a>
+{% highlight javascript %}
+$('#banners > *').hide().repeat(5000,true)
+   .fadeOut(1000).siblings().random().fadeIn(1000)
+.until($);
+{% endhighlight %}
+<span>&rArr;</span>
+<div class="result" id="banners-random-banner-rotate">
+   <div style="background:yellow">
+      <p>Some banner text?<br />
+        <span>some more text here</span>
+      </p>
+   </div>
+   <div style="background:orange">
+      <p>Some other cool stuff?<br />
+          <span>this is other text</span>
+      </p>
+   </div>
+   <div style="background:lime">
+      <p>Even different text<br />
+          <span>this is new text</span>
+      </p>
+   </div>
+   <div style="background:cyan">
+      <p>Attention!<br />
+        <span>cheaper, cheaper, cheaper…</span>
+      </p>
+   </div>
+</div>
+<script type="text/javascript">
+$.fn.random = function(){ return this.eq(Math.floor(Math.random()*this.length)) };
+$('#banners-random-banner-rotate > *').hide().repeat(5000,true).fadeOut(1000).siblings().random().fadeIn(1000).until($);
+</script>
