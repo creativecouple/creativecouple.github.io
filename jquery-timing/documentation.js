@@ -85,7 +85,7 @@ $(document).ready(function(){
 				text = 'jQuery.'+text;
 			}
 			var url = '/jquery-timing/api/#'+text;
-			$(this).text('').append($('<a>').attr({href:url, title:'check API'}).text(title));
+			$(this).text('').append($('<a>').attr({href:url, title:'see API'}).text(title));
 		});
 		$('.jqueryAPI').each(function(){
 			var title = $(this).text();
@@ -94,6 +94,6 @@ $(document).ready(function(){
 				text = 'jQuery.'+text;
 			}
 			var url = 'http://api.jquery.com/'+text+'/';
-			$(this).text('').append($('<a>').attr({href:url, title:'check jQuery API'}).text(title));
+			$(this).text('').append($('<a>').attr({href:url, title:'see jQuery API'}).text(title));
 		});
 });

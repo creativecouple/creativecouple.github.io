@@ -1,17 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link type="image/gif" rel="shortcut icon" href="/favicon.gif"/>
-<meta name="keywords" content="jQuery-timing,wait,repeat,delay,each loop,timed invocation chain,effects queue,tic,fxq,{{ page.tags | join:',' }}" />
-<meta name="author" content="CreativeCouple"/>
-<title>{{ page.title | strip_html }} &mdash; {{ page.subtitle | strip_html }}</title>
-<link type="text/css" rel="stylesheet" href="/jquery-timing/style.css"/>
-<link type="text/css" rel="stylesheet" href="/jquery-timing/example.css"/>
-<link type="text/css" rel="stylesheet" href="/jquery-timing/syntax.css"/>
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-<script type="text/javascript" src="/jquery-timing/jquery-timing.min.js?v={{ site.time | date: '%Y%m%d-%H%M%S' }}"></script>
-<script type="text/javascript" src="/jquery-timing/documentation.js"></script>
+{% assign title = page.title %}
+{% capture subtitle = page.subtitle %}
+{% include jquery-timing-head.html %}
 </head>
 <body>
 <div id="header">
@@ -20,15 +12,13 @@
 	<div class="description">{{ page.description }}</div>
 	{% include jquery-timing-social.html %}
 </div>
-<div id="navigation"><a class="menu" href="/jquery-timing/">home</a><a class="menu" href="/jquery-timing/#include">download</a><a class="menu" href="/jquery-timing/usage/">usage / howto</a><a class="menu" href="/jquery-timing/documentation/">documentation</a><a class="menu" href="/jquery-timing/api/">method reference</a><a class="menu" href="/jquery-timing/examples/">examples</a><a class="menu" href="/jquery-timing/tests/">tests</a></div>
-
+{% include jquery-timing-navigation.html %}
 
 <div id="content">
 {{content}}
-
 </div>
 
-<div id="footer"><small>Copyright &copy; 2012 &ndash; <a href="http://www.creativecouple.de/">CreativeCouple</a>, Peter Liske</small></div>
+{% include jquery-timing-footer.html %}
 
 </body>
 </html>

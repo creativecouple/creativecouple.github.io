@@ -1,7 +1,7 @@
 body {
 	font-family: sans-serif;
 	font-size: 14px;
-	background: #39414A;
+	background: #39414A url(background-texture-blue-tall.png) repeat scroll center top;
 	color: white;
 	padding: 60px 80px;
 	margin: 0;
@@ -126,7 +126,7 @@ th:first-child {
 }
 
 div.block {
-	background: none transparent;
+	background: transparent;
 	padding: 40px 0 0 0;
 	margin: 0 0 1em 0;
 	clear: both;
@@ -145,7 +145,7 @@ hr {
 	display: block;
 	margin: 0;
 	padding: 1.5em;
-	background: #f6f6ff;
+	background: #f6f6ff url(shadow.png) repeat-x scroll left top;
 	color: black;
 	position: relative;
 	width: 888px;
@@ -168,7 +168,7 @@ hr {
 	position: relative;
 	padding: 8px 40px;
 	margin: 0;
-	background: #39414A;
+	background: inherit;
 	width: 888px;
 	z-index: 5;
 	font-family: "myriad pro", "Trebuchet MS", Verdana, Helvetica, Arial,sans-serif;
@@ -186,11 +186,16 @@ hr {
 	width: auto;
 	text-align: center;
 	text-decoration: none;
+	z-index: 5;
 }
 #navigation > a:hover {
 	background: #0D5995;
 	color: white;
 	text-decoration: underline;
+	-moz-box-shadow: 0 0 15px white;
+	-webkit-box-shadow: 0 0 15px white;
+	box-shadow: 0 0 15px white;
+	z-index: 6;
 }
 #navigation > a:first-child, .roundLeft {
 	-moz-border-radius-topleft: 6px;
@@ -215,9 +220,12 @@ hr {
 
 div.social {
 	position: absolute;
-	top: 0;
+	top: 6px;
 	right: 0;
-	padding: 1em 0;
+	padding: 9px 0 14px 9px;
+	width: 250px;
+	height: 71px;
+	border-left: 1px solid rgba(0,10,33,0.4);
 }
 #contact {
 	display: block;
@@ -291,7 +299,7 @@ div.navi {
 	float: right;
 }
 
-div.navi > ul {
+div.navi > ul, div.navi > ol {
 	margin: 0;
 	padding: 6px;
 	list-style-type: none;
@@ -299,14 +307,21 @@ div.navi > ul {
 	border: 1px solid #0D5995;
 	border-top: none;
 }
-div.navi > ul > li {
+div.navi > ol {
+	list-style-type: decimal;
+	padding-left: 30px;
+}
+div.navi > * > li {
 	margin: 0;
 	padding: 6px 0;
 	list-style-type: none;
 	background: white;
 	border-bottom: 1px dotted #ddd;
 }
-div.navi > ul > li:hover {
+div.navi > ol > li {
+	list-style-type: decimal;
+}
+div.navi > * > li:hover {
 	background: #eee;
 }
 div.navi a {

@@ -8,7 +8,7 @@ description: This page provides detailed API information and corresponding examp
 <h2>{{ page.subtitle }}</h2>
 <div class="description">
 <strong>Description:</strong>
-{% for api in site.posts %}{% if api.signature == page.signature %}
+{% for api in site.posts reversed %}{% if api.signature == page.signature %}
 	{{ api.description }}
 {% endif %}{% endfor %} 
 </div>
@@ -17,13 +17,13 @@ description: This page provides detailed API information and corresponding examp
 </div>
 
 {% capture method_name %}{{ page.signature | split:'.' | last | split:'(' | first }}{% endcapture %}
-{% for method in site.posts %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' and method.name == method_name %}
+{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' and method.name == method_name %}
 	<div class="navi no-code">
 		<h3 class="roundTop">Other versions of {{ method.title }}</h3>
 		<ul>
 			<li>&larr; <a href="/jquery-timing/api/#{{ method.name }}">back to overview</a></li>
 			{% capture signature_prefix %}.{{ method.name }}({% endcapture %}
-			{% for api in site.posts %}
+			{% for api in site.posts reversed %}
 				{% if api.url != page.url %}
 					{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}
 					{% if path contains 'jquery-timing/api/' and api.signature contains signature_prefix %}
@@ -35,12 +35,12 @@ description: This page provides detailed API information and corresponding examp
 	</div>
 {% endif %}{% endfor %}
 
-{% for method in site.posts %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' and page.friends contains method.name %}
+{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' and page.friends contains method.name %}
 	<div class="navi no-code">
 		<h3 class="roundTop">Usage of {{ method.title }}</h3>
 		<ul>
 			{% capture signature_prefix %}.{{ method.name }}({% endcapture %}
-			{% for api in site.posts %}
+			{% for api in site.posts reversed %}
 				{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}
 				{% if path contains 'jquery-timing/api/' and api.signature contains signature_prefix %}
 					<li>&rarr; <a href="{{ api.url }}">{{ api.subtitle }}</a></li>
@@ -51,12 +51,12 @@ description: This page provides detailed API information and corresponding examp
 {% endif %}{% endfor %}
 
 <div class="block">
-{% for api in site.posts %}{% if api.signature == page.signature %}
+{% for api in site.posts reversed %}{% if api.signature == page.signature %}
 		<h2>Examples with {{ api.title }}</h2>
 {% endif %}{% endfor %}
 
 {% capture examples %}
-{% for example in site.posts %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and example.signatures contains page.signature %}
+{% for example in site.posts reversed %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and example.signatures contains page.signature %}
 	<div>
 		<h3>{{ example.title }}</h3>
 		{{ example.content }}
