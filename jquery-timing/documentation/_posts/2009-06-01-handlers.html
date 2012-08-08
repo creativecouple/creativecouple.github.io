@@ -6,15 +6,121 @@ description: Independent runs of same invocation chain.
 ---
 
 <h2>One <abbr>tic</abbr> &ndash; many invocations</h2>
-<p>…</p>
+<p>
+A concept similar to event-triggered repeat-loops is the usage of inline event handlers.
+This is a way to define any action that has to happen after an event is triggered in a single jQuery line:
+</p>
+{% highlight javascript %}
+$('button').on('click').next().css({left:'+=20px'});
+{% endhighlight %}
+<span>&rArr;</span>
+<p class="result very-second-example">
+<button>Move forward</button>
+<span style="position:relative;left:0;background:#ccf;padding:3px;border:1px solid white;">Watch me moving!</span>
+</p>
+<script type="text/javascript">
+$(function(){
+	$('.very-second-example button').on('click').next().css({left:'+=20px'});
+});
+</script>
 
-<h3><code>.wait(event)</code> vs. <code>.one(event<span class="optional">,$</span>)</code></h3>
+<div class="navi no-code" style="width:auto">
+<h3>Event handler methods</h3>
+<ul>
+	{% assign signature = '.bind($)' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = '.delegate($)' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = '.live($)' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = '.on($)' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = '.one($)' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = '.repeat(event)' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = '.wait(event)' %}{% include jquery-timing-list-methods.html %}
+</ul>
+</div>
 
-<h2>Instant invocation with inline handlers</h2>
-<p>…</p>
+<p>
+The example above uses the syntax .on('click').
+There are more ways to do the same.
+In our case the following lines behave all equal: 
+</p>
+{% highlight javascript %}
+$('#myButton').on('click').next()…
+$('#myButton').on('click',$).next()…
+$('#myButton').bind('click').next()…
+$('#myButton').bind('click',$).next()…
+$('#myButton').click($).next()…
+$('#myButton').repeat('click').next()…
+$('#myButton').repeat().wait('click').next()…
+$('#myButton').repeat().one('click').next()…
+{% endhighlight %}
+<p>
+We see that the <span class="localAPI">.on()</span> method supports the usage without any handler function and with the <strong>$</strong> token.
+The same does the <span class="localAPI">.bind()</span> method.
+<br/>
+An even shorter notation is the usage of click($).
+This works for all DOM events because they internally forward the <strong>$</strong> token to the <span class="localAPI">.bind()</span> method.
+</p>
+<h3>Difference between .repeat(event) and .on(event)</h3>
+<p>
+The <span class="localAPI">.repeat</span>('click') case works as well because we have only one element here.
+If we have multiple elements then .repeat(event) continues with all elements in the jQuery selection while .on(event) continues with the triggered element only &ndash; just like the classical event handlers.
+</p>
+<p>
+There is another difference between .repeat(event) and .on(event).
+As stated on the page before all repeat-loops are running sequential.
+In contrast event handlers do not know this restriction.
+They start running as soon as an event is triggered, hence spawning multiple <abbr>tic</abbr>s, each running independently.
+</p>
 
-<h2>Nested inline handlers</h2>
-<p>…</p>
+<h3>Difference between .wait(event) and .one(event)</h3>
+<p>
+A special case of .on(event) or .bind(event) is the method .one(event).
+The latter triggers the given event handler only once.
+After that the handler is unregistered immediately.
+</p>
+<p>
+In <em>jquery-timing</em> this method also runs the inlined chain only once.
+As a result the two methods .wait(event) and .one(event) have a similar meaning.
+The main difference is that .wait() will always continue with the underlying jQuery selection context.
+And .one(event) or .one(event,$) will continue with the triggered element only. 
+</p>
+
+<div class="navi no-code" style="width:auto">
+<h3>Concatenation helpers</h3>
+<ul>
+	{% assign signature = '$' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = '_' %}{% include jquery-timing-list-methods.html %}
+</ul>
+</div>
 
 <h2>Leaving the <abbr>tic</abbr> through backdoor</h2>
-<p>…</p>
+<p>In classical jQuery you can define multiple event handlers by chaining their definitions.
+With inline event handlers you can do almost the same.
+We use the underscore character <strong>&quot;_&quot; as a backdoor to leave any deferred <abbr>tic</abbr> code</strong>:</p>
+{% highlight javascript %}
+$('#myButton').click(function(){
+      $(this).addClass('clicked').…
+    })
+  .mouseenter(function(){
+      $(this).addClass('hover').…
+    })
+  .mouseleave(function(){
+      $(this).removeClass('hover').…
+    })
+  .…
+{% endhighlight %}
+<span>&rArr;</span>
+{% highlight javascript %}
+$('#myButton').click($).addClass('clicked').…
+  ._.mouseenter($).addClass('hover').…
+  ._.mouseleave($).removeClass('hover').…
+  ._.…
+{% endhighlight %}
+<p>
+As you see there is no disadvantage from using inline event handlers with respect to short and clean code.
+</p>
+
+<h2>Nested inline handlers</h2>
+<p>
+If for some reason you put an inline event handler in a <abbr>tic</abbr>-loop (repeat, each, or within another event handler), then it will be used as a deferred object.
+I.e. the first trigger to that event will let the surrounding <abbr>tic</abbr> continue. 
+</p>

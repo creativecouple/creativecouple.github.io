@@ -117,8 +117,8 @@ $(function(){
 </script>
 
 <p>
-This parallel each-loop executes the methods for each element in parallel.
-After all threads spawned this way has come to the .all() command then the <abbr>tic</abbr> continues with further action.
-In our example you can click the span elements in any order you like!
+This parallel each-loop executes the sequence <code>.wait('click').remove()</code> for each element in parallel.
+After all the spawned threads has come to their .all() command the <abbr>tic</abbr> continues with further action.
+As the methods run <strong>in parallel</strong> you can click the elements in any order you like!
 After that a text is put before the list.
-</p> 
+</p>
