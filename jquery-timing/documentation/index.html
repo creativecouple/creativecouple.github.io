@@ -51,6 +51,30 @@ The outcome is a call stack that allows us to iterate all the method invocations
 With this call stack in our hands we can do a lot of cool things making your code neat and clean &ndash; exactly that's the aim of <abbr>tic</abbr>, the Timed Invocation Chain.
 </p>
 
+<div class="block">
+<h2>Instant invocation and Recursion-freeness</h2>
+<p>
+Two of the amazing capabilities of <em>jquery-timing</em> are: loops and instant invocation.
+Both are described in detail on the following pages.
+<br/>
+For now we want to explain, why we decided for a recursion-free design when implementing the <abbr>tic</abbr>: 
+</p>
+<p>
+Imagine you want to add very many table rows automatically so you can fill them with dynamic content.
+<br/>E.g. a 30 x 200 sized table in a single jQuery line:
+{% highlight javascript %}
+$('table').repeat().append('<tr>').until(200).children().repeat().append('<td>').until(30);
+{% endhighlight %}
+</p>
+<p>
+If we had implemented our instant repeat-loops the simple way with just recursive method calls, then we could cause a stack overflow here.
+Because hundreds of nested method calls would all have to stay on the method stack of your client's JavaScript interpreter.
+<br/>
+That's why the pulsing heart of the <abbr>tic</abbr> &ndash; the internal function <code>timedInvocationChain()</code> &ndash; consists of a single while-loop that omits recursive calls.
+For you, the developer this means to have no sorrows about the size of instant invocation loops.   
+</p>
+</div>
+
 <hr/>
 <p>
 Read more on the next page about <a href="delays.html">&rarr; delays in the invocation chain</a>.
