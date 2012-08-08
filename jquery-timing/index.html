@@ -20,7 +20,11 @@ $('.example span').repeat(1000)
 <p class="result very-first-example">
 <span>This </span><span>is </span><span>a </span><span>sam</span><span>ple </span><span>sen</span><span>tence </span><span>with </span><span>some </span><span>words.</span>
 </p>
-<script type="text/javascript">$('.very-first-example span').repeat(1000).each($).toggleClass('bold').wait(50).all();</script>
+<script type="text/javascript">
+$(function(){
+	$('.very-first-example span').repeat(1000).each($).toggleClass('bold').wait(50).all();
+});
+</script>
 
 {% highlight javascript %}
 $('button').on('click').next().css({left:'+=20px'});
@@ -30,7 +34,11 @@ $('button').on('click').next().css({left:'+=20px'});
 <button>Move forward</button>
 <span style="position:relative;left:0;background:#ccf;padding:3px;border:1px solid white;">Watch me moving!</span>
 </p>
-<script type="text/javascript">$('.very-second-example button').on('click').next().css({left:'+=20px'});</script>
+<script type="text/javascript">
+$(function(){
+	$('.very-second-example button').on('click').next().css({left:'+=20px'});
+});
+</script>
 
 </div>
 

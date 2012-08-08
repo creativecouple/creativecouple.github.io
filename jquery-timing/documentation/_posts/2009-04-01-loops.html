@@ -6,16 +6,119 @@ description: Applying the same methods multiple times in different contexts.
 ---
 
 <h2>The sequential repeat loop</h2>
-<p>…</p>
+<div class="navi no-code" style="width:auto">
+<h3>Repeat-loops in <em>jquery-timing</em></h3>
+<ul>
+	{% assign signature = 'repeat' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = 'until' %}{% include jquery-timing-list-methods.html %}
+</ul>
+</div>
+
+<p>In <em>jquery-timing</em> you can insert loops right in your jQuery chain.
+Any snippet of your invocation chain can be surrounded by <code>.repeat()….until()</code>.
+The repeat loop can run instantly, or be invoked on intervals or events.
+There are also several end conditions to decide when the loop has finished.
+Follow the links on the reight side to the corresponding method definitions.
+</p>
+<p>
+The loops we have talked about so far are running <strong>sequential</strong>.
+That means that every new iteration will start only after the previous one ended.
+Even if you have any delays within your chain it still will keep your code running in a single execution thread.
+</p>
 
 <h2>Chaining the loop context</h2>
-<p>…</p>
+<p>The <span class="localAPI">.until()</span> method has one options to decide which execution context to use for the next iteration.
+The current implementation of <em>jquery-timing</em> allows to stay with the initial context when entering the loop
+or to use the context from the loop's end as new context for the next iteration.
+</p>
+<p>
+Let's compare these two different concepts with classical code:
+</p>
 
-<h2>The parallel each loop</h2>
-<p>…</p>
+{% highlight javascript %}
+var $list = $('ul.list');
+$list.append('<li>');
+$list.append('<li>');
+// … for 20 times
+$list.append('<li>');
+{% endhighlight %}
+<span>&rArr;</span>
+{% highlight javascript %}
+$('ul.list').repeat().append('<li>').until(20);
+{% endhighlight %}
+<p>
+In the example above the developer wants to use the <strong>same starting context</strong> in each iteration.
+<br/>
+Now we take another case:  
+</p>
+
+{% highlight javascript %}
+var $elem = $('ul.list > li:first');
+$elem = $elem.delay(500).fadeOut().next();
+$elem = $elem.delay(1000).fadeOut().next();
+// … for 20 times
+$elem = $elem.delay(9500).fadeOut().next();
+$elem = $elem.delay(10000).fadeOut();
+{% endhighlight %}
+<span>&rArr;</span>
+{% highlight javascript %}
+$('ul.list > li:first').repeat()
+  .wait(500).fadeOut().next().until($);
+{% endhighlight %}
+<p>
+Here the developer wanted to let all the items fade out with a timeout between each item.
+He used <span class="jqueryAPI">.next()</span> to navigate to the next sibling.
+We can achieve the same thing with <code>….until($)</code>. The loop will automatically end when there is no element left.
+</p>
 
 <h2>The sequential each loop</h2>
-<p>…</p>
+<div class="navi no-code" style="width:auto">
+<h3>Each-loops in <em>jquery-timing</em></h3>
+<ul>
+	{% assign signature = 'each' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = 'all' %}{% include jquery-timing-list-methods.html %}
+</ul>
+</div>
 
-<h2>Instant invocation with loops</h2>
-<p>…</p>
+<p>The last example above can even be shorter when using an each-loop to navigate all elements from a jQuery selection.</p>
+{% highlight javascript %}
+$('ul.list > li:first').repeat()
+  .wait(500).fadeOut().next().until($);
+{% endhighlight %}
+<span>&rArr;</span>
+{% highlight javascript %}
+$('ul.list > li').each($).wait(500).fadeOut().all();
+{% endhighlight %}
+
+<p>
+This version of the each-loop is running the code for each element in a sequence.
+</p>
+
+<h2>The parallel each loop</h2>
+<p>With the concept of the timed invocation there is a new type of loop that has no equivalence in classical JavaScript &ndash; the parallel each-loop.</p>
+<a href="http://jsfiddle.net/creativecouple/5QG7w/" class="jsfiddle"></a>
+{% highlight javascript %}
+$('#example').find('span').each().wait('click').remove().all().end().before('Done!');
+{% endhighlight %}
+&rArr;
+<div class="result">
+<ol id="loops-parallel-each-example-list">
+ <li><span>click me</span></li>
+ <li><span>me to</span></li>
+ <li><span>and</span></li>
+ <li><span>so</span></li>
+ <li><span>on</span></li>
+</ol>
+​</div>
+<script type="text/javascript">
+$(function(){
+	$('#loops-parallel-each-example-list').find('span').each().wait('click').remove().all().end().before('Done!');
+});
+</script>
+
+<p>
+This parallel each-loop executes the methods for each element in parallel.
+After all threads spawned this way has come to the .all() command then the <abbr>tic</abbr> continues with further action.
+In our example you can click the span elements in any order you like!
+After that a text is put before the list.
+</p> 
