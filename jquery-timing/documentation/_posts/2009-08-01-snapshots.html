@@ -12,25 +12,24 @@ var $some = $('#myID').parent().siblings();
 var $new = $($some);
 {% endhighlight %}
 <p>Now we have two jQuery objects with the same elements selected.
-The difference between them are:
+The obvious difference between them is that they are now different JavaScript objects.
+Another difference is that $some.end() points to the parent of the element #myID while $now.end() doesn't.
 </p>
-<ul>
-<li>they are different JavaScript objects</li>
-<li>$some.end() points to the parent of the element #myID while $now.end() doesn't.
-</ul>
 
-<p>Well, as expected you can do the same thing with any <abbr>tic</abbr>:</p>
+<p>Well, as expected you can do the same cloning with any <abbr>tic</abbr>:</p>
 {% highlight javascript %}
 var $some = $('#myID').wait(500).siblings().remove();
 var $new = $($some);
 {% endhighlight %}
-<p>The big question is: What is the content of $new now?
-<br/>
+<p>The big question is: What is the content of the jQuery object $new now?
+</p>
+<p>
 To answer that question we need to know that $(<abbr>tic</abbr>) just clones the jQuery selection of the <abbr>tic</abbr> in this moment.
-You can understand this like taking a snapshot to see, which elements the <abbr>tic</abbr> is handling right now.
+You can understand this like taking a snapshot. You then see which elements the <abbr>tic</abbr> is handling right now.
 </p>
 <p>Now the answer: $new just points to the element #myID, because the siblings are selected half a second later.
-<br/>
+</p>
+<p>
 But when we wait for a second and then call <code>var $other = $($some)</code> then the new jQuery selection object $other points to the removed siblings of #myID.
 </p>
  

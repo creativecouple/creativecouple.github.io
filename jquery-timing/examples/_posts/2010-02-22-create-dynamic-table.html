@@ -20,6 +20,7 @@ The rest is done via a single jQuery chain:
 function createCell(x,y) {
     $('<td>').text(x+':'+y).appendTo(this);
 }
+
 $.repeat().$('<tr>').repeat(createCell).until(30)
   .appendTo('tbody').until(200);
 ​{% endhighlight %}

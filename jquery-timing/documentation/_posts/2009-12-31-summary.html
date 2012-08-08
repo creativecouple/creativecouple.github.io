@@ -11,10 +11,30 @@ We have seen that with <em>jquery-timing</em> you have a lot of possibilities to
 It's both working perfectly with old jQuery 1.2 code as well as with sophisticated jQuery.Deferred cases.
 </p>
 
+<h2>Why should I use the timed invocation chain?</h2>
+<p>
+The timed invocation chain technique allows to use very short syntax, to define several callback actions just in line,
+and to include loops and delays in the same jQuery style. 
+</p>
+<p>
+In a nutshell: <em>jquery-timing</em> supports
+</p>
+<ul>
+<li>waiting for animations,</li>
+<li>waiting for timeouts,</li>
+<li>waiting for deferred objects,</li>
+<li>waiting for events,</li>
+<li>running sequential loops,</li>
+<li>running parallel loops,</li>
+<li>counting loop iterations,</li>
+<li>inlining event handlers,</li>
+<li>and the capability to glue that all together in any possible way.</li>
+</ul>
+
 <div class="block">
 <h2>Again: What is the timed invocation chain?</h2>
 <p class="description">
-The <abbr>tic</abbr> mechanism gives you an <strong>animation-aware loop-capable jQuery-looking &Uuml;ber-Deferred</strong>.<br/>
+The <abbr>tic</abbr> mechanism gives you a <strong>jQuery-looking animation-aware recursion-free loop-capable event-handling deferred object</strong>.
 <a href="/jquery-timing/examples/">So come on, let's play with it!</a>
 </p>
 </div>

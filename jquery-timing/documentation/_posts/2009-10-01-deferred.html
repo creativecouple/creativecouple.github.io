@@ -7,35 +7,17 @@ description: How the <abbr>tic</abbr> is giving a promise.
 
 <h2>Timed Invocation Chain (<abbr>tic</abbr>) vs. jQuery.Deferred</h2>
 
-<p>jQuery also has another mechanism to handle deferrals &ndash; the <a href="//api.jquery.com/category/deferred-object/">jQuery.Deferred</a> object:</p>
+<p>jQuery provides another mechanism to handle deferrals &ndash; the <a href="//api.jquery.com/category/deferred-object/">jQuery.Deferred</a> object:</p>
 <blockquote cite="//api.jquery.com/category/deferred-object/">
 &ldquo;jQuery.Deferred, introduced in version 1.5, is a chainable utility object that can register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function.&rdquo;
 </blockquote>
 
 <p>
 That means jQuery.Deferred works well with callback functions. In contrast the <abbr>tic</abbr> concept wants to <em>remove as much callback functions out of your code as possible</em>.
-So the timed invocation chain tries to achieve similar things like jQuery.Deferred, but it takes a complete different way to reach that goal.
+So the timed invocation chain tries to achieve similar things like jQuery.Deferred, but they take different ways.
 </p>
-
-<h3>Instant invocation</h3>
-
-<p>The Deferred concept in jQuery allows to add callback functions even if the deferred object already resolved. In that case the callback method is invoked instantly.
-Take a look at the following example:
-</p>
-{% highlight javascript %}
-var def = new $.Deferred(); // create a Deferred object
-def.done(myCallbackFunction); // register success callback
-
-//…
-
-def.resolve(); // succeed the Deferred
-// → myCallbackFunction() has been called
-
-def.done(myOtherCallback); // register another success callback
-// → myOtherCallback() has been called immediately
-{% endhighlight %} 
 <p>
-As you will see below the <abbr>tic</abbr> concept also provides the possibility to add later actions after its delays timed out, its waiting events triggered, or even inside of sequential and parallel loops.
+Nevertheless both types, the jQuery.Deferred and any <abbr>tic</abbr>, can be used as deferred objects wherever you need some object providing a <code>.promise()</code> method.
 </p>
 
 <div class="navi no-code" style="width:auto">
@@ -47,7 +29,7 @@ As you will see below the <abbr>tic</abbr> concept also provides the possibility
 </ul>
 </div>
 
-<h3>Combining deferred objects with <abbr>tic</abbr></h3>
+<h2>Combining deferred objects with <abbr>tic</abbr></h2>
 <p>
 Like for the <abbr>fxq</abbr> case there is also a possibility to join the concept of jQuery.Deferred with the <abbr>tic</abbr> in <em>jquery-timing</em>. 
 The link on the right takes you to the API description to see how a <abbr>tic</abbr> can wait for a jQuery.Deferred object to succeed. 

@@ -122,3 +122,34 @@ After all the spawned threads has come to their .all() command the <abbr>tic</ab
 As the methods run <strong>in parallel</strong> you can click the elements in any order you like!
 After that a text is put before the list.
 </p>
+
+<h2>Counting loop iterations</h2>
+<p>All loops are internally counting their iterations and allow those counter variables to be used in several callback methods.
+The following example demonstrates how to create a 30 x 200 sized html table dynamically. All you need is <strong>one callback method creating each cell</strong>.
+The rest is done via a single jQuery chain:</p>
+
+<a href="http://jsfiddle.net/creativecouple/E56TB/" class="jsfiddle"></a>
+{% highlight javascript %}
+function createCell(x,y) {
+    $('<td>').text(x+':'+y).appendTo(this);
+}
+
+$.repeat().$('<tr>').repeat(createCell).until(30)
+  .appendTo('tbody').until(200);
+​{% endhighlight %}
+<span>&rArr;</span>
+<div class="result create-dynamic-table">
+My dynamic data:
+<table><tbody></tbody></table>
+</div>
+<script type="text/javascript">
+$(function(){
+	function createCell(x,y) {
+	    $('<td>').text(x+':'+y).appendTo(this);
+	}
+	$.repeat().$('<tr>').repeat(createCell).until(10).append('<td>…').appendTo('.create-dynamic-table tbody').until(5);
+	$('<tr>').repeat().append('<td>…').until(11).appendTo('.create-dynamic-table tbody');
+});
+</script>
+<p>As you can see the loop counter variables are given to the callback function <code>createCell(x,y)</code> as parameters.
+The arguments are always beginning with the innermost loop and include all loop counts up to the outermost loop.</p>   
