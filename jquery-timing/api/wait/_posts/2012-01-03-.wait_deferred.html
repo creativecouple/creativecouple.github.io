@@ -4,15 +4,15 @@ title: waiting for a jQuery.Deferred
 subtitle: <code class="local">.wait(deferred <span class="optional">,callback</span>)</code>
 signature: .wait(deferred)
 description:
-  Wait for a specified <a href="http://api.jquery.com/category/deferred-object/">jQuery.Deferred</a> object to resolve.
+  Wait for a deferred object to resolve (jQuery, jQuery.Deferred, <abbr>tic</abbr>, …).
 friends:
   - unwait
   - join
 ---
 
 <dl>
-	<dt>deferred &ndash; <code>jQuery.Deferred</code></dt>
-	<dd>A <a href="http://api.jquery.com/category/deferred-object/">jQuery.Deferred</a> object to wait for resolving.</dd>
+	<dt>deferred &ndash; any object with <code>.promise()</code></dt>
+	<dd>e.g. a jQuery selection, a <a href="http://api.jquery.com/category/deferred-object/">jQuery.Deferred</a> object to wait for resolving.</dd>
 	<dt>callback &ndash; <code>function(count…)</code>, optional</dt>
 	<dd>a method that is called once just before continuing the invocation chain.</dd>
 	<dd>All current iteration counts (from inner-most to outer-most loop) are passed as arguments.</dd>

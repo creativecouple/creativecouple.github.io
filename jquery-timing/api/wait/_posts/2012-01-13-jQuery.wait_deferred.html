@@ -1,0 +1,24 @@
+---
+layout: jquery-timing-api-signature
+title: waiting for a jQuery.Deferred in a thread group
+subtitle: <code class="local">$.wait(<span class="optional">group,</span> deferred <span class="optional">,callback</span>)</code>
+signature: $.wait(deferred)
+description:
+  Wait for a deferred object to resolve (jQuery, jQuery.Deferred, <abbr>tic</abbr>, …) in a static thread group.
+friends:
+ - unwait
+---
+
+<dl>
+	<dt>group &ndash; <code>string</code>, optional</dt>
+	<dd>a name of the thread group that this waiting should be assigned to.</dd>
+	<dd>Defaults to the empty string <code>''</code>.</dd>
+	<dt>deferred &ndash; any object with <code>.promise()</code></dt>
+	<dd>e.g. a jQuery selection, a <a href="http://api.jquery.com/category/deferred-object/">jQuery.Deferred</a> object to wait for resolving.</dd>
+	<dt>callback &ndash; <code>function(count…)</code>, optional</dt>
+	<dd>a method that is called once just before continuing the invocation chain.</dd>
+</dl>
+<hr/>
+<p class="description">
+  The static $.unwait() allows to break wait states defined this way.
+</p>
