@@ -46,6 +46,8 @@ $('#banners > *').hide().repeat(5000,true)
    </div>
 </div>
 <script type="text/javascript">
-$.fn.random = function(){ return this.eq(Math.floor(Math.random()*this.length)) };
-$('#banners-random-banner-rotate > *').hide().repeat(5000,true).fadeOut(1000).siblings().random().fadeIn(1000).until($);
+$(function(){
+	$.fn.random = function(){ return this.eq(Math.floor(Math.random()*this.length)) };
+	$('#banners-random-banner-rotate > *').hide().repeat(5000,true).fadeOut(1000).siblings().random().fadeIn(1000).until($);
+});
 </script>

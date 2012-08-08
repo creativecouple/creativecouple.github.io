@@ -1,0 +1,39 @@
+---
+layout: jquery-timing-example
+title: create dynamic tables with instant loops
+signatures:
+  - .repeat()
+  - $.repeat()
+  - .until(count)
+  - .$()
+---
+
+<p>
+Imagine you want to add very many table rows automatically so you can fill them with dynamic content.
+<br/>
+E.g. a 30 x 200 sized table. Then you need <strong>only one callback method creating each cell</strong>.
+The rest is done via a single jQuery chain:
+</p>
+<br style="clear:both"/>
+<a href="http://jsfiddle.net/creativecouple/E56TB/" class="jsfiddle"></a>
+{% highlight javascript %}
+function createCell(x,y) {
+    $('<td>').text(x+':'+y).appendTo(this);
+}
+$.repeat().$('<tr>').repeat(createCell).until(30)
+  .appendTo('tbody').until(200);
+​{% endhighlight %}
+<span>&rArr;</span>
+<div class="result create-dynamic-table">
+My dynamic data:
+<table><tbody></tbody></table>
+</div>
+<script type="text/javascript">
+$(function(){
+	function createCell(x,y) {
+	    $('<td>').text(x+':'+y).appendTo(this);
+	}
+	$.repeat().$('<tr>').repeat(createCell).until(10).append('<td>…').appendTo('.create-dynamic-table tbody').until(5);
+	$('<tr>').repeat().append('<td>…').until(11).appendTo('.create-dynamic-table tbody');
+});
+</script>

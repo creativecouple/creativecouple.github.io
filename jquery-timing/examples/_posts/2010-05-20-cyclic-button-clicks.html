@@ -28,4 +28,8 @@ $('.example button').repeat().each($)
 <button disabled="disabled">Then click me!</button>
 <button disabled="disabled">And then me!</button>
 </p>
-<script type="text/javascript">$('.cyclic-button-clicks button').repeat().each($).attr('disabled',false).one('click').attr('disabled',true).until(false);</script>
+<script type="text/javascript">
+$(function(){
+	$('.cyclic-button-clicks button').repeat().each($).attr('disabled',false).one('click').attr('disabled',true).until(false);
+});
+</script>

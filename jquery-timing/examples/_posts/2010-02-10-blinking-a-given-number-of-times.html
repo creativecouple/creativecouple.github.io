@@ -24,6 +24,7 @@ $('.example button').click($).siblings('span')
 That <span>text blinks two times</span> after clicking <button>this button</button>.
 </p>
 <script type="text/javascript">
-$('.blink-given-number-of-times-on-click button').click($).siblings('span')
-	.repeat(200).toggleClass('blink').until(4);
+$(function(){
+	$('.blink-given-number-of-times-on-click button').click($).siblings('span').repeat(200).toggleClass('blink').until(4);
+});
 </script>

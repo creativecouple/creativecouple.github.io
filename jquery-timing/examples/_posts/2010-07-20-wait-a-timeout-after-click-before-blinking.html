@@ -26,5 +26,7 @@ $('.example button').repeat('click').prev()
 That <span>text blinks half a second</span> after hitting <button>this button</button>.
 </p>
 <script type="text/javascript">
-$('.wait-a-timeout-after-each-click-before-blinking button').repeat('click').prev().wait(500).addClass('blink').wait(300).removeClass('blink');
+$(function(){
+	$('.wait-a-timeout-after-each-click-before-blinking button').repeat('click').prev().wait(500).addClass('blink').wait(300).removeClass('blink');
+});
 </script>

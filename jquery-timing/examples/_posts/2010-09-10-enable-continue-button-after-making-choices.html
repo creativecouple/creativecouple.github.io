@@ -34,4 +34,8 @@ $('.example .choices li')
 	<button id="enable-continue-button-after-making-choices_continue" disabled="disabled">Go to shopping cart…</button>
 </p>
 </div>
-<script type="text/javascript">$('.enable-continue-button-after-making-choices .choices li').each().children().wait('change').all().$('#enable-continue-button-after-making-choices_continue').attr('disabled',false);</script>
+<script type="text/javascript">
+$(function(){
+	$('.enable-continue-button-after-making-choices .choices li').each().children().wait('change').all().$('#enable-continue-button-after-making-choices_continue').attr('disabled',false);
+});
+</script>

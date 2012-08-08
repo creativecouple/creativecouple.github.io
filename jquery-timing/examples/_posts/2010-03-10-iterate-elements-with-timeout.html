@@ -22,4 +22,8 @@ $('.example span').repeat(1000)
 <p class="result iterate-elements-with-timeout">
 <span>This </span><span>is </span><span>a </span><span>sam</span><span>ple </span><span>sen</span><span>tence </span><span>with </span><span>some </span><span>words.</span>
 </p>
-<script type="text/javascript">$('.iterate-elements-with-timeout span').repeat(1000).each($).toggleClass('bold').wait(50).all();</script>
+<script type="text/javascript">
+$(function(){
+	$('.iterate-elements-with-timeout span').repeat(1000).each($).toggleClass('bold').wait(50).all();
+});
+</script>

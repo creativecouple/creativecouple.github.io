@@ -20,7 +20,11 @@ $('.blink').repeat().toggleClass('blink').wait(700);
 <p class="result repeated-blinking-with-timeouts">
 This is a <span class="blink">blinking</span> text.</span>
 </p>
-<script type="text/javascript">$('.repeated-blinking-with-timeouts .blink').repeat().toggleClass('blink').wait(700);</script>
+<script type="text/javascript">
+$(function(){
+	$('.repeated-blinking-with-timeouts .blink').repeat().toggleClass('blink').wait(700);
+});
+</script>
 
 <p>
 See also <a href="/jquery-timing/examples/repeated-blinking.html">another example</a> for the same task using an <em>interval loop</em> instead.
