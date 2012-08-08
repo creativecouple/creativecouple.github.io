@@ -6,14 +6,12 @@ title: Documentation of <em>jquery-timing</em>
 <div class="navi no-code">
 <h3>Overview of technical documentation</h3>
 <ol>
-	<li><a href="/jquery-timing/documentation/">Introduction to concept of <abbr>tic</abbr></a></li>
-	<li><a href="/jquery-timing/documentation/delays.html">Delays in the invocation chain</a></li>
-	<li><a href="/jquery-timing/documentation/animation.html"><abbr>tic</abbr> and animations</a></li>
-	<li><a href="/jquery-timing/documentation/loops.html">Loops &ndash; context-aware code repetition</a></li>
-	<li><a href="/jquery-timing/documentation/handlers.html">Inline event handlers</a></li>
-	<li><a href="/jquery-timing/documentation/snapshots.html">Taking snapshots with jQuery(<abbr>tic</abbr>)</a></li>
-	<li><a href="/jquery-timing/documentation/deferred.html"><abbr>tic</abbr> and jQuery.Deferred</a></li>
-	<li><a href="/jquery-timing/documentation/summary.html">Summary</a></li>
+{% assign beforeLink = '' %}{% assign thisLink = '' %}{% assign afterLink = '' %}{% assign state = 'before' %}{% for docu in site.posts reversed %}{% capture path %}{{ docu.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/documentation' %}{% if docu.url == page.url %}{% capture thisLink %}<strong>{{ docu.title }}</strong>{% endcapture %}{% assign state = 'now' %}<li>{{ thisLink }}</li>{% else %}{% if state == 'now' %}{% assign state = 'after' %}{% capture afterLink %}&rarr; <a href="{{ docu.url }}">{{ docu.title }}</a>{% endcapture %}{% endif %}{% if state == 'before' %}{% capture beforeLink %}<a href="{{ docu.url }}">{{ docu.title }}</a> &larr;{% endcapture %}<li>&larr; <a href="{{ docu.url }}">{{ docu.title }}</a></li>{% else %}<li>&rarr; <a href="{{ docu.url }}">{{ docu.title }}</a></li>{% endif %}{% endif %}{% endif %}{% endfor %}
 </ol>
 </div>
 {{content}}
+<div class="block">
+<hr/>
+<p class="center">{{ beforeLink }} {{ thisLink }} {{ afterLink }}</p>
+<hr/>
+</div>

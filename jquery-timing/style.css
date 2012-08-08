@@ -404,3 +404,7 @@ div.usage {
 div.usage > h2 {
 	margin-bottom: 0;
 }
+
+.center {
+	text-align: center;
+}

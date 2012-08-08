@@ -1,7 +1,8 @@
 ---
 layout: jquery-timing-documentation
+title: delays in the invocation chain
 subtitle: Delays in the invocation chain
-description: Deferred actions without nested callback functions.
+description: Deferred actions without the necessity of callback functions.
 ---
 
 <h2>Wait for a timeout<br/><small>or how the ugly pause turns into a beautiful in-line swan</small></h2>
@@ -81,8 +82,9 @@ What we have to do in our <abbr>tic</abbr> is to recognize which kind of registr
 Then we stop the <abbr>tic</abbr> and register a generic function which will continue our <abbr>tic</abbr>.
 </p>
 <p>
-The current implementation of <em>jquery-timing</em> supports timeouts, events, the <span class="localAPI">.load()</span> function, and deferred objects as registration.
-You can use the jQuery event mechanism or the jQuery.Deferred object to wait for any other trigger you like.
+The current implementation of <em>jquery-timing</em> supports timeouts, animations, events, the <span class="localAPI">.load()</span> function, and deferred objects as registration.
+<br/>
+If you want can use the jQuery event mechanism or the jQuery.Deferred object to wait for any other trigger you like.
 </p>
 
 <div class="block">
@@ -114,8 +116,3 @@ When waiting for a deferred object you can have the case that the deferred is al
 In that case the invocation chain continues instantly. That means that the invocation of your code behaves as if there was no wait.
 </p>
 </div>
-
-<hr/>
-<p>
-Read more on the next page about <a href="animation.html">&rarr; <abbr>tic</abbr> and animations</a>.
-</p>

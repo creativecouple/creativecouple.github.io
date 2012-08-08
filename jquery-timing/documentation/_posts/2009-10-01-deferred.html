@@ -1,7 +1,8 @@
 ---
 layout: jquery-timing-documentation
-subtitle: Introduction to the timed invocation chain concept
-description: How does this magic work?
+title: <abbr>tic</abbr> and deferred objects
+subtitle: The timed invocation chain and deferred objects
+description: How the <abbr>tic</abbr> is giving a promise.
 ---
 
 <h2>Timed Invocation Chain (<abbr>tic</abbr>) vs. jQuery.Deferred</h2>
@@ -41,16 +42,18 @@ As you will see below the <abbr>tic</abbr> concept also provides the possibility
 <h3>API to combine <abbr>tic</abbr> with Deferred</h3>
 <ul>
 	{% assign signature = '.wait(deferred)' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = '$.wait(deferred)' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = 'when' %}{% include jquery-timing-list-methods.html %}
 </ul>
 </div>
 
-<h3>Combining <abbr>fxq</abbr> with <abbr>tic</abbr></h3>
+<h3>Combining deferred objects with <abbr>tic</abbr></h3>
 <p>
 Like for the <abbr>fxq</abbr> case there is also a possibility to join the concept of jQuery.Deferred with the <abbr>tic</abbr> in <em>jquery-timing</em>. 
 The link on the right takes you to the API description to see how a <abbr>tic</abbr> can wait for a jQuery.Deferred object to succeed. 
 </p>
-
-<hr/>
 <p>
-On the next page you find the <a href="summary.html">summary for a nice overview of the timed invocation chain</a>.
+The other way round is also possible, because the <abbr>tic</abbr> itself is a deferred object providing a <code>.promise()</code> method.
+That's why it can be used like any other deferred object.
+Hence it can be used even in other invocation chains to wait for. Or you use it toegther with <code>$.when(…)</code>. 
 </p>

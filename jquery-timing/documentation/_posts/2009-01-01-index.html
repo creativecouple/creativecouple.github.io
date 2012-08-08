@@ -1,5 +1,6 @@
 ---
 layout: jquery-timing-documentation
+title: introduction to concept of <abbr>tic</abbr>
 subtitle: Introduction to the timed invocation chain concept
 description: How does this magic work?
 ---
@@ -70,12 +71,7 @@ $('table').repeat().append('<tr>').until(200).children().repeat().append('<td>')
 If we had implemented our instant repeat-loops the simple way with just recursive method calls, then we could cause a stack overflow here.
 Because hundreds of nested method calls would all have to stay on the method stack of your client's JavaScript interpreter.
 <br/>
-That's why the pulsing heart of the <abbr>tic</abbr> &ndash; the internal function <code>timedInvocationChain()</code> &ndash; consists of a single while-loop that omits recursive calls.
+That's why the heart of the <abbr>tic</abbr> &ndash; the internal function <code>timedInvocationChain()</code> &ndash; consists of a single while-loop that omits recursive calls.
 For you, the developer this means to have no sorrows about the size of instant invocation loops.   
 </p>
 </div>
-
-<hr/>
-<p>
-Read more on the next page about <a href="delays.html">&rarr; delays in the invocation chain</a>.
-</p>
