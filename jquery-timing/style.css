@@ -16,10 +16,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 h1 {
 	font-size: 2em;
-	margin: 0 0 24px 0;
-	padding: 0;
+	margin: -8px 0 24px -8px;
+	padding: 8px 0 0 8px;
 	color: inherit;
 	text-shadow: white 1px 1px 1px;
+	background: url(local-icon.gif) no-repeat scroll 0 0;
 }
 h1 a {
 	color: inherit;
@@ -380,12 +381,6 @@ div.navi a:hover {
 	padding: 0;
 }
 
-#header > .description {
-	margin: -10px;
-	padding: 10px;
-	background: url(local-icon.gif) no-repeat scroll 0 0;
-}
-
 img.right {
 	margin: 0 0 0 2em;
 	padding: 0;
@@ -400,4 +395,11 @@ span.right {
 	font-size: smaller;
 	white-space: pre-line;
 	text-align: justify;
+}
+
+div.usage {
+	margin-top: 1em;
+}
+div.usage > h2 {
+	margin-bottom: 0;
 }

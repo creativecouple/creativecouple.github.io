@@ -1,0 +1,10 @@
+---
+title: How to insert multiple timeouts
+signatures:
+ - .wait(timeout)
+---
+
+{% highlight javascript %}
+$('.some').doSome().wait(first-timeout).jQueryStuff()
+  .wait(second-timeout).doLater().jQueryStuff();
+{% endhighlight %}
