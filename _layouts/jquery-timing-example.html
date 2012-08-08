@@ -21,7 +21,7 @@
 	<h3>timing methods used in example #{{ nr }}</h3>
 		<ul class="no-code">
 		{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}{% capture signature_prefix %}.{{ method.name }}({% endcapture %}{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and page.signatures contains api.signature and api.signature contains signature_prefix %}
-			<li>{% if api.alturl == null %}&rarr; {% endif %}<a href="{% if api.alturl != null %}{{ api.alturl }}{% else %}{{ api.url }}{% endif %}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
+			<li>&rarr; <a href="{{ api.url }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 		{% endif %}{% endfor %}{% endif %}{% endfor %}
 		</ul>
 	</div>

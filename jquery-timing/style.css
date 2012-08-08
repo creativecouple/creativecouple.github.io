@@ -352,15 +352,6 @@ div.navi a:hover {
 .no-code a:hover, .description a:hover {
 	text-decoration: underline;
 }
-code.jquery {
-	position: relative;
-	padding-left: 14px;
-	background: url(jquery-icon.gif) no-repeat scroll 0 0; 
-}
-h1 code.jquery, h2 code.jquery {
-	padding-left: 0;
-	background: none;
-}
 
 .description {
 	color: #777;
@@ -399,6 +390,9 @@ img.right {
 	margin: 0 0 0 2em;
 	padding: 0;
 	border: none;
+	float: right;
+}
+span.right {
 	float: right;
 }
 

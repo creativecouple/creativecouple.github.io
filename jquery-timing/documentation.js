@@ -74,7 +74,7 @@ $(document).ready(function(){
 					return false;
 				}
 			});
-			$this.addClass((localAPI.indexOf(text) >= 0) ? 'localAPI' : 'jqueryAPI');
+			$this.toggleClass((localAPI.indexOf(text) >= 0) ? 'localAPI' : 'jqueryAPI', ['random','floor'].indexOf(text)<0);
 		})
 		.on('mouseover mouseout').each().data('high').all().toggleClass('high');
 		

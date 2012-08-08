@@ -18,7 +18,7 @@ description:
 		<div class="description">{{ method.content }}</div>
 		<dl class="no-code">
 		{% for api in site.posts reversed %}{% capture path %}#{{ api.categories | join:'/' }}{% endcapture %}{% if path contains '#jquery-timing/api/' and api.signature contains signature_prefix %}
-				<dt><a href="{% if api.alturl != null %}{{ api.alturl }}{% else %}{{ api.url }}{% endif %}">{{ api.subtitle }} &ndash; {{ api.title }}</a></dt>
+				<dt><a href="{{ api.url }}">{{ api.subtitle }} &ndash; {{ api.title }}</a></dt>
 				<dd>{{ api.description }}</dd>
 		{% endif %}{% endfor %}
 		</dl>
@@ -28,7 +28,7 @@ description:
 			<h3 class="roundTop">Usage of {{ method.title }}</h3>
 			<ul>
 			{% for api in site.posts reversed %}{% capture path %}#{{ api.categories | join:'/' }}{% endcapture %}{% if path contains '#jquery-timing/api/' and api.signature contains signature_prefix %}
-					<li>{% if api.alturl == null %}&rarr; {% endif %}<a href="{% if api.alturl != null %}{{ api.alturl }}{% else %}{{ api.url }}{% endif %}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
+					<li>&rarr; <a href="{{ api.url }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 			{% endif %}{% endfor %}
 			</ul>
 		</div>

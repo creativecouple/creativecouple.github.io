@@ -70,6 +70,19 @@ a.fiddle:before {
 	text-decoration: underline;
 }
 
+.jqueryAPI:hover {
+	position: relative;
+	margin-left: -11px;
+	padding-left: 11px;
+	background: url(jquery-icon.gif) no-repeat scroll 0 0; 
+}
+.localAPI:hover {
+	position: relative;
+	margin-left: -11px;
+	padding-left: 11px;
+	background: url(local-icon.gif) no-repeat scroll 0 0; 
+}
+
 
 #banners-random-banner-rotate {
 	position: relative;
