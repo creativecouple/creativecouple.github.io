@@ -74,7 +74,7 @@ $(document).ready(function(){
 					return false;
 				}
 			});
-			$this.toggleClass((localAPI.indexOf(text) >= 0) ? 'localAPI' : 'jqueryAPI', ['random','floor','doSome','doLater','jQueryStuff'].indexOf(text)<0);
+			$this.toggleClass((localAPI.indexOf(text) >= 0) ? 'localAPI' : 'jqueryAPI', ['random','floor','doSome','doLater','jQueryStuff','doSomething','foo','bar','foobar','someMethod'].indexOf(text)<0);
 		})
 		.on('mouseover mouseout').each().data('high').all().toggleClass('high');
 		

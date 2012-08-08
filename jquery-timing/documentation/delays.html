@@ -73,7 +73,7 @@ The JavaScript concept of deferred callback functions always works like this:
 </p>
 {% highlight javascript %}
 // do something
-someObject.someRegistrationMethod(...,myCallbackFunction,...);
+someObject.someMethod(...,myCallbackFunction,...);
 // do something
 {% endhighlight %}
 <p>
@@ -81,21 +81,37 @@ What we have to do in our <abbr>tic</abbr> is to recognize which kind of registr
 Then we stop the <abbr>tic</abbr> and register a generic function which will continue our <abbr>tic</abbr>.
 </p>
 <p>
-The current implementation of <em>jquery-timing</em> supports timeouts, events, the <span class="localAPI">.load()</span> function, and jQuery.Deferred objects as registration.
-Using the jQuery event mechanism or the jQuery.Deferred object one can wait for other deferred triggers, too.
+The current implementation of <em>jquery-timing</em> supports timeouts, events, the <span class="localAPI">.load()</span> function, and deferred objects as registration.
+You can use the jQuery event mechanism or the jQuery.Deferred object to wait for any other trigger you like.
 </p>
 
 <div class="block">
-<h2>Breaking waiting delays</h2>
+<h2>Break the waiting</h2>
+<div class="navi no-code" style="width:auto">
+<h3>Breaking delays</h3>
+<ul>
+	{% assign signature = 'unwait' %}{% include jquery-timing-list-methods.html %}
+</ul>
+</div>
 <p>
-Like .bind() and .unbind() …
+In many cases jQuery allows to unregister your methods again.
+E.g. <span class="jqueryAPI">.bind()</span> and <span class="jqueryAPI">.unbind()</span>,
+<span class="jqueryAPI">.on()</span> and <span class="jqueryAPI">.off()</span>,
+<span class="jqueryAPI">.live()</span> and <span class="jqueryAPI">.die()</span>, or
+<span class="jqueryAPI">.delegate()</span> and <span class="jqueryAPI">.undelegate()</span>. 
+</p>
+<p>
+Our <span class="localAPI">.wait()</span> method also has a counterpart &ndash; <span class="localAPI">.unwait()</span>.
+Any element on which <span class="localAPI">.unwait()</span> is called will stop waiting for any corresponding trigger from <span class="localAPI">.wait()</span>.
+Thus the <abbr>tic</abbr> will <strong>not continue</strong> for those elements.
 </p>
 </div>
 
 <div class="block">
 <h2>Instant invocation</h2>
 <p>
-
+When waiting for a deferred object you can have the case that the deferred is already resolved.
+In that case the invocation chain continues instantly. That means that the invocation of your code behaves as if there was no wait.
 </p>
 </div>
 

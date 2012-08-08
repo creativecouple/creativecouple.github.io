@@ -299,6 +299,7 @@ div.navi {
 	margin: 0 0 1em 2em;
 	width: 310px;
 	float: right;
+	clear: right;
 }
 
 div.navi > ul, div.navi > ol {

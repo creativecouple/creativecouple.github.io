@@ -1,7 +1,7 @@
 ---
 layout: jquery-timing-api-signature
 title: breaking waits of a static thread group
-subtitle: <code class="local">$.unwait(<span class="optional">threadGroup</span>)</code>
+subtitle: <code class="local">$.unwait(<span class="optional">group</span>)</code>
 signature: $.unwait()
 description:
   Stop ongoing <span class="localAPI">.wait()</span>s in the specified thread group.
@@ -10,7 +10,7 @@ friends:
 ---
 
 <dl>
-	<dt>threadGroup &ndash; <code>string</code>, optional</dt>
+	<dt>group &ndash; <code>string</code>, optional</dt>
 	<dd>a name of the thread group whose waiting invocation chains should be left.</dd>
 	<dd>Defaults to the empty string <code>''</code>.</dd>
 </dl>
