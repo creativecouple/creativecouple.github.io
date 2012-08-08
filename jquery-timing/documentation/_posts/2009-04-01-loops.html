@@ -112,15 +112,18 @@ $('#example').find('span').each().wait('click').remove().all().end().before('Don
 ​</div>
 <script type="text/javascript">
 $(function(){
-	$('#loops-parallel-each-example-list').find('span').each().wait('click').remove().all().end().before('Done!');
+	$('#loops-parallel-each-example-list').find('span')
+	  .each().wait('click').remove().all()
+	  .end().before('Done!');
 });
 </script>
 
 <p>
-This parallel each-loop executes the sequence <code>.wait('click').remove()</code> for each element in parallel.
-After all the spawned threads has come to their .all() command the <abbr>tic</abbr> continues with further action.
+In the example above the parallel loop <code>.each()….all()</code> executes the sequence <code>.wait('click').remove()</code> for each element in parallel.
+After all the spawned threads has come to their .all() command the <abbr>tic</abbr> continues with further action. Here it is to put before the list.
+</p>
+<p> 
 As the methods run <strong>in parallel</strong> you can click the elements in any order you like!
-After that a text is put before the list.
 </p>
 
 <h2>Counting loop iterations</h2>

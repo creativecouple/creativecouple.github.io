@@ -24,7 +24,7 @@ $(document).ready(function(){
 		});
 		
 		$('a.jsfiddle').each(function(){
-			$(this).text('​').attr('title','see this example on jsFiddle.net').addClass('fiddle').appendTo($(this).next('.highlight').children('pre'));
+			$(this).text('​').attr({title:'see this example on jsFiddle.net', target:'_blank'}).addClass('fiddle').appendTo($(this).next('.highlight').children('pre'));
 		});
 		
 		$('.highlight .nx').each(function(){
@@ -94,6 +94,6 @@ $(document).ready(function(){
 				text = 'jQuery.'+text;
 			}
 			var url = 'http://api.jquery.com/'+text+'/';
-			$(this).text('').append($('<a>').attr({href:url, title:'see jQuery API'}).text(title));
+			$(this).text('').append($('<a>').attr({href:url, title:'see jQuery API', target:'_blank'}).text(title));
 		});
 });

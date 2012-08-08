@@ -1,0 +1,62 @@
+---
+layout: jquery-timing-example
+title: playing pong with divs
+signatures:
+  - .animate()
+  - .join()
+  - .repeat()
+  - ._()
+---
+
+<p>
+In this example we work with two different animation queues.
+</p>
+<p>
+The horizontal animation for the ball uses the <abbr>fxq</abbr> named 'myFX'.
+We have to start that queue manually using .dequeue('myFX').
+</p>
+{% highlight javascript %}
+// the horizontal animation options
+var horiz = { duration : 2000, easing : 'linear', queue : 'myFX' };
+{% endhighlight %}
+<p>
+The vertical animation uses the default <abbr>fxq</abbr> which always starts on its own.
+It includes all three moving elements at once.
+</p>
+{% highlight javascript %}
+// the vertical animation options
+var vertic = { duration : 900, easing : 'linear' };
+{% endhighlight %}
+
+<p>Because the two queues will be animated with different repeating
+intervals the ball doesn't always take the same paths.</p> 
+
+<a href="http://jsfiddle.net/creativecouple/PkXuh/4/" class="jsfiddle"></a>
+{% highlight javascript %}
+$('.example .ball').repeat()
+  .animate({left:350},horiz)
+  .animate({left:10},horiz).join('myFX')
+  ._.dequeue('myFX');
+
+$('.example span').repeat()
+  .animate({top:160},vertic)
+  .animate({top:0},vertic).join();​
+{% endhighlight %}
+<span>&rArr;</span>
+<div class="result playing-pong">
+  <span class="stick">&nbsp;</span>
+  <span class="ball">&nbsp;</span>
+  <span class="stick">&nbsp;</span>
+</div>
+<script type="text/javascript">
+$(function(){
+	var options = { duration:2000, easing:'linear', queue:'myFX' };
+	$('.playing-pong .ball').repeat().animate({left:350},options)
+	  .animate({left:10},options).join('myFX')
+	  ._.dequeue('myFX');
+
+	var options = { duration:900, easing:'linear' };
+	$('.playing-pong span').repeat().animate({top:160},options)
+	  .animate({top:0},options).join();
+});
+</script>

@@ -95,7 +95,7 @@ And .one(event) or .one(event,$) will continue with the triggered element only.
 <h2>Leaving the <abbr>tic</abbr> through backdoor</h2>
 <p>In classical jQuery you can define multiple event handlers by chaining their definitions.
 With inline event handlers you can do almost the same.
-We use the underscore character <strong>&quot;_&quot; as a backdoor to leave any deferred <abbr>tic</abbr> code</strong>:</p>
+We use the underscore character &quot;_&quot; as a backdoor to <strong>leave any deferred <abbr>tic</abbr> code</strong>:</p>
 {% highlight javascript %}
 $('#myButton').click(function(){
       $(this).addClass('clicked').…
@@ -116,7 +116,7 @@ $('#myButton').click($).addClass('clicked').…
   ._.…
 {% endhighlight %}
 <p>
-As you see there is no disadvantage from using inline event handlers with respect to short and clean code.
+As you see using inline event handlers can help creating very short and clean code.
 </p>
 
 <h2>Nested inline handlers</h2>

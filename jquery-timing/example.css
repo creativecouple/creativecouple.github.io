@@ -115,4 +115,58 @@ input[type=password] {
 }
 input[type=password].load {
     background: #eec url(load.gif) right center no-repeat;
-}​
+}
+
+.playing-pong {
+    text-align: center;
+    height: 200px;
+    width: 400px;
+    padding: 0;
+    position: relative;
+}
+.playing-pong span {
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-align: center;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+.playing-pong .stick {
+    width: 20px;
+    background: #888;
+    border: 1px solid #ccc;
+}
+.playing-pong .stick:first-child {
+    left: -10px;
+}
+.playing-pong .stick:last-child {
+    left: 390px;
+}
+.playing-pong .ball {
+    left: 10px;
+    background: orange;
+    border: 1px solid red;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+}
+
+.scheduling-different-elements-animations {
+    text-align: center;
+    font-size: 1.5em;
+}
+.scheduling-different-elements-animations span {
+    display: inline-block;
+    position: relative;
+    margin: 0.5em;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    border: 2px solid black;
+    color: white;
+}

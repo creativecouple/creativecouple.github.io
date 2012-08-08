@@ -1,0 +1,46 @@
+---
+layout: jquery-timing-example
+title: scheduling different elements' animations
+signatures:
+  - .animate()
+  - .animate($)
+  - .repeat()
+  - .each($)
+  - .all()
+---
+
+<p>
+Here we use an instant repeat-loop together with a sequential each-loop.
+</p>
+<p>
+In each iteration step we wait until the element is completely shifted up using <code>.animate({opacity:0,top:-50},$)</code>​.
+Then the next animation is queued with <code>.animate({opacity:1,top:0})</code>, which shifts the element down again but without waiting.
+The loop starts its next iteration, now using the next element.
+So we have one element going up and another element going down simultaneously.
+</p>
+<p>
+As you see the usage of <strong>$</strong> as token in place of the animate callback handler decides about whether to wait for the animation to finish.
+</p>
+
+<a href="http://jsfiddle.net/creativecouple/QVtmJ/" class="jsfiddle"></a>
+{% highlight javascript %}
+$('.example span').repeat().each($)
+    .animate({opacity:0,top:50},$)
+    .animate({opacity:1,top:0})
+  .all();​​
+{% endhighlight %}
+<span>&rArr;</span>
+<div class="result scheduling-different-elements-animations">
+    <span style="background:maroon" >A</span>
+    <span style="background:green"  >B</span>
+    <span style="background:navy"   >C</span>
+    <span style="background:orange" >D</span>
+    <span style="background:fuchsia">E</span>
+</div>​
+<script type="text/javascript">
+$(function(){
+	$('.scheduling-different-elements-animations span').repeat().each($)
+    .animate({opacity:0,top:50},$).animate({opacity:1,top:0})
+  .all();
+});
+</script>
