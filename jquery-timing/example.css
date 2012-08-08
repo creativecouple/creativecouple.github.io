@@ -109,3 +109,10 @@ a.fiddle:before {
     list-style-type: decimal;
 }
 ​
+input[type=password] {
+    background: white none;
+    color: black;
+}
+input[type=password].load {
+    background: #eec url(load.gif) right center no-repeat;
+}​

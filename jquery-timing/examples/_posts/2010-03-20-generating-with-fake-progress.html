@@ -1,0 +1,54 @@
+---
+layout: jquery-timing-example
+title: generating password with fake progress
+signatures:
+  - .repeat(interval)
+  - .until(count)
+  - .unrepeat()
+---
+
+<p>
+Of course generating a random password is done in less than a millisecond. But you want to simulate heavy computational things going on &ndash; just for a nice user experience.
+</p>
+
+Given that you have a method which adds one random character at a time to an input value,
+<br/>e.g. {% highlight javascript %}
+var alphabet = '012345689abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+function addRandomChar() {
+  return $(this).val() + alphabet[Math.floor(Math.random() * alphabet.length)];
+}
+{% endhighlight %},<br/>
+then you can use that to build our password generator.<br/>
+
+<a href="http://jsfiddle.net/creativecouple/f7zA5/5/" class="jsfiddle"></a>
+{% highlight javascript %}
+$('button').click($).prev('input').unrepeat()
+  .val('').addClass('load').repeat(200)
+  .val(addRandomChar).until(10)
+  .removeClass('load');
+​{% endhighlight %}
+<span>&rArr;</span>
+<p class="result generating-password-with-fake-progress">
+Enter your new password, please:<br/>
+<input type="password" size="11" value=""/> - <button>generate randomly</button>
+</p>
+<script type="text/javascript">
+$(function(){
+	var alphabet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	function addRandomChar() {
+	    return $(this).val() + alphabet[Math.floor(Math.random() * alphabet.length)];
+	}
+	$('.generating-password-with-fake-progress button').click($).prev().unrepeat().val('').addClass('load').repeat(200).val(addRandomChar).until(10).removeClass('load');
+});
+</script>
+
+<p>
+So what happens here?
+</p>
+<ul>
+<li>First we interrupt any possibly ongoing password generation by using .unrepeat().</li>
+<li>We clear the current password value and add a nice animated gif in the background with .val('').addClass('load').</li>
+<li>Now we repeatedly add a new random character with .repeat(200).val(addRandomChar).</li>
+<li>After doing so for 10 times we stop and then remove our CSS class with .until(10).removeClass('load').</li>
+</ul>
+<p>Try out clicking multiple times on that button. You will see, that the ongoing animation is always stopped before starting over.</p>
