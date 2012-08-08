@@ -1,7 +1,7 @@
 ---
 layout: jquery-timing
 title: jquery-timing API
-description: This page provides detailed API information and corresponding examples.
+description: Find detailed API information and corresponding examples below.
 ---
 
 <div class="api">
@@ -27,7 +27,7 @@ description: This page provides detailed API information and corresponding examp
 				{% if api.url != page.url %}
 					{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}
 					{% if path contains 'jquery-timing/api/' and api.signature contains signature_prefix %}
-						<li>&rarr; <a href="{{ api.url }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
+						<li>{% if api.alturl == null %}&rarr; {% endif %}<a href="{% if api.alturl != null %}{{ api.alturl }}{% else %}{{ api.url }}{% endif %}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 					{% endif %}
 				{% endif %}
 			{% endfor %}
@@ -37,13 +37,13 @@ description: This page provides detailed API information and corresponding examp
 
 {% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' and page.friends contains method.name %}
 	<div class="navi no-code">
-		<h3 class="roundTop">Usage of {{ method.title }}</h3>
+		<h3 class="roundTop">See also usage of {{ method.title }}</h3>
 		<ul>
 			{% capture signature_prefix %}.{{ method.name }}({% endcapture %}
 			{% for api in site.posts reversed %}
 				{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}
 				{% if path contains 'jquery-timing/api/' and api.signature contains signature_prefix %}
-					<li>&rarr; <a href="{{ api.url }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
+					<li>{% if api.alturl == null %}&rarr; {% endif %}<a href="{% if api.alturl != null %}{{ api.alturl }}{% else %}{{ api.url }}{% endif %}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 				{% endif %}
 			{% endfor %}
 		</ul>
@@ -57,8 +57,9 @@ description: This page provides detailed API information and corresponding examp
 
 {% capture examples %}
 {% for example in site.posts reversed %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and example.signatures contains page.signature %}
+	{% assign nr = 1 %}{% for other in site.posts reversed %}{% capture path %}{{ other.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and other.date < example.date %}{% capture nr %}{{ nr | plus:1 }}{% endcapture %}{% endif %}{% endfor %}
 	<div>
-		<h3>{{ example.title }}</h3>
+		<h3><a href="{{ example.url }}">Example #{{ nr }}</a>: {{ example.title }}</h3>
 		{{ example.content }}
 	</div>
 	<hr/>

@@ -7,7 +7,7 @@ subtitle: introducing the Timed Invocation Chain
 <div id="simplicity" class="block">
 <h2>Simplicity</h2>
 <p>
-If you like the short syntax in this very first example then we promise you
+If you like the <strong>short syntax</strong> of these very first examples then we promise you
  that this plugin will be a good friend in all your jQuery projects:
 </p>
 
@@ -21,6 +21,16 @@ $('.example span').repeat(1000)
 <span>This </span><span>is </span><span>a </span><span>sam</span><span>ple </span><span>sen</span><span>tence </span><span>with </span><span>some </span><span>words.</span>
 </p>
 <script type="text/javascript">$('.very-first-example span').repeat(1000).each($).toggleClass('bold').wait(50).all();</script>
+
+{% highlight javascript %}
+$('button').on('click').next().css({left:'+=20px'});
+{% endhighlight %}
+<span>&rArr;</span>
+<p class="result very-second-example">
+<button>Move forward</button>
+<span style="position:relative;left:0;background:#ccf;padding:3px;border:1px solid white;">Watch me moving!</span>
+</p>
+<script type="text/javascript">$('.very-second-example button').on('click').next().css({left:'+=20px'});</script>
 
 </div>
 
@@ -57,24 +67,41 @@ after jQuery:
 <h2>Download &amp; License</h2>
 <ul>
 <li>&raquo; <a href="/jquery-timing/jquery-timing.min.js" title="download jquery-timing.min.js">production (<strong>2KB</strong>, minified and gzipped)</a></li>
-<li>&raquo; <a href="/jquery-timing/jquery-timing.js" title="download jquery-timing.js for debugging">development (<strong>23KB</strong>, uncompressed code)</a></li>
+<li>&raquo; <a href="/jquery-timing/jquery-timing.js" title="download jquery-timing.js for debugging">development (<strong>25KB</strong>, uncompressed code)</a></li>
 </ul>
 Current version: build {{ site.time | date: '%Y-%m-%d %H:%M:%S' }}.
 <p>
 The source code is hosted at <a href="https://github.com/creativecouple/jquery-timing">github.com/creativecouple/jquery-timing</a>
 under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>.
 </p>
+
+<p class="license">
+The MIT License (MIT)
+Copyright (c) 2012 CreativeCouple, Peter Liske
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+</p>
 </div>
 
 <div id="contact" class="block">
-<h2>Contact</h2>
+<h2>About the author</h2>
 <form class="donate" action="https://www.paypal.com/cgi-bin/webscr" method="post">
 <input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="XSSZZC46C3EEG">
 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
 </form>
+
+<p>Me and my wife are graduate computer scientists who love to work on projects like this in our free time.<br/>
+Donations will help us paying the babysitter to spend more time for non-profit work.</p>
+<p>You can visit our homepage at <a href="http://www.creativecouple.de/">www.creativecouple.de</a>.</p>
+<p> - Have fun!</p>
 <br style="clear:both"/>
+
 <address>
 	<span>C   t   C   l   m   e</span>
 	<span>  e   v   u   &#64;   .</span>

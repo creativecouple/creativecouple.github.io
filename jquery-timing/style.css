@@ -19,6 +19,7 @@ h1 {
 	margin: 0 0 24px 0;
 	padding: 0;
 	color: inherit;
+	text-shadow: white 1px 1px 1px;
 }
 h1 a {
 	color: inherit;
@@ -103,7 +104,7 @@ tr {
 	background: none transparent;
 	font: inherit;
 }
-tr.odd {
+tr.even {
 	background: none white;
 }
 td, th {
@@ -331,14 +332,14 @@ div.navi a:hover {
 	text-decoration: underline;
 }
 
-span.optional {
+.optional {
 	color: #666;
 }
-span.optional:before {
+.optional:before {
 	color: #aaa;
 	content: '[';
 }
-span.optional:after {
+.optional:after {
 	color: #aaa;
 	content: ']';
 }
@@ -351,6 +352,15 @@ span.optional:after {
 .no-code a:hover, .description a:hover {
 	text-decoration: underline;
 }
+code.jquery {
+	position: relative;
+	padding-left: 14px;
+	background: url(jquery-icon.gif) no-repeat scroll 0 0; 
+}
+h1 code.jquery, h2 code.jquery {
+	padding-left: 0;
+	background: none;
+}
 
 .description {
 	color: #777;
@@ -360,6 +370,7 @@ span.optional:after {
 }
 .description strong {
 	color: #333;
+	text-shadow: white 2px 2px 1px;
 }
 
 .description .navi {
@@ -369,10 +380,30 @@ span.optional:after {
 	text-align: right;
 	padding-bottom: 0;
 	width: auto;
+	background: none transparent;
 }
 .description .navi > * {
 	text-align: left;
 }
 .description .navi > ul > li {
 	padding: 0;
+}
+
+#header > .description {
+	margin: -10px;
+	padding: 10px;
+	background: url(local-icon.gif) no-repeat scroll 0 0;
+}
+
+img.right {
+	margin: 0 0 0 2em;
+	padding: 0;
+	border: none;
+	float: right;
+}
+
+.license {
+	font-size: smaller;
+	white-space: pre-line;
+	text-align: justify;
 }

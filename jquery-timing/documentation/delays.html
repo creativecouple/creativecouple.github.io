@@ -1,23 +1,105 @@
 ---
 layout: jquery-timing-documentation
 subtitle: Delays in the invocation chain
-description: Deferred actions without nested functions.
+description: Deferred actions without nested callback functions.
 ---
 
-<h2>Waiting for timeouts</h2>
-<p>…</p>
+<h2>Wait for a timeout<br/><small>or how the ugly pause turns into a beautiful in-line swan</small></h2>
+<p>Imagine you have a long jQuery invocation chain, and now you want that at some point the invocation waits for short moment (500ms) before continuing.</p>
+{% highlight javascript %}
+$('.some').show().children().doThat() .doSomething().hide();
+              /* insert a pause here ⇑, please */
+{% endhighlight %}
+<p>
+With classical tools you now have to split up your chain and put the second part into a new callback function:
+</p>
+{% highlight javascript %}
+$('.some').show().children().doThat();
+/* inserted a pause here */
+window.setTimeout(function(){
+      $('some').children().doSomething().hide();
+   }, 500);
+{% endhighlight %}
+<p>
+You see it, right? Yes, the code gets ugly!
+No one asked for a reorganization of your code &ndash; just a stupid little pause.
+<br/>
+Imagine what happens if they now want one more pause at another step, and then another one &ndash; aarrgghh! 
+</p>
 
-<h2>Waiting for events</h2>
-<p>…</p>
-<h3><code>.wait(event)</code> vs. <code>.one(event<span class="optional">,$</span>)</code></h3>
+<div class="navi no-code" style="width:auto">
+<h3>Waiting for a timeout</h3>
+<ul>
+	{% assign signature = '.wait(timeout)' %}{% include jquery-timing-list-methods.html %}
+</ul>
+</div>
 
-<h2>Waiting for animations from the <abbr>fxq</abbr></h2>
-<p>…</p>
+<p>
+The solution available in <abbr>tic</abbr>-style is a little <em>timing method</em> called "wait":
+</p>
+{% highlight javascript %}
+$('.some').show().children().doThat() .wait(500) .doSomething().hide();
+             /* inserted a pause here ⇑ */
+{% endhighlight %}
 
-<h2>Waiting for HTML content loading</h2>
-<p>…</p>
+<p>
+Want another pause? Fine! Just insert <code class="localAPI">.wait()</code> where you want.
+</p>
+
+<h3>Where is the <code>setTimeout()</code> gone?</h3>
+<p>
+As mentioned on the <a href="./">previous page</a> all the method calls after <code class="localAPI">.wait()</code> are collected and invoked later.
+<em>jquery-timing</em> internally still calls <code>setTimeout()</code> but it uses a generic function that will just continue your <abbr>tic</abbr> when triggered by the timeout.
+</p>
+
+<div class="block">
+<h2>Waiting for other things</h2>
+
+<div class="navi no-code" style="width:auto">
+<h3>Simple defers in <em>jquery-timing</em></h3>
+<ul>
+	{% assign signature = '.animate($)' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = 'join' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = '.load($)' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = 'wait' %}{% include jquery-timing-list-methods.html %}
+</ul>
+</div>
+<p>
+The same mechanism like for pausing a while can also be applied to any other occasion of deferred callback functions.
+Let's take a look from an abstract point of view:
+</p>
+<p>
+The JavaScript concept of deferred callback functions always works like this:
+</p>
+{% highlight javascript %}
+// do something
+someObject.someRegistrationMethod(...,myCallbackFunction,...);
+// do something
+{% endhighlight %}
+<p>
+What we have to do in our <abbr>tic</abbr> is to recognize which kind of registration the developer wants.
+Then we stop the <abbr>tic</abbr> and register a generic function which will continue our <abbr>tic</abbr>.
+</p>
+<p>
+The current implementation of <em>jquery-timing</em> supports timeouts, events, the <span class="localAPI">.load()</span> function, and jQuery.Deferred objects as registration.
+Using the jQuery event mechanism or the jQuery.Deferred object one can wait for other deferred triggers, too.
+</p>
+
+<div class="block">
+<h2>Breaking waiting delays</h2>
+<p>
+Like .bind() and .unbind() …
+</p>
+</div>
+
+<div class="block">
+<h2>Instant invocation</h2>
+<p>
+
+</p>
+</div>
 
 <hr/>
 <p>
-Read more on the next page about <a href="loops.html">&rarr; code repeating with <abbr>tic</abbr>-loops</a>.
+Read more on the next page about <a href="animation.html">&rarr; <abbr>tic</abbr> and animations</a>.
 </p>

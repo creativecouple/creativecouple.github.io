@@ -1,0 +1,47 @@
+---
+layout: jquery-timing-documentation
+subtitle: Introduction to the timed invocation chain concept
+description: How does this magic work?
+---
+
+<h2>Timed Invocation Chain (<abbr>tic</abbr>) vs. Effects Queue (<abbr>fxq</abbr>)</h2>
+
+<p>
+jQuery has a built-in mechanism for scheduling animations and effects. We will call this the effects queue, <abbr>fxq</abbr>.
+This mechanism supports a wide range of animations, delays, custom queuing and unqueuing, etc.
+Nevertheless there are several differences between <abbr>fxq</abbr> and <abbr>tic</abbr>. The following table tries to give a first idea:
+</p>
+<table>
+<tbody><tr><td></td><th><abbr>fxq</abbr> – jQuery effects queue</th><th><abbr>tic</abbr> – timed invocation chain</th></tr>
+<tr><th>underlying technique</th><td>enqueue explicite animations and effects</td><td>postpone method invocations themselves</td></tr>
+<tr><th>return value of methods</th><td>same jQuery object</td><td>proxy collecting all concatenated function calls</td></tr>
+<tr><th>method support</th><td>only functions being designed to enqueue something</td><td>any jQuery function that returns a jQuery object</td></tr>
+<tr><th>combine animations and other actions</th><td>using nested callback functions</td><td>all in the same line</td></tr>
+<tr><th>loop animations</th><td>not possible</td><td><code class="localAPI">.repeat()</code> and <code class="localAPI">.until()</code> with custom start and end conditions</td></tr>
+<tr><th>method delay</th><td>via <code>window.setTimeout()</code> or <code class="jqueryAPI">.delay()</code> and <code class="jqueryAPI">.queue()</code>, using callback functions</td><td><code>.<span class="localAPI">wait</span>(<em>timeout</em>).doSomething(…)</code></td></tr>
+</tbody></table>
+
+<div class="navi no-code" style="width:auto">
+<h3>API to combine <abbr>tic</abbr> with <abbr>fxq</abbr></h3>
+<ul>
+	{% assign signature = '.animate($)' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = 'join' %}{% include jquery-timing-list-methods.html %}
+</ul>
+</div>
+
+<h3>Combining <abbr>fxq</abbr> with <abbr>tic</abbr></h3>
+
+<p>
+As you can see in the table above the concepts are quite different.
+Let's say it this way: in jQuery <abbr>fxq</abbr> is one way to queue animation stuff and <abbr>tic</abbr> is another way to time anything.
+</p>
+
+<p>
+Actually combining both concepts enables us to create complex behaviour with very few lines of code.
+Follow the links in the right box to see how <em>jquery-timing</em> synchronizes <abbr>tic</abbr> and <abbr>fxq</abbr>.
+</p>
+
+<hr/>
+<p>
+Read more on the next page about <a href="loops.html">&rarr; code repeating with <abbr>tic</abbr>-loops</a>.
+</p>

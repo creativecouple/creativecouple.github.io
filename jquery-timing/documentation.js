@@ -10,7 +10,7 @@ $(document).ready(function(){
 		});
 		
 		// make tables look nice		
-		$('tr:odd').addClass('odd');
+		$('tr:even').addClass('even');
 		
 		// make address chaos clickable
 		$('address').click(function(){

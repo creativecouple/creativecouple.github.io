@@ -1,12 +1,14 @@
 ---
 layout: jquery-timing-api-signature
 title: waiting for an <abbr>fxq</abbr>'s end 
-subtitle: <code>.join(<span class="optional">queue</span> <span class="optional">,callback</span>)</code>
+subtitle: <code class="local">.join(<span class="optional">queue</span> <span class="optional">,callback</span>)</code>
 signature: .join()
 description:
-  Waits until all selected elements' animation queues reach their current end.
+  Waits until all the specified animation queue of all selected elements reach their current end.
 friends:
  - animate
+ - wait
+ - promise
 ---
 
 <dl>
@@ -17,3 +19,6 @@ friends:
 	<dd>a method that is called once just before continuing the invocation chain.</dd>
 	<dd>All current iteration counts (from inner-most to outer-most loop) are passed as arguments.</dd>
 </dl>
+<p class="description">
+<strong>Hint:</strong> This method is similar but not equal to <span class="localAPI">.promise()</span>. With .join() you wait for the <em>current</em> queu's end. With.promise() you wait for having an <em>empty queue</em>. 
+</p>

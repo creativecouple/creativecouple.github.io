@@ -89,15 +89,16 @@
 				_method: methodStack
 		},
 		preventRecursion = false,
-		method, otherExecutionState;
+		method, otherExecutionState, deferred;
 		
-		function hookupToMockup(state, mockup){
+		function hookupToProxy(state, mockup){
 			state._canContinue = false;
-			mockup.then(function(){
+			function fire(){
 				state._next = sameOrNextJQuery(state._context, state._next);
 				state._canContinue = true;
 				timedInvocationChain();
-			}, true);
+			}
+			return typeof mockup.promise == "function" ? mockup.promise().then(fire) : mockup.then(fire, true);
 		}
 		
 		/**
@@ -116,10 +117,15 @@
 				}
 				// leave the chain when waiting for a trigger
 				if (executionState._canContinue == false) {
-					return deferredReturnValue;
+					break;
 				}
 				// check end of chain
 				if (!executionState._method._name) {
+					// resolve any waiting promise 
+					if (deferred && (!ongoingLoops.length || ongoingLoops[0]._allowPromise)) {
+						deferred.resolveWith(executionState._context);
+						deferred = null;
+					}
 					if (!ongoingLoops.length) {
 						/*
 						 * We've reached the end of our TIC
@@ -135,7 +141,7 @@
 					otherExecutionState = ongoingLoops[0]._openEndAction && ongoingLoops[0]._openEndAction(timedInvocationChain, executionState, ongoingLoops);
 					if (!otherExecutionState) {
 						// if innermost loop can't help us, just leave the chain
-						return deferredReturnValue;
+						break;
 					}
 					executionState = otherExecutionState;
 					continue;
@@ -155,8 +161,8 @@
 					if (!method.timing && !executionState._canContinue) {
 						// prevent automatic re-trigger in case of loops
 						executionState._next = executionState._context[executionState._method._name].apply(executionState._context, executionState._method._arguments);
-						if (ongoingLoops.length && executionState._next instanceof MockupPlaceholder) {
-							hookupToMockup(executionState, executionState._next);
+						if (ongoingLoops.length && executionState._next && executionState._next instanceof PredictingProxy) {
+							hookupToProxy(executionState, executionState._next);
 							continue;
 						}
 					}
@@ -182,9 +188,20 @@
 				preventRecursion = !preventRecursion;
 				throw e;
 			} finally {
-				preventRecursion = !preventRecursion;
+				preventRecursion = !preventRecursion;				
 			}
+			return deferredReturnValue;
 		};
+		if (jQuery.Deferred) {
+			// add .promise() method to tic
+			timedInvocationChain.promise = function(){
+				var ret = jQuery.Deferred();
+				deferred = deferred || jQuery.Deferred();
+				deferred.then(ret.resolve);
+				timedInvocationChain();
+				return ret;
+			};
+		}
 		return timedInvocationChain;
 	}
 	
@@ -198,24 +215,31 @@
 	 * @param methodStack a linked list that this placeholder will fill with call parameters 
 	 * @return the placeholder object
 	 */
-	function MockupPlaceholder(context, methodStack, onStepCallback) {
+	function PredictingProxy(context, methodStack, onStepCallback) {
 		this['.methods'] = methodStack;
 		this['.callback'] = onStepCallback;
 		this.length = 0;
 		Array.prototype.push.apply(this, jQuery.makeArray(this._ = context._ = context));
 		
 		for (var key in context) {
-			if (!(key in MockupPlaceholder.prototype) && typeof context[key] == "function") {
+			if (!(key in PredictingProxy.prototype) && typeof context[key] == "function") {
 				this[key] = extendMockupPrototype(key);
 			}
 		}
 	}
 	
+	// enabling jQuery.when(tic);
+	if (jQuery.Deferred) {
+		PredictingProxy.prototype.promise = function() {
+			return (this['.callback'] && typeof this['.callback'].promise == "function") ? this['.callback'].promise() : jQuery.Deferred().resolveWith(this);
+		};
+	}
+	
 	/**
-	 * Create and return a new placeholder function on the prototype of MockupPlaceholder. 
+	 * Create and return a new placeholder function on the prototype of PredictingProxy. 
 	 */
 	function extendMockupPrototype(name){
-		return MockupPlaceholder.prototype[name] = function(){
+		return PredictingProxy.prototype[name] = function(){
 			this['.methods']._name = name;
 			this['.methods']._arguments = arguments;
 			this['.methods'] = this['.methods']._next = {};
@@ -232,7 +256,7 @@
 		if (jQuery.fn[name]) {
 			var original = jQuery.fn[name];
 			jQuery.fn[name] = function(){
-				var i, methodStack, placeholder, timedInvocationChain;
+				var i, methodStack, placeholder, timedInvocationChain, deferred;
 				for(i=0; i<arguments.length; i++) {
 					if (typeof arguments[i] == "function" || (arguments[i] && typeof arguments[i] == "object") || arguments[i] === false) {
 						if (arguments[i] !== jQuery) {
@@ -247,16 +271,27 @@
 				}
 				Array.prototype.splice.call(arguments, i, 1, function(){
 					timedInvocationChain = createTimedInvocationChain(jQuery(this), methodStack, [{
-						_count: jQuery.extend(Array.prototype.shift.apply(arguments), arguments)
+							_count: jQuery.extend(Array.prototype.shift.apply(arguments), arguments),
+							_allowPromise: true
 						}], function(elements){
 						placeholder.length = 0;
 						Array.prototype.push.apply(placeholder, elements);
 					});
+					if (deferred) {
+						timedInvocationChain.promise().then(deferred.resolve);
+						deferred = null;
+					}
 					return timedInvocationChain();
 				});
-				return placeholder = new MockupPlaceholder(original.apply(this, arguments), methodStack = {}, function(){
+				function fire(){
 					return timedInvocationChain ? timedInvocationChain(placeholder) : placeholder;
-				});
+				}
+				if (jQuery.Deferred) {					
+					fire.promise = function(){
+						return timedInvocationChain ? timedInvocationChain.promise() : deferred = jQuery.Deferred();
+					};
+				}
+				return placeholder = new PredictingProxy(original.apply(this, arguments), methodStack = {}, fire);
 			};
 		}
 	});
@@ -291,7 +326,7 @@
 	jQuery.each(['wait','repeat','join','then'], function(index, name){
 		jQuery.fn[name] = function(){
 			var methodStack = {},
-			placeholder = new MockupPlaceholder(this, methodStack, createTimedInvocationChain(this, methodStack, [], function(elements){
+			placeholder = new PredictingProxy(this, methodStack, createTimedInvocationChain(this, methodStack, [], function(elements){
 					placeholder.length = 0;
 					Array.prototype.push.apply(placeholder, elements);
 				}));
@@ -307,24 +342,42 @@
 	 */
 	jQuery.fn.join.timing = function(timedInvocationChain, executionState) {
 		var queueName,
+		promising,
 		waitingElements = executionState._context.length;
 		
-		if (typeof executionState._method._arguments[0] == "function") {
-			executionState._callback = executionState._method._arguments[0];
-		} else {
+		if (typeof executionState._method._arguments[0] == "string") {
 			queueName = executionState._method._arguments[0];
-			executionState._callback = executionState._method._arguments[1];
+			if (typeof executionState._method._arguments[1] == "function") {
+				executionState._callback = executionState._method._arguments[1];
+			} else {
+				promising = executionState._method._arguments[1];
+				executionState._callback = executionState._method._arguments[2];
+			}
+		} else {
+			if (typeof executionState._method._arguments[0] == "function") {
+				executionState._callback = executionState._method._arguments[0];
+			} else {
+				promising = executionState._method._arguments[0];
+				executionState._callback = executionState._method._arguments[1];
+			}
 		}
 		
-		// wait for each element to reach the current end of its queue
-		executionState._context.queue(queueName == null ? 'fx' : queueName, function(next){
-			executionState._canContinue = !--waitingElements;
-			timedInvocationChain();
-			next();
-		});
-
 		executionState._next = executionState._context;
 		executionState._canContinue = !waitingElements;
+
+		// wait for each element to reach the current end of its queue
+		if (promising) {
+			executionState._context.promise(queueName == null ? 'fx' : queueName).then(function(){
+				executionState._canContinue = true;
+				timedInvocationChain();
+			});
+		} else {
+			executionState._context.queue(queueName == null ? 'fx' : queueName, function(next){
+				executionState._canContinue = !--waitingElements;
+				timedInvocationChain();
+				next();
+			});
+		}
 	};
 
 	/**
@@ -367,8 +420,11 @@
 		function unwaitAction(){
 			originalOff.call(event ? originalOff.call(jQuery(this), event, triggerAction) : jQuery(this), 'unwait', unwaitAction);
 			executionState._next = executionState._context = executionState._context.not(this);
-			executionState._canContinue = executionState._context.length && executionState._canContinue;
-			window.clearTimeout(!executionState._context.length && timeout);
+			if (!executionState._context.length) {
+				executionState._canContinue = false;
+				window.clearTimeout(timeout);
+				executionState = { _context: executionState._context };
+			} 
 			// just update the snapshot info
 			timedInvocationChain();
 		}
@@ -377,6 +433,14 @@
 
 			originalOn.call(executionState._context, event = trigger, triggerAction);
 
+		} else if (trigger && typeof trigger.then == "function") {
+			
+			trigger.then(triggerAction, true);
+			
+		} else if (trigger && typeof trigger.promise == "function") {
+			
+			trigger.promise().then(triggerAction);
+			
 		} else {
 
 			timeout = window.setTimeout(triggerAction, Math.max(0,trigger));
@@ -396,7 +460,7 @@
 	jQuery.fn.each = function(callback){
 		if (!callback || callback === jQuery) {
 			var methodStack = {},
-			placeholder = new MockupPlaceholder(this, methodStack, createTimedInvocationChain(this, methodStack, [], function(elements){
+			placeholder = new PredictingProxy(this, methodStack, createTimedInvocationChain(this, methodStack, [], function(elements){
 					placeholder.length = 0;
 					Array.prototype.push.apply(placeholder, elements);
 				}));
@@ -437,7 +501,7 @@
 			return proxyPlaceholder;
 		}
 		
-		for (key in MockupPlaceholder.prototype) {
+		for (key in PredictingProxy.prototype) {
 			proxyPlaceholder[key] = spreadAction;
 		}
 		proxyPlaceholder.length = size;
@@ -650,7 +714,7 @@
 	};
 	
 	// support .until() and .all()
-	new MockupPlaceholder(loopEndMethods);
+	new PredictingProxy(loopEndMethods);
 	
 	/**
 	 * Define unwait and unrepeat methods.

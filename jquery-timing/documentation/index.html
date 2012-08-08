@@ -5,13 +5,51 @@ description: How does this magic work?
 ---
 
 <h2>Introducing <abbr>tic</abbr>: the Timed Invocation Chain</h2>
-<p>…</p>
+<p>After long time working with jQuery in different projects we found that there was one thing we always (re)invented again
+– convenient methods for timing.
+Of course, using <code>window.setTimeout()</code> and <code>window.setInterval()</code> is not a big deal.
+But it becomes one if you leave the easy examples and implement really sophisticated use cases.
+So at the end we decided to write this plugin you are studying right now – <em>jquery-timing</em>.</p>
 
-<h2>Timed Invocation Chain (<abbr>tic</abbr>) vs. Effects Queue (<abbr>fxq</abbr>)</h2>
-<p>…</p>
+<p>With this plugin we use a technique that we use to call the Timed Invocation Chain.
+For less redundancy and faster reading we will abbreviate it with <abbr>tic</abbr> from now on.</p>
 
-<h2>Timed Invocation Chain (<abbr>tic</abbr>) vs. jQuery.Deferred</h2>
-<p>…</p>
+<h3>What does <abbr>tic</abbr> mean?</h3>
+
+<p>
+<abbr>tic</abbr> is an easy way to postpone method execution when written in a jQuery style – a long method call concatenation, always using the return value of the previous function call as context to work on with the next function.
+jQuery highly bases on exactly that method concatenation schema:
+</p>
+
+{% highlight javascript %}
+$('.some')​.show()​.css({..})​.click(function(){..})​.find(..)
+  ​.hover(..).keypress(..)​​.first(..).css(..).each(..) // etc
+{% endhighlight %}
+
+<p>
+And that's the point!<br/>
+Using a method on jQuery selection objects almost always returns the same or another jQuery object to work with.
+So it is an invocation chain where all objects in between again are jQuery selection objects.
+</p>
+
+<h3>Creating a predictive proxy</h3>
+
+<p>
+If you know that any object result within a long invocation chain is of the same <em>type</em> (or for other programming languages the same <em>class</em> or <em>interface</em>),
+then you also know that they share a common set of methods that <em>can</em> be invoked.
+In our case we just have to look at the very first object, <code><strong>$</strong>('some')</code>, and list all the methods that can be invoked on that object.
+We then can <strong>forecast</strong> that each and every invocation step in the long invocation chain will allow us to call <strong>exactly these methods</strong>.
+</p>
+
+<p>
+All we have to do on the first call to one of our timing methods is to internally create a smart placeholder object being aware of all the methods that <em>could</em> be called (a <em>predicitive proxy</em>).
+When the methods are actually called in the invocation chain, meaning when the JavaScript engine does execute the code, then <strong>the predictive proxy collects all invocations in a call stack.</strong>
+It stores the function names and the arguments given to each call.
+The outcome is a call stack that allows us to iterate all the method invocations in any possible manner.
+</p>
+<p>
+With this call stack in our hands we can do a lot of cool things making your code neat and clean &ndash; exactly that's the aim of <abbr>tic</abbr>, the Timed Invocation Chain.
+</p>
 
 <hr/>
 <p>
