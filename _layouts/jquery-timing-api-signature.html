@@ -18,15 +18,13 @@ description: Find detailed API information and corresponding examples below.
 {% if page.alturl != null %}<p class="description">See jQuery API for <a href="{{ page.alturl }}">{{ page.subtitle }}</a>.</p>{% endif %}
 </div>
 
-{% capture method_name %}{{ page.signature | split:'[.]' | last | split:'[(]' | first }}{% endcapture %}
-{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' and method.name == method_name %}
+{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' and method.name == page.name %}
 	<div class="navi no-code">
 		<h3 class="roundTop">Other versions of {{ method.title }}</h3>
 		<ul>
 			<li>&larr; <a href="/jquery-timing/api/#{{ method.name }}">back to overview</a></li>
-			{% if page.alturl != null %}<li>&rarr; <a href="{{ page.alturl }}">{{ page.alturl | split:'[/][/]' | last }}</a></li>{% endif %}
-			{% capture signature_prefix %}.{{ method.name }}({% endcapture %}
-			{% for api in site.posts reversed %}{% if api.url != page.url %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.signature contains signature_prefix %}
+			{% if page.alturl != null %}<li>&rarr; <a href="{{ page.alturl }}">{{ page.alturl | split:'//' | last }}</a></li>{% endif %}
+			{% for api in site.posts reversed %}{% if api.url != page.url %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.name == method.name %}
 			<li>&rarr; <a href="{{ api.url | replace:'/index.html','/' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 			{% endif %}{% endif %}{% endfor %}
 		</ul>
@@ -37,7 +35,7 @@ description: Find detailed API information and corresponding examples below.
 	<div class="navi no-code">
 		<h3 class="roundTop">See also usage of {{ method.title }}</h3>
 		<ul>
-		{% capture signature_prefix %}.{{ method.name }}({% endcapture %}{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.signature contains signature_prefix %}
+		{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.name == method.name %}
 			<li>&rarr; <a href="{{ api.url | replace:'/index.html','/' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 		{% endif %}{% endfor %}
 		</ul>

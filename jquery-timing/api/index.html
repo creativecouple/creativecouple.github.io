@@ -11,13 +11,11 @@ description:
 {% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}
 
 	<div id="{{ method.name }}" class="block">
-		{% capture signature_prefix %}.{{ method.name }}({% endcapture %}
-		
 		<div class="api">
 		<h2>{{ method.title }}</h2>
 		<div class="description">{{ method.content }}</div>
 		<dl class="no-code">
-		{% for api in site.posts reversed %}{% capture path %}#{{ api.categories | join:'/' }}{% endcapture %}{% if path contains '#jquery-timing/api/' and api.signature contains signature_prefix %}
+		{% for api in site.posts reversed %}{% capture path %}#{{ api.categories | join:'/' }}{% endcapture %}{% if path contains '#jquery-timing/api/' and api.name == method.name %}
 				<dt><a href="{{ api.url | replace:'/index.html','/' }}">{{ api.subtitle }} &ndash; {{ api.title }}</a></dt>
 				<dd>{{ api.description }}</dd>
 		{% endif %}{% endfor %}
@@ -27,7 +25,7 @@ description:
 		<div class="navi no-code">
 			<h3 class="roundTop">Usage of {{ method.title }}</h3>
 			<ul>
-			{% for api in site.posts reversed %}{% capture path %}#{{ api.categories | join:'/' }}{% endcapture %}{% if path contains '#jquery-timing/api/' and api.signature contains signature_prefix %}
+			{% for api in site.posts reversed %}{% capture path %}#{{ api.categories | join:'/' }}{% endcapture %}{% if path contains '#jquery-timing/api/' and api.name == method.name %}
 					<li>&rarr; <a href="{{ api.url | replace:'/index.html','/' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 			{% endif %}{% endfor %}
 			</ul>
