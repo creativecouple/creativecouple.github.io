@@ -23,7 +23,7 @@ description: Find detailed API information and corresponding examples below.
 		<h3 class="roundTop">Other versions of {{ method.title }}</h3>
 		<ul>
 			<li>&larr; <a href="/jquery-timing/api/#{{ method.name }}">back to overview</a></li>
-			{% if page.alturl != null %}<li>&rarr; <a href="{{ page.alturl }}">{{ page.alturl | split:'//' | last }}</a></li>{% endif %}
+			{% if page.alturl != null %}<li>&rarr; <a href="{{ page.alturl }}">{{ page.alturl | split:'\/\/' | last }}</a></li>{% endif %}
 			{% for api in site.posts reversed %}{% if api.url != page.url %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.name == method.name %}
 			<li>&rarr; <a href="{{ api.url | replace:'/index.html','/' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 			{% endif %}{% endif %}{% endfor %}
