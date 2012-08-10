@@ -6,7 +6,7 @@ signatures:
 ---
 
 {% highlight javascript %}
-$.wait(first-timeout, callback)
-  .wait(second-timeout, callback)
-  .wait(third-timeout, callback);
+$.wait(first-timeout, function(){ … })
+  .wait(second-timeout, function(){ … })
+  .wait(third-timeout, function(){ … });
 {% endhighlight %}
