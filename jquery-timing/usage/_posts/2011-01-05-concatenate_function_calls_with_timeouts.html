@@ -1,0 +1,12 @@
+---
+title: How to concatenate function calls with timeouts
+signatures:
+ - $.wait(timeout)
+ - .wait(timeout)
+---
+
+{% highlight javascript %}
+$.wait(first-timeout, callback)
+  .wait(second-timeout, callback)
+  .wait(third-timeout, callback);
+{% endhighlight %}
