@@ -170,3 +170,24 @@ input[type=password].load {
     border: 2px solid black;
     color: white;
 }
+
+.quick-image-selection li {
+    display: inline;
+}
+.quick-image-selection img {
+    cursor: pointer;
+    border: 15px solid transparent;
+    background-color: transparent;
+}
+.quick-image-selection img:hover {
+    border-color: silver;
+    background-color: silver;
+}
+.quick-image-selection img.selected {
+    border-color: red;
+    background-color: red;
+}
+.quick-image-selection img.selected:hover {
+    border-color: maroon;
+    background-color: maroon;
+}
