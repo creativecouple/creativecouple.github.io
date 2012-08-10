@@ -17,7 +17,7 @@ The "ready" button will always disable if last image is unselected.
 
 <a href="http://jsfiddle.net/creativecouple/Y8kGC/" class="jsfiddle"></a>
 {% highlight javascript %}
-$(".choices").on('click','img')
+$("#choices").on('click','img')
     .add('.selected').toggleClass('selected')
     .$('#result').attr('disabled',false)
 ._.on('click','img.selected')
