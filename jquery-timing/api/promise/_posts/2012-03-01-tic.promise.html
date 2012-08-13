@@ -1,0 +1,19 @@
+---
+layout: jquery-timing-api-signature
+title: create promise for <abbr>tic</abbr>s
+subtitle: <code>.promise(<span class="optional">ignorePrevious</span> <span class="optional">,target</span>)</code>
+signature: tic.promise()
+name: 'promise'
+description:
+  Return a Promise object to observe when the current <abbr>tic</abbr> finishes.
+friends:
+ - wait
+ - when
+---
+
+<dl>
+	<dt>ignorePrevious &ndash; <code>boolean</code>, optional</dt>
+	<dd>If <abbr>tic</abbr> is running as event handler this argument tells whether to ignore previous triggers and to wait for the next triggered run.</dd>
+	<dt>target &ndash; <code>object</code>, optional</dt>
+	<dd>Object onto which the promise methods have to be attached.</dd>
+</dl>
