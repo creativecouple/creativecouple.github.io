@@ -8,7 +8,7 @@ tags:
  - event handlers
 ---
 
-<h2>One <abbr>tic</abbr> &ndash; many invocations</h2>
+<h2>One invocation chain &ndash; many invocations</h2>
 <p>
 A concept similar to event-triggered repeat-loops is the usage of inline event handlers.
 This is a way to define any action that has to happen after an event is triggered in a single jQuery line:
@@ -71,7 +71,7 @@ If we have multiple elements then .repeat(event) continues with all elements in 
 There is another difference between .repeat(event) and .on(event).
 As stated on the page before all repeat-loops are running sequential.
 In contrast event handlers do not know this restriction.
-They start running as soon as an event is triggered, hence spawning multiple <abbr>tic</abbr>s, each running independently.
+They start running as soon as an event is triggered, hence spawning multiple running jQuery chains, each working independently of the others.
 </p>
 
 <h3>Difference between .wait(event) and .one(event)</h3>
@@ -95,10 +95,10 @@ And .one(event) or .one(event,$) will continue with the triggered element only.
 </ul>
 </div>
 
-<h2>Leaving the <abbr>tic</abbr> through backdoor</h2>
+<h2>Leaving the chain through backdoor</h2>
 <p>In classical jQuery you can define multiple event handlers by chaining their definitions.
 With inline event handlers you can do almost the same.
-We use the underscore character &quot;_&quot; as a backdoor to <strong>leave any deferred <abbr>tic</abbr> code</strong>:</p>
+We use the underscore character &quot;_&quot; as a backdoor to <strong>leave any deferred jQuery chain</strong>:</p>
 {% highlight javascript %}
 $('#myButton').click(function(){
       $(this).addClass('clicked').…
@@ -124,6 +124,6 @@ As you see using inline event handlers can help creating very short and clean co
 
 <h2>Nested inline handlers</h2>
 <p>
-If for some reason you put an inline event handler in a <abbr>tic</abbr>-loop (repeat, each, or within another event handler), then it will be used as a deferred object.
-I.e. the first trigger to that event will let the surrounding <abbr>tic</abbr> continue. 
+If for some reason you put an inline event handler into an inline-loop (repeat, each, or within another event handler), then it will be used as a deferred object.
+I.e. the first trigger to that event will let the surrounding deferred jQuery chain continue. 
 </p>

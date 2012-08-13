@@ -1,15 +1,15 @@
 ---
 layout: jquery-timing-documentation
-title: taking snapshots with jQuery(<abbr>tic</abbr>)
-subtitle: Reusing a <abbr>tic</abbr> object
-description: Taking snapshots of a running <abbr>tic</abbr>.
+title: taking snapshots of jQuery chains
+subtitle: Reusing a deferred chain
+description: Taking snapshots of a running invocation chain.
 tags:
  - documentation
  - clone
  - snapshot
 ---
 
-<h2>Where is my <abbr>tic</abbr> now?</h2>
+<h2>Where is my chain right now?</h2>
 <p>jQuery provides the possibility to clone any jQuery selection object via:</p>
 {% highlight javascript %}
 var $some = $('#myID').parent().siblings();
@@ -20,7 +20,7 @@ The obvious difference between them is that they are now different JavaScript ob
 Another difference is that $some.end() points to the parent of the element #myID while $now.end() doesn't.
 </p>
 
-<p>Well, as expected you can do the same cloning with any <abbr>tic</abbr>:</p>
+<p>Well, as expected you can do the same cloning with any deferred jQuery chain:</p>
 {% highlight javascript %}
 var $some = $('#myID').wait(500).siblings().remove();
 var $new = $($some);
@@ -28,8 +28,8 @@ var $new = $($some);
 <p>The big question is: What is the content of the jQuery object $new now?
 </p>
 <p>
-To answer that question we need to know that $(<abbr>tic</abbr>) just clones the jQuery selection of the <abbr>tic</abbr> in this moment.
-You can understand this like taking a snapshot. You then see which elements the <abbr>tic</abbr> is handling right now.
+To answer that question we need to know that <code>$(deferredJQuery)</code> just clones the jQuery selection of the invocation chain in this very moment.
+You can understand this like taking a snapshot. You then see which elements your chain is handling right now.
 </p>
 <p>Now the answer: $new just points to the element #myID, because the siblings are selected half a second later.
 </p>

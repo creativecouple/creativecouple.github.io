@@ -1,11 +1,11 @@
 ---
 layout: jquery-timing-api-signature
-title: create promise for <abbr>tic</abbr>s
+title: create promise for deferred jQuery chains
 subtitle: <code>.promise(<span class="optional">ignorePrevious</span> <span class="optional">,target</span>)</code>
 signature: tic.promise()
 name: 'promise'
 description:
-  Return a Promise object to observe when the current <abbr>tic</abbr> finishes.
+  Return a Promise object to observe when the running jQuery chain finishes.
 friends:
  - wait
  - when
@@ -13,7 +13,7 @@ friends:
 
 <dl>
 	<dt>ignorePrevious &ndash; <code>boolean</code>, optional</dt>
-	<dd>If <abbr>tic</abbr> is running as event handler this argument tells whether to ignore previous triggers and to wait for the next triggered run.</dd>
+	<dd>If the deferred jQuery chain is running as an inline event handler then this argument tells whether to ignore previous triggers and to wait for the next triggered run.</dd>
 	<dt>target &ndash; <code>object</code>, optional</dt>
 	<dd>Object onto which the promise methods have to be attached.</dd>
 </dl>

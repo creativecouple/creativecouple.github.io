@@ -41,7 +41,7 @@ Imagine what happens if they now want one more pause at another step, and then a
 </div>
 
 <p>
-The solution available in <abbr>tic</abbr>-style is a little <em>timing method</em> called "wait":
+The solution available in deferred jQuery chain style is a nice <em>timing method</em> called "wait":
 </p>
 {% highlight javascript %}
 $('.some').show().children().doThat() .wait(500) .doSomething().hide();
@@ -55,7 +55,7 @@ Want another pause? Fine! Just insert <code class="localAPI">.wait()</code> wher
 <h3>Where is the <code>setTimeout()</code> gone?</h3>
 <p>
 As mentioned on the <a href="./">previous page</a> all the method calls after <code class="localAPI">.wait()</code> are collected and invoked later.
-<em>jquery-timing</em> internally still calls <code>setTimeout()</code> but it uses a generic function that will just continue your <abbr>tic</abbr> when triggered by the timeout.
+<em>jquery-timing</em> internally still calls <code>setTimeout()</code> but it uses a generic function that will just continue your invocation chain when triggered by the timeout.
 </p>
 
 <div class="block">
@@ -83,8 +83,8 @@ someObject.someMethod(...,myCallbackFunction,...);
 // do something
 {% endhighlight %}
 <p>
-What we have to do in our <abbr>tic</abbr> is to recognize which kind of registration the developer wants.
-Then we stop the <abbr>tic</abbr> and register a generic function which will continue our <abbr>tic</abbr>.
+What we have to do in our timing method is to recognize which kind of registration the developer wants.
+Then we stop the invocation chain and register a generic function which will continue the chain when triggered.
 </p>
 <p>
 The current implementation of <em>jquery-timing</em> supports timeouts, animations, events, the <span class="localAPI">.load()</span> function, and deferred objects as registration.
@@ -110,7 +110,7 @@ E.g. <span class="jqueryAPI">.bind()</span> and <span class="jqueryAPI">.unbind(
 <p>
 Our <span class="localAPI">.wait()</span> method also has a counterpart &ndash; <span class="localAPI">.unwait()</span>.
 Any element on which <span class="localAPI">.unwait()</span> is called will stop waiting for any corresponding trigger from <span class="localAPI">.wait()</span>.
-Thus the <abbr>tic</abbr> will <strong>not continue</strong> for those elements.
+Thus the deferred jQuery chain will <strong>not continue</strong> for those elements.
 </p>
 </div>
 

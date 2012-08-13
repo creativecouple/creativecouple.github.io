@@ -1,27 +1,26 @@
 ---
 layout: jquery-timing-documentation
-title: introduction to concept of <abbr>tic</abbr>
-subtitle: Introduction to the timed invocation chain concept
+title: introduction to deferred jQuery chain
+subtitle: Introduction to the deferred jQuery chain concept
 description: How does this magic work?
 tags:
  - documentation
  - introduction
 ---
 
-<h2>Introducing <abbr>tic</abbr>: the Timed Invocation Chain</h2>
+<h2>Introducing the deferred jQuery chain</h2>
 <p>After long time working with jQuery in different projects we found that there was one thing we always (re)invented again
 – convenient methods for timing.
 Of course, using <code>window.setTimeout()</code> and <code>window.setInterval()</code> is not a big deal.
 But it becomes one if you leave the easy examples and implement really sophisticated use cases.
 So at the end we decided to write this plugin you are studying right now – <em>jquery-timing</em>.</p>
 
-<p>With this plugin we use a technique that we use to call the Timed Invocation Chain.
-For less redundancy and faster reading we will abbreviate it with <abbr>tic</abbr> from now on.</p>
+<p>With this plugin we use a new technique that we call the <em>Timed Invocation Chain</em>.</p>
 
-<h3>What does <abbr>tic</abbr> mean?</h3>
+<h3>jQuery and its invocation chains</h3>
 
 <p>
-<abbr>tic</abbr> is an easy way to postpone method execution when written in a jQuery style – a long method call concatenation, always using the return value of the previous function call as context to work on with the next function.
+The timed invocation chain technique provides an easy way to postpone method execution when written in a jQuery style – a long method call concatenation, always using the return value of the previous function call as context to work on with the next function.
 jQuery highly bases on exactly that method concatenation schema:
 </p>
 
@@ -36,7 +35,7 @@ Using a method on jQuery selection objects almost always returns the same or ano
 So it is an invocation chain where all objects in between again are jQuery selection objects.
 </p>
 
-<h3>Creating a predictive proxy</h3>
+<h3>Creating a Predictive Proxy</h3>
 
 <p>
 If you know that any object result within a long invocation chain is of the same <em>type</em> (or for other programming languages the same <em>class</em> or <em>interface</em>),
@@ -49,19 +48,30 @@ We then can <strong>forecast</strong> that each and every invocation step in the
 All we have to do on the first call to one of our timing methods is to internally create a smart placeholder object being aware of all the methods that <em>could</em> be called (a <em>predicitive proxy</em>).
 When the methods are actually called in the invocation chain, meaning when the JavaScript engine does execute the code, then <strong>the predictive proxy collects all invocations in a call stack.</strong>
 It stores the function names and the arguments given to each call.
-The outcome is a call stack that allows us to iterate all the method invocations in any possible manner.
 </p>
 <p>
-With this call stack in our hands we can do a lot of cool things making your code neat and clean &ndash; exactly that's the aim of <abbr>tic</abbr>, the Timed Invocation Chain.
+The outcome of the predictive proxy is a call stack that allows us to iterate all the method invocations in any possible manner.
+With this call stack in our hands we can do a lot of cool things to make source code neat and clean &ndash; exactly that's the aim of this project.
 </p>
 
+<h3>Applying the Timed Invocation Chain to jQuery</h3>
+<p>The predictive proxy pattern allows to build a timed invocation chain wherever we have such a strong chaining concept like in jQuery.
+Applying that new technique to jQuery produces a new kind of jQuery object &ndash; the <em>Deferred jQuery Chain</em>.
+</p> 
+
 <div class="block">
-<h2>Instant invocation and Recursion-freeness</h2>
+<h2><em>jquery-timing</em> as reference implementation</h2>
+<p>
+The concept of the predicting proxy and the timed invocation chain technique have been developed in summer 2012.
+To prove their functionality we implemented them as jQuery plugin in parallel.
+Thus you can speak of <em>jquery-timing</em> plugin being the reference implementation for this new programming pattern.</p>
+ 
+<h3>Instant invocation and Recursion-freeness</h3>
 <p>
 Two of the amazing capabilities of <em>jquery-timing</em> are: loops and instant invocation.
 Both are described in detail on the following pages.
 <br/>
-For now we want to explain, why we decided for a recursion-free design when implementing the <abbr>tic</abbr>: 
+For now we want to explain, why we decided for a recursion-free design when applying the timed invocation chain to jQuery: 
 </p>
 <p>
 Imagine you want to add very many table rows automatically so you can fill them with dynamic content.
@@ -74,7 +84,7 @@ $('table').repeat().append('<tr>').until(200).children().repeat().append('<td>')
 If we had implemented our instant repeat-loops the simple way with just recursive method calls, then we could cause a stack overflow here.
 Because hundreds of nested method calls would all have to stay on the method stack of your client's JavaScript interpreter.
 <br/>
-That's why the heart of the <abbr>tic</abbr> &ndash; the internal function <code>timedInvocationChain()</code> &ndash; consists of a single while-loop that omits recursive calls.
+That's why the heart of the deferred jQuery chain &ndash; the internal function <code>timedInvocationChain()</code> &ndash; consists of a single while-loop that omits recursive calls.
 For you, the developer this means to have no sorrows about the size of instant invocation loops.   
 </p>
 </div>

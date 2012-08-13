@@ -12,7 +12,7 @@ signatures:
 In this example we work with two different animation queues.
 </p>
 <p>
-The horizontal animation for the ball uses the <abbr>fxq</abbr> named 'myFX'.
+The horizontal animation for the ball uses the effects queue named 'myFX'.
 We have to start that queue manually using .dequeue('myFX').
 </p>
 {% highlight javascript %}
@@ -20,7 +20,7 @@ We have to start that queue manually using .dequeue('myFX').
 var horiz = { duration : 2000, easing : 'linear', queue : 'myFX' };
 {% endhighlight %}
 <p>
-The vertical animation uses the default <abbr>fxq</abbr> which always starts on its own.
+The vertical animation uses the default queue which always starts on its own.
 It includes all three moving elements at once.
 </p>
 {% highlight javascript %}

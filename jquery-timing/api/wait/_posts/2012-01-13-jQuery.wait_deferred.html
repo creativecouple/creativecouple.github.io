@@ -5,7 +5,7 @@ subtitle: <code class="local">$.wait(<span class="optional">group,</span> deferr
 signature: $.wait(deferred)
 name: 'wait'
 description:
-  Wait for a deferred object to resolve (jQuery, jQuery.Deferred, <abbr>tic</abbr>, …) in a static thread group.
+  Wait for a deferred object to resolve (jQuery, jQuery.Deferred, deferred jQuery chain, …) in a static thread group.
 friends:
  - unwait
 ---
@@ -15,7 +15,7 @@ friends:
 	<dd>a name of the thread group that this waiting should be assigned to.</dd>
 	<dd>Defaults to the empty string <code>''</code>.</dd>
 	<dt>deferred &ndash; any object with <code>.promise()</code></dt>
-	<dd>e.g. a jQuery selection, a <a href="http://api.jquery.com/category/deferred-object/">jQuery.Deferred</a>, or another <abbr>tic</abbr>.</dd>
+	<dd>e.g. a jQuery selection, a <a href="http://api.jquery.com/category/deferred-object/">jQuery.Deferred</a>, or another deferred jQuery chain.</dd>
 	<dt>callback &ndash; <code>function(count…)</code>, optional</dt>
 	<dd>a method that is called once just before continuing the invocation chain.</dd>
 </dl>

@@ -1,23 +1,23 @@
 ---
 layout: jquery-timing-documentation
-title: <abbr>tic</abbr> and animations
+title: deferred jQuery chains and animations
 subtitle: Joining animations and the timed invocation chain
-description: The jQuery animation queue and <abbr>tic</abbr> are good friends.
+description: The jQuery animation queue and the deferred chain are good friends.
 tags:
  - documentation
  - animation
  - join
 ---
 
-<h2>Timed Invocation Chain (<abbr>tic</abbr>) vs. Effects Queue (<abbr>fxq</abbr>)</h2>
+<h2>Timed Invocation Chain vs. Effects Queue</h2>
 
 <p>
-jQuery has a built-in mechanism for scheduling animations and effects. We will call this the effects queue, <abbr>fxq</abbr>.
+jQuery has a built-in mechanism for scheduling animations and effects. We will call this the effects queue.
 This mechanism supports a wide range of animations, delays, custom queuing and unqueuing, etc.
-Nevertheless there are several differences between <abbr>fxq</abbr> and <abbr>tic</abbr>. The following table tries to give a first idea:
+Nevertheless there are several differences between the queue and the chain. The following table tries to give a first idea:
 </p>
 <table>
-<tbody><tr><td></td><th><abbr>fxq</abbr> – jQuery effects queue</th><th><abbr>tic</abbr> – timed invocation chain</th></tr>
+<tbody><tr><td></td><th>jQuery effects queue</th><th>timed invocation chain</th></tr>
 <tr><th>underlying technique</th><td>enqueue explicite animations and effects</td><td>postpone method invocations themselves</td></tr>
 <tr><th>return value of methods</th><td>same jQuery object</td><td>proxy collecting all concatenated function calls</td></tr>
 <tr><th>method support</th><td>only functions being designed to enqueue something</td><td>any jQuery function that returns a jQuery object</td></tr>
@@ -27,21 +27,21 @@ Nevertheless there are several differences between <abbr>fxq</abbr> and <abbr>ti
 </tbody></table>
 
 <div class="navi no-code" style="width:auto">
-<h3>API to combine <abbr>tic</abbr> with <abbr>fxq</abbr></h3>
+<h3>combine deferred chain with animation queue</h3>
 <ul>
 	{% assign signature = '.animate($)' %}{% include jquery-timing-list-methods.html %}
 	{% assign signature = 'join' %}{% include jquery-timing-list-methods.html %}
 </ul>
 </div>
 
-<h3>Combining <abbr>fxq</abbr> with <abbr>tic</abbr></h3>
+<h3>Combining animation queues and deferred jQuery chains</h3>
 
 <p>
 As you can see in the table above the concepts are quite different.
-Let's say it this way: in jQuery <abbr>fxq</abbr> is one way to queue animation stuff and <abbr>tic</abbr> is another way to time anything.
+Let's say it this way: the animation queue is one way to schedule effects and the deferred jQuery chain is another way to time anything.
 </p>
 
 <p>
 Actually combining both concepts enables us to create complex behaviour with very few lines of code.
-Follow the links in the right box to see how <em>jquery-timing</em> synchronizes <abbr>tic</abbr> and <abbr>fxq</abbr>.
+Follow the links in the right box to see how <em>jquery-timing</em> synchronizes deferred chains and animation queues.
 </p>
