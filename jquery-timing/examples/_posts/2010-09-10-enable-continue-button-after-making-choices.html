@@ -16,14 +16,13 @@ The used parallel .each()..all() loop waits for each line until some radio input
 Any order of making choices is allowed.
 </p>
 
+<a href="http://jsfiddle.net/creativecouple/C8r7c/" class="jsfiddle"></a>
 {% highlight javascript %}
 $('.example .choices li')
   .each().children('input').wait('change').all()
-  .$('#continue').attr('disabled',false);
+  .$('#continue').fadeIn();
 {% endhighlight %}
-
 <span>&rArr;</span>
-
 <div class="result enable-continue-button-after-making-choices">
 <ul class="choices">
 	<li>Color: <input type="radio" name="color" value="red"/>red, <input type="radio" name="color" value="green"/>green, <input type="radio" name="color" value="blue"/>blue</li>
@@ -31,11 +30,12 @@ $('.example .choices li')
 	<li>Textile: <input type="radio" name="textile" value="wool"/>wool, <input type="radio" name="textile" value="hemp"/>hemp, <input type="radio" name="textile" value="synthetic"/>synthetic</li> 
 </ul>
 <p style="text-align:center">
-	<button id="enable-continue-button-after-making-choices_continue" disabled="disabled">Go to shopping cart…</button>
+	<button id="enable-continue-button-after-making-choices_continue">Go to shopping cart…</button>
 </p>
 </div>
 <script type="text/javascript">
 $(function(){
-	$('.enable-continue-button-after-making-choices .choices li').each().children().wait('change').all().$('#enable-continue-button-after-making-choices_continue').attr('disabled',false);
+	$('#enable-continue-button-after-making-choices_continue').hide();
+	$('.enable-continue-button-after-making-choices .choices li').each().children().wait('change').all().$('#enable-continue-button-after-making-choices_continue').fadeIn();
 });
 </script>

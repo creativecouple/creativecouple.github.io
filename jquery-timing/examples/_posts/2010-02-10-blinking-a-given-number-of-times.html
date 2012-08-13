@@ -15,6 +15,7 @@ We repeat .toggleClass() for an even number of times, so the class "blink" is ab
 Remark that the click handler is assigned directly in the invocation chain using <strong>.click($)</strong>.
 </p>
 
+<a href="http://jsfiddle.net/creativecouple/FfwbR/" class="jsfiddle"></a>
 {% highlight javascript %}
 $('.example button').click($).siblings('span')
    .repeat(200).toggleClass('blink').until(4);

@@ -15,14 +15,13 @@ The buttons can be clicked one after the other. At the end the cycle starts over
 Remark that the code is the same no matter how many buttons we have.
 </p>
 
+<a href="http://jsfiddle.net/creativecouple/U7yML/" class="jsfiddle"></a>
 {% highlight javascript %}
 $('.example button').repeat().each($)
    .attr('disabled',false).one('click')
    .attr('disabled',true).until(false);
 {% endhighlight %}
-
 <span>&rArr;</span>
-
 <p class="result cyclic-button-clicks">
 <button disabled="disabled">Hit me first!</button>
 <button disabled="disabled">Then click me!</button>
