@@ -1,0 +1,173 @@
+---
+layout: jquery-timing-example
+title: fading submenus with user friendly timeouts
+signatures:
+  - .on($)
+  - .wait(timeout)
+  - .unwait()
+  - ._()
+---
+
+<p>
+Menu navigation is frustrating when the submenu closes immediately on mouseleave,
+because sometimes the mouse pointer moves few pixels unintended.
+That's why we want to build in timeouts on mouseenter and mouseleave to show/hide the corresponding submenu.
+</p>
+<p>
+With <em>jquery-timing</em> this is just two lines:
+</p>
+
+<a href="http://jsfiddle.net/creativecouple/syANA/" class="jsfiddle"></a>
+{% highlight javascript %}
+$('#menu li')
+  .mouseenter($).unwait().wait(200).children('ul').fadeIn()
+  ._.mouseleave($).unwait().wait(300).children('ul').fadeOut();​
+{% endhighlight %}
+<span>&rArr;</span>
+<div class="result">
+<ul id="fading-submenus-with-user-friendly-timeouts">
+    <li>This
+        <ul>
+            <li><a href="#">foo</a></li>
+            <li><a href="#">bar</a></li>
+            <li>foobar
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+        </ul>
+    </li>
+    <li>is
+        <ul>
+            <li>one
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+            <li>two
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+            <li>three
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+        </ul>
+    </li>
+    <li>a
+        <ul>
+            <li><a href="#">foo</a></li>
+            <li><a href="#">bar</a></li>
+            <li>foobar
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+        </ul>
+    </li>
+    <li>navigation
+        <ul>
+            <li>one
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+            <li>two
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+            <li>three
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+        </ul>
+    </li>
+    <li>with
+        <ul>
+            <li><a href="#">foo</a></li>
+            <li><a href="#">bar</a></li>
+            <li>foobar
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+        </ul>
+    </li>
+    <li>nested
+        <ul>
+            <li>one
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+            <li>two
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+            <li>three
+                <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+            </li>
+        </ul>
+    </li>
+    <li>subitems
+        <ul>
+            <li>This
+                <ul>
+                    <li><a href="#">foo</a></li>
+                    <li><a href="#">bar</a></li>
+                    <li>foobar
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                </ul>
+            </li>
+            <li>is
+                <ul>
+                    <li>one
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                    <li>two
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                    <li>three
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                </ul>
+            </li>
+            <li>a
+                <ul>
+                    <li><a href="#">foo</a></li>
+                    <li><a href="#">bar</a></li>
+                    <li>foobar
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                </ul>
+            </li>
+            <li>navigation
+                <ul>
+                    <li>one
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                    <li>two
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                    <li>three
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                </ul>
+            </li>
+            <li>with
+                <ul>
+                    <li><a href="#">foo</a></li>
+                    <li><a href="#">bar</a></li>
+                    <li>foobar
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                </ul>
+            </li>
+            <li>nested
+                <ul>
+                    <li>one
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                    <li>two
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                    <li>three
+                        <ul><li><a href="#">Dolor</a></li><li><a href="#">sit</a></li></ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#">subitems</a></li>
+        </ul>
+    </li>
+</ul>
+​</div>
+<script type="text/javascript">
+$(function(){
+	$('#fading-submenus-with-user-friendly-timeouts li').mouseenter($).unwait().wait(200).children('ul').fadeIn()
+	._.mouseleave($).unwait().wait(300).children('ul').fadeOut();
+});
+</script>

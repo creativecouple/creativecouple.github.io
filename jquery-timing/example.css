@@ -191,3 +191,40 @@ input[type=password].load {
     border-color: maroon;
     background-color: maroon;
 }
+
+
+#fading-submenus-with-user-friendly-timeouts {
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    width: 400px;
+}
+#fading-submenus-with-user-friendly-timeouts ul {
+    display: none;
+    position: absolute;
+    left: 10px;
+    top: 100%;
+    padding: 0;
+    margin: 0;
+    width: 333px;
+}
+#fading-submenus-with-user-friendly-timeouts li {
+	list-style-type: none;
+    float: left;
+    padding: 3px;
+    margin: 1px;
+    background: silver;
+    position: relative;
+    border: 2px outset silver;
+    color: black;
+    cursor: default;
+}
+#fading-submenus-with-user-friendly-timeouts li:hover {
+    background-color: white;
+    border-style: inset;
+}
+#fading-submenus-with-user-friendly-timeouts a {
+    color: green;
+}
+​
