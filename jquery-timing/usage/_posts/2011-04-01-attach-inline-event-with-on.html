@@ -1,0 +1,10 @@
+---
+title: How to attach an inline event handler using .on()
+signatures:
+ - .on($)
+---
+
+{% highlight javascript %}
+$('.some').on('click').doSome().jQueryStuff();
+$('.some').on('click',$).doSome().jQueryStuff();
+{% endhighlight %}
