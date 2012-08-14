@@ -2,8 +2,10 @@
 title: How to repeat the same actions on interval
 signatures:
  - .repeat(interval)
+ - .until(bool)
 ---
 
 {% highlight javascript %}
 $('.some').repeat(interval-in-ms).doThis().overAndOver();
+$('.some').repeat(interval-in-ms).doThis().until(false);
 {% endhighlight %}

@@ -2,8 +2,10 @@
 title: How to repeat on interval with immediate first run
 signatures:
  - .repeat(interval)
+ - .until(bool)
 ---
 
 {% highlight javascript %}
 $('.some').repeat(interval-in-ms, true).doThis().overAndOver();
+$('.some').repeat(interval-in-ms, true).doThis().until(false);
 {% endhighlight %}

@@ -63,7 +63,7 @@ $(document).ready(function(){
 					return false;
 				}
 				if (text == key) {
-					for (n = $highlighted; n.length && (n.is(':not(.nx)') || ['all','until','_'].indexOf(n.text())<0); n=$highlighted.last().next()) {
+					for (n = $highlighted; n.length && (n.is(':not(.nx)') || ['all','until','_'].indexOf(n.text())<0) && !(/;$/.test(n.text())); n=$highlighted.last().next()) {
 						$highlighted = $highlighted.add(n).add(n.data('high'));
 					}
 					if (n.text() == value) {
