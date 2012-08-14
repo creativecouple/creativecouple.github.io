@@ -1,0 +1,64 @@
+---
+layout: jquery-timing-example
+title: ruler with animation
+signatures:
+  - .animate()
+  - .unrepeat()
+  - .repeat(interval)
+  - .repeat()
+  - .until(count)
+  - .unwait()
+  - .wait(timeout)
+---
+
+<p>
+This example shows how to create a ruler with an animated button. 
+</p>
+<p>
+Each time the user clicks on one of the tick marks the button moves up to this mark.
+During its animation all underlying ticks get highlighted when the button flies by.  
+</p>
+<p>
+This is the complete code:
+</p>
+
+<a href="http://jsfiddle.net/creativecouple/7v467/" class="jsfiddle"></a>
+{% highlight javascript %}
+// add ticks to ruler
+$('.ruler').repeat().append('<span class="tick">+</span>').until(20);
+
+// define animation
+$('.tick').click(function() {
+  var $bubble = $(this).siblings('.bubble'),
+    dir = $(this).position().left > $bubble.offset().left ? 1 : -1;
+
+  function filter() {
+    return dir * ($(this).position().left-$bubble.position().left) >= 0;
+  }
+
+  $bubble.stop(true).animate({left: $(this).position().left}, 800)
+    .siblings('.tick').unrepeat().filter(filter)
+    .repeat(20).not(filter).unrepeat().stop(true)
+    .css({backgroundColor:'lime'}).animate({backgroundColor:'white'},'slow');
+});
+​{% endhighlight %}
+<span>&rArr;</span>
+<div class="result ruler-with-animation"><span class="bubble">*</span></div>​
+<script type="text/javascript">
+$(function(){
+	$('.ruler-with-animation').repeat().append('<span class="tick">+</span>').until(20)
+		.find('.tick').click(function() {
+	    var $bubble = $(this).siblings('.bubble'),
+	        dir = $(this).position().left > $bubble.offset().left ? 1 : -1;
+
+	    function filter() {
+	        return dir*($(this).position().left-$bubble.position().left) >= 0;
+	    }
+
+	    $bubble.stop(true).animate({left: $(this).position().left}, 800)
+	        .siblings('.tick').unrepeat().filter(filter)
+	        .repeat(20).not(filter).unrepeat().stop(true)
+	        .css({backgroundColor:'lime'}).animate({backgroundColor:'white'},'slow');
+	});
+});
+</script>
