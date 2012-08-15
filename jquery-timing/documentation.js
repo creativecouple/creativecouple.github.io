@@ -63,7 +63,7 @@ $(document).ready(function(){
 					return false;
 				}
 				if (text == key) {
-					for (n = $highlighted; n.length && (n.is(':not(.nx)') || ['all','until','_'].indexOf(n.text())<0) && !(/;$/.test(n.text())); n=$highlighted.last().next()) {
+					for (n = $highlighted; n.length && (n.is(':not(.nx)') || $.inArray(n.text(), ['all','until','_'])<0) && !(/;$/.test(n.text())); n=$highlighted.last().next()) {
 						$highlighted = $highlighted.add(n).add(n.data('high'));
 					}
 					if (n.text() == value) {
@@ -74,7 +74,7 @@ $(document).ready(function(){
 					return false;
 				}
 			});
-			$this.toggleClass((localAPI.indexOf(text) >= 0) ? 'localAPI' : 'jqueryAPI', ['random','floor','doSome','doThat','doLater','jQueryStuff','doSomething','foo','bar','foobar','someMethod','doThis','doThisNow','doLater','doNow','overAndOver','doThisLater'].indexOf(text)<0);
+			$this.toggleClass(($.inArray(text,localAPI) >= 0) ? 'localAPI' : 'jqueryAPI', $.inArray(text,['random','floor','doSome','doThat','doLater','jQueryStuff','doSomething','foo','bar','foobar','someMethod','doThis','doThisNow','doLater','doNow','overAndOver','doThisLater'])<0);
 		})
 		.on('mouseover mouseout').each().data('high').all().toggleClass('high');
 		
