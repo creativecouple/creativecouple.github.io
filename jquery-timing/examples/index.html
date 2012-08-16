@@ -18,7 +18,7 @@ See <a href="/jquery-timing/#contact">contact section</a>.
 	{% capture examples %}
 	{% for example in site.posts reversed %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% capture all_signatures %}|{{ example.signatures | join:'|' }}|{% endcapture %}{% if path == 'jquery-timing/examples' %}{% if all_signatures contains signature_prefix or all_signatures contains static_prefix %}
 		{% assign nr = 1 %}{% for other in site.posts reversed %}{% capture path %}{{ other.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and other.date < example.date %}{% capture nr %}{{ nr | plus:1 }}{% endcapture %}{% endif %}{% endfor %}
-		<li><a href="{{ example.url | replace:'/index.html','/' }}">#{{ nr }}: {{ example.title }}</a></li>
+		<li><a href="{{ example.url | remove:'index.html' }}">#{{ nr }}: {{ example.title }}</a></li>
 	{% endif %}{% endif %}{% endfor %}
 	{% endcapture %}
 	{% if examples contains 'li' %}

@@ -25,7 +25,7 @@ description: Find detailed API information and corresponding examples below.
 			<li>&larr; <a href="/jquery-timing/api/#{{ method.name }}">back to overview</a></li>
 			{% if page.alturl != null %}<li>&rarr; <a href="{{ page.alturl }}">{{ page.alturl }}</a></li>{% endif %}
 			{% for api in site.posts reversed %}{% if api.url != page.url %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.name == method.name %}
-			<li>&rarr; <a href="{{ api.url | replace:'/index.html','/' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
+			<li>&rarr; <a href="{{ api.url | remove:'index.html' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 			{% endif %}{% endif %}{% endfor %}
 		</ul>
 	</div>
@@ -36,7 +36,7 @@ description: Find detailed API information and corresponding examples below.
 		<h3 class="roundTop">See also usage of {{ method.title }}</h3>
 		<ul>
 		{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.name == method.name %}
-			<li>&rarr; <a href="{{ api.url | replace:'/index.html','/' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
+			<li>&rarr; <a href="{{ api.url | remove:'index.html' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 		{% endif %}{% endfor %}
 		</ul>
 	</div>
@@ -51,7 +51,7 @@ description: Find detailed API information and corresponding examples below.
 {% for example in site.posts reversed %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and example.signatures contains page.signature %}
 	{% assign nr = 1 %}{% for other in site.posts reversed %}{% capture path %}{{ other.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and other.date < example.date %}{% capture nr %}{{ nr | plus:1 }}{% endcapture %}{% endif %}{% endfor %}
 	<div>
-		<h3><a href="{{ example.url | replace:'/index.html','/' }}">Example #{{ nr }}</a>: {{ example.title }}</h3>
+		<h3><a href="{{ example.url | remove:'index.html' }}">Example #{{ nr }}</a>: {{ example.title }}</h3>
 		{{ example.content }}
 	</div>
 	<hr/>

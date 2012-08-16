@@ -20,7 +20,7 @@ See <a href="/jquery-timing/#contact">contact section</a>.
 	<h3>Related API entries</h3>
 	<ul class="no-code">
 	{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and usage.signatures contains api.signature and api.name == method.name %}
-		<li>&rarr; <a href="{{ api.url | replace:'/index.html','/' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
+		<li>&rarr; <a href="{{ api.url | remove:'index.html' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
 	{% endif %}{% endfor %}{% endif %}{% endfor %}
 	</ul>
 </div>

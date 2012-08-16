@@ -1,4 +1,4 @@
 {% capture listSignaturePrefix %}.{{ signature }}({% endcapture %}
 {% for listMethod in site.posts reversed %}{% capture listPath %}{{ listMethod.categories | join:'/' }}{% endcapture %}{% if listPath contains 'jquery-timing/api/' %}{% if listMethod.signature == signature or listMethod.signature contains listSignaturePrefix %}
-<li>&rarr; <a href="{{ listMethod.url | replace:'/index.html','/' }}" title="{{ listMethod.title | strip_html }}">{{ listMethod.subtitle }}</a></li>
+<li>&rarr; <a href="{{ listMethod.url | remove:'index.html' }}" title="{{ listMethod.title | strip_html }}">{{ listMethod.subtitle }}</a></li>
 {% endif %}{% endif %}{% endfor %}

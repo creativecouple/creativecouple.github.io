@@ -1,0 +1,27 @@
+---
+base: http://creativecouple.github.com 
+projects:
+  jquery-timing:
+    documentation: [posts]
+    usage:         [index]
+    api:           [index, sub_posts]
+    examples:      [index, posts]
+    tests:         [index]
+---
+<?xml version="1.0" encoding="UTF-8"?>
+{% capture now %}{{ site.time | date_to_xmlschema }}{% endcapture %}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url><loc>{{ page.base }}</loc><lastmod>{{ now }}</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+{% for project in page.projects %}
+<url><loc>{{ page.base }}/{{ project[0] }}/</loc><lastmod>{{ now }}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+{% for topic in project[1] %}{% capture topic_url %}{{ page.base }}/{{ project[0] }}/{{ topic[0] }}/{% endcapture %}
+{% if topic[1] contains 'index' %}<url><loc>{{ topic_url }}</loc><lastmod>{{ now }}</lastmod><changefreq>daily</changefreq><priority>1.5</priority></url>{% endif %}
+{% if topic[1] contains 'posts' %}{% capture category_string %}#{{ project[0] }}/{{ topic[0] }}{% endcapture %}{% for post in site.posts reversed %}{% capture post_url %}{{ page.base }}{{ post.url | remove:'index.html' }}{% endcapture %}{% capture post_cat %}#{{ post.categories | join:'/' }}{% endcapture %}{% if post_url contains topic_url and post_cat == category_string %}
+<url><loc>{{ post_url }}</loc><lastmod>{{ now }}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+{% endif %}{% endfor %}{% endif %}
+{% if topic[1] contains 'sub_posts' %}{% capture category_prefix %}#{{ project[0] }}/{{ topic[0] }}/{% endcapture %}{% for post in site.posts reversed %}{% capture post_url %}{{ page.base }}{{ post.url | remove:'index.html' }}{% endcapture %}{% capture post_cat %}#{{ post.categories | join:'/' }}{% endcapture %}{% if post_url contains topic_url and post_cat contains category_prefix %}
+<url><loc>{{ post_url }}</loc><lastmod>{{ now }}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+{% endif %}{% endfor %}{% endif %}
+{% endfor %}
+{% endfor %}
+</urlset>
