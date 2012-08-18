@@ -1,0 +1,26 @@
+---
+layout: jquery-timing-example
+title: simple progress indicator with text
+signatures:
+  - .repeat()
+  - .repeat(interval)
+  - .until(count)
+---
+
+<p>
+The text dots will go on and on in this example. Of course in a real use case it would be stopped using <span class="localAPI">.unrepeat()</span>.
+</p>
+
+<a href="http://jsfiddle.net/creativecouple/GrNas/" class="jsfiddle"></a>
+{% highlight javascript %}
+$('.progress').repeat().text('.').repeat(500).append('.').until(20);
+{% endhighlight %}
+<span>&rArr;</span>
+<p class="result simple-progress-indicator-with-text">
+	Still processing<span class="progress"></span>​
+</p>
+<script type="text/javascript">
+$(function(){
+	$('.simple-progress-indicator-with-text .progress').repeat().text('.').repeat(500).append('.').until(20);
+});
+</script>
