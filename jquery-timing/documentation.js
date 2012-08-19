@@ -47,11 +47,11 @@ $(document).ready(function(){
 		
 		$($('.highlight .nx').get().reverse()).each(function(){
 			var $this = $(this);
-			if (!$this.prev().text().match(/\.$/) || !$this.next().text().match(/^\(/)) {
+			var text = $this.text();
+			if (text != '$' && !$this.prev().text().match(/\.$/) || text != '_' && !$this.next().text().match(/^\(/)) {
 				return;
 			}
 			
-			var text = $this.text();
 			var $highlighted = $this;
 			
 			$.each({each:'all', repeat:'until'}, function(key,value){
