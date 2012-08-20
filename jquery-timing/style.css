@@ -415,7 +415,7 @@ ul.usage li div.highlight {
 }
 ul.usage.api li div.highlight {
 	float: none;
-	margin: -1em 0;
+	margin: 0;
 	display: block;
 }
 ul.usage li div.highlight pre {
