@@ -1,6 +1,53 @@
----
-layout: jquery-timing
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% assign title = 'Usage of timing methods' %}
+{% assign subtitle = page.title %}
+{% include jquery-timing-head.html %}
+</head>
+<body>
+<div id="header">
+	<h1>{{ title }}<br/>
+	<small>{{ subtitle }}</small></h1>
+	<div class="description">Providing both new and classical syntax</div>
+	{% include jquery-timing-social.html %}
+</div>
+{% include jquery-timing-navigation.html %}
 
-<h2>Usage - Usage</h2>
-{{content}}
+<div id="content">
+	
+<div class="navi no-code">
+	<h3>Involved timing methods</h3>
+	<ul>
+	{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and page.signatures contains api.signature and api.name == method.name %}
+		<li>&rarr; <a href="{{ api.url | remove:'index.html' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
+	{% endif %}{% endfor %}{% endif %}{% endfor %}
+	</ul>
+</div>
+<h2>{{ page.title }}</h2>
+
+<div class="navi no-code">
+	<h3>More How-To entries</h3>
+	<ul>
+		<li>&larr; <a href="/jquery-timing/usage/">back to overview</a></li>
+		{% assign beforeLink = '' %}{% assign state = 'before' %}{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' %}{% if usage.url == page.url %}{% assign state = 'now' %}{{ beforeLink }}{% else %}{% if state == 'now' %}{% assign state = 'after' %}<li>&rarr; <a href="{{ usage.url | remove:'index.html' }}">{{ usage.title }}</a></li>{% endif %}{% if state == 'before' %}{% capture beforeLink %}<li>&rarr; <a href="{{ usage.url | remove:'index.html' }}">{{ usage.title }}</a></li>{% endcapture %}{% endif %}{% endif %}{% endif %}{% endfor %}
+	</ul>
+</div>
+
+<h3>Compact syntax with timing methods:</h3>
+{% highlight javascript linenos %}{{ page.new }}{% endhighlight %}
+
+{{ content }}
+
+<h2>Classical usage with syntactic overhead</h2>
+{% highlight javascript linenos %}{{ page.old }}{% endhighlight %}
+
+
+	</div>
+	
+</div>
+
+{% include jquery-timing-footer.html %}
+
+</body>
+</html>

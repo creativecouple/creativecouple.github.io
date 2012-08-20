@@ -2,11 +2,14 @@
 	position: relative;
 	display: inline-block;
 	vertical-align: middle;
+	margin: 0;
+	padding: 0;
 }
 .highlight pre {
 	background: white;
 	color: black;
 	padding: 1em;
+	margin: 0;
 	border: 1px solid #ccc;
 	display: inline-block;
 	position: relative;
@@ -84,4 +87,8 @@
 .highlight .high {
 	background-color: #ff8;
 	text-shadow: #ca8 0px 0px 2px;
+}
+
+.highlight .nx.random:hover, .highlight .nx.floor:hover, .highlight .nx.doSome:hover, .highlight .nx.doThat:hover, .highlight .nx.doLater:hover, .highlight .nx.jQueryStuff:hover, .highlight .nx.doSomething:hover, .highlight .nx.foo:hover, .highlight .nx.bar:hover, .highlight .nx.foobar:hover, .highlight .nx.someMethod:hover, .highlight .nx.doThis:hover, .highlight .nx.doThisNow:hover, .highlight .nx.doLater:hover, .highlight .nx.doNow:hover, .highlight .nx.overAndOver:hover, .highlight .nx.doThisLater:hover {
+	color: #ccc;
 }

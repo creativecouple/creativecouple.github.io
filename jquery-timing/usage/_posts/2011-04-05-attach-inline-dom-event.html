@@ -1,10 +1,16 @@
 ---
+layout: jquery-timing-usage
 title: How to attach an inline DOM event handler
 signatures:
  - .on($)
  - .bind($)
+old: |
+  $('.some').click(function(){
+    $(this).doSome().jQueryStuff();
+  });
+new: |
+  $('.some').click($).doSome().jQueryStuff();
 ---
-
-{% highlight javascript %}
-$('.some').click($).doSome().jQueryStuff();
-{% endhighlight %}
+<p>
+The jQuery token <strong>$</strong> is used instead of a callback function to indicate the usage as inline event handler.
+</p> 

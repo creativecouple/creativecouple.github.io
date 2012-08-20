@@ -3,7 +3,7 @@ base: http://creativecouple.github.com
 projects:
   jquery-timing:
     documentation: [posts]
-    usage:         [index]
+    usage:         [index, posts]
     api:           [index, sub_posts]
     examples:      [index, posts]
     tests:         [index]

@@ -15,17 +15,8 @@ If you need a specific one, just let us know.
 See <a href="/jquery-timing/#contact">contact section</a>.
 </p>
 
-{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' %}
-<div class="navi no-code" style="clear:both">
-	<h3>Related API entries</h3>
-	<ul class="no-code">
-	{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and usage.signatures contains api.signature and api.name == method.name %}
-		<li>&rarr; <a href="{{ api.url | remove:'index.html' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
-	{% endif %}{% endfor %}{% endif %}{% endfor %}
-	</ul>
-</div>
-<div class="usage" style="clear:none">
-<h2>{{ usage.title }}</h2>
-{{ usage.content }}
-</div>
-{% endif %}{% endfor %}
+<ul class="usage">
+	{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' %}
+	<li><a href="{{ usage.url | remove:'index.html' }}" title="see details for usage" class="roundLeft">{% highlight javascript %}{{ usage.new }}{% endhighlight %}{{ usage.title }}</a></li>
+	{% endif %}{% endfor %}
+</ul>

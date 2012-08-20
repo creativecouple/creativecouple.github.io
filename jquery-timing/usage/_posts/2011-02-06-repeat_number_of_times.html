@@ -1,10 +1,13 @@
 ---
+layout: jquery-timing-usage
 title: How to repeat actions a given number of times 
 signatures:
  - .repeat()
  - .until(count)
+old: |
+  for (var i = 0; i < count; i++) {
+    $('.some').doThis().jQueryStuff();
+  }
+new: |
+  $('.some').repeat().doThis().jQueryStuff().until(count);
 ---
-
-{% highlight javascript %}
-$('.some').repeat().doThis().jQueryStuff().until(count);
-{% endhighlight %}

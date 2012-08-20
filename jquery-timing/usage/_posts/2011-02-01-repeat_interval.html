@@ -1,11 +1,20 @@
 ---
+layout: jquery-timing-usage
 title: How to repeat the same actions on interval
 signatures:
  - .repeat(interval)
  - .until(bool)
+old: |
+  setInterval(function(){
+    $('.some').doThis().overAndOver();
+  }, interval);
+new: |
+  $('.some').repeat(interval).doThis().overAndOver();
 ---
-
-{% highlight javascript %}
-$('.some').repeat(interval-in-ms).doThis().overAndOver();
-$('.some').repeat(interval-in-ms).doThis().until(false);
+<p>
+The closing command <span class="localAPI">.until()</span> can be skipped for infinite loops.
+If you want to use it, write:
+</p>
+{% highlight javascript linenos %}
+$('.some').repeat(interval).doThis().until(false);
 {% endhighlight %}

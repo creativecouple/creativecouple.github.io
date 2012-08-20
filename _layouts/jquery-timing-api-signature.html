@@ -47,14 +47,33 @@ tags:
 
 <div class="block">
 {% for api in site.posts reversed %}{% if api.signature == page.signature %}
-		<h2>Examples with {{ api.title }}</h2>
+	<h2>Usage schemas with {{ api.title }}</h2>
+{% endif %}{% endfor %}
+
+{% capture usages %}
+<ul class="usage api">
+	{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' and usage.signatures contains page.signature %}
+	<li><a href="{{ usage.url | remove:'index.html' }}" title="{{ usage.title | strip_html }}" class="roundLeft roundRight">{% highlight javascript %}{{ usage.new }}{% endhighlight %}</a></li>
+	{% endif %}{% endfor %}
+</ul>
+{% endcapture %}
+{% if usages contains 'li' %}
+	{{ usages }}
+{% else %}
+	<em>- no matching how-to entry yet -</em>
+{% endif %}
+</div>
+
+<div class="block">
+{% for api in site.posts reversed %}{% if api.signature == page.signature %}
+	<h2>More examples with {{ api.title }}</h2>
 {% endif %}{% endfor %}
 
 {% capture examples %}
 {% for example in site.posts reversed %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and example.signatures contains page.signature %}
 	{% assign nr = 1 %}{% for other in site.posts reversed %}{% capture path %}{{ other.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and other.date < example.date %}{% capture nr %}{{ nr | plus:1 }}{% endcapture %}{% endif %}{% endfor %}
 	<div>
-		<h3><a href="{{ example.url | remove:'index.html' }}">Example #{{ nr }}</a>: {{ example.title }}</h3>
+		<h3><a href="{{ example.url | remove:'index.html' }}"><em>Example #{{ nr }}:</em> {{ example.title }}</a></h3>
 		{{ example.content }}
 	</div>
 	<hr/>
@@ -63,6 +82,6 @@ tags:
 {% if examples contains 'div' %}
 	{{ examples }}
 {% else %}
-	<em>- no matching examples yet -</em>
+	<em>- no matching example yet -</em>
 {% endif %}
 </div>

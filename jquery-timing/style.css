@@ -52,6 +52,12 @@ h3 {
 	padding: 0;
 	color: inherit;
 }
+h3 > a {
+	text-decoration: none;
+}
+h3 > a:hover {
+	text-decoration: underline;
+}
 
 small {
 	font-size: 0.7em;
@@ -398,11 +404,47 @@ span.right {
 	text-align: justify;
 }
 
-div.usage {
-	margin-top: 1em;
+ul.usage li {
+	margin: 0;
+	clear: both;
+	vertical-align: middle;
 }
-div.usage > h2 {
-	margin-bottom: 0;
+ul.usage li div.highlight {
+	float: right;
+	margin: -1em 0 1em 2em;
+}
+ul.usage.api li div.highlight {
+	float: none;
+	margin: -1em 0;
+	display: block;
+}
+ul.usage li div.highlight pre {
+	border-color: transparent;
+	background: none #f6f6ff;
+}
+ul.usage.api li div.highlight pre {
+	display: block;
+}
+ul.usage li > a {
+	display: block;
+	margin: 0;
+	padding: 6px 0 6px 3px;
+	text-decoration: none;
+}
+ul.usage.api li > a {
+	padding: 6px;
+}
+ul.usage li > a:hover {
+	background: #0D5995;
+	color: white;
+	text-decoration: underline;
+}
+ul.usage.api li > a:hover {
+	text-decoration: none;
+}
+ul.usage li > a:hover div.highlight pre {
+	border-color: #0D5995;
+	background: white;
 }
 
 .center {

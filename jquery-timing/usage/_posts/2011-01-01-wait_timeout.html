@@ -1,9 +1,13 @@
 ---
+layout: jquery-timing-usage
 title: How to insert a single timeout
 signatures:
  - .wait(timeout)
+old: |
+  $('.some').doSome();
+  setTimeout(function(){
+    $('.some').doLater();
+  }, timeout);
+new: |
+  $('.some').doSome().wait(timeout).doLater();
 ---
-
-{% highlight javascript %}
-$('.some').doSome().wait(timeout-in-millis).doLater();
-{% endhighlight %}

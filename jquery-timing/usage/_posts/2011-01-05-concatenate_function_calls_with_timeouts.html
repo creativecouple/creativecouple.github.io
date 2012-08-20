@@ -1,12 +1,21 @@
 ---
+layout: jquery-timing-usage
 title: How to concatenate function calls with timeouts
 signatures:
  - $.wait(timeout)
  - .wait(timeout)
+old: |
+  setTimeout(function(){
+    …
+    setTimeout(function(){
+      …
+      setTimeout(function(){
+        …
+      }, third-timeout);
+    }, second-timeout);
+  }, first-timeout);
+new: |
+  $.wait(first-timeout, function(){ … })
+    .wait(second-timeout, function(){ … })
+    .wait(third-timeout, function(){ … });
 ---
-
-{% highlight javascript %}
-$.wait(first-timeout, function(){ … })
-  .wait(second-timeout, function(){ … })
-  .wait(third-timeout, function(){ … });
-{% endhighlight %}

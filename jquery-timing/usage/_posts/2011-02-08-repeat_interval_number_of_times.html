@@ -1,0 +1,17 @@
+---
+layout: jquery-timing-usage
+title: How to repeat on interval a given number of times 
+signatures:
+ - .repeat(interval)
+ - .until(count)
+old: |
+  var i = 0,
+  intervalID = setInterval(function(){
+    $('.some').doThis();
+    if (++i >= count) {
+      clearInterval(intervalID);
+    }
+  }, interval);
+new: |
+  $('.some').repeat(interval, true).doThis().until(count);
+---

@@ -1,11 +1,22 @@
 ---
+layout: jquery-timing-usage
 title: How to repeat on interval with immediate first run
 signatures:
  - .repeat(interval)
  - .until(bool)
+old: |
+  function myFunction(){
+    $('.some').doThis().overAndOver();
+  }
+  myFunction();
+  setInterval(myFunction, interval);
+new: |
+  $('.some').repeat(interval, true).doThis().overAndOver();
 ---
-
-{% highlight javascript %}
-$('.some').repeat(interval-in-ms, true).doThis().overAndOver();
-$('.some').repeat(interval-in-ms, true).doThis().until(false);
+<p>
+The closing command <span class="localAPI">.until()</span> can be skipped for infinite loops.
+If you want to use it, write:
+</p>
+{% highlight javascript linenos %}
+$('.some').repeat(interval, true).doThis().until(false);
 {% endhighlight %}

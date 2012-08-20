@@ -1,10 +1,17 @@
 ---
+layout: jquery-timing-usage
 title: How to insert multiple timeouts
 signatures:
  - .wait(timeout)
+old: |
+  $('.some').doSome();
+  setTimeout(function(){
+    $('.some').jQueryStuff();
+    setTimeout(function(){
+      $('.some').doLater().jQueryStuff();
+    }, second-timeout);
+  }, first-timeout);
+new: |
+  $('.some').doSome().wait(first-timeout).jQueryStuff()
+    .wait(second-timeout).doLater().jQueryStuff();
 ---
-
-{% highlight javascript %}
-$('.some').doSome().wait(first-timeout).jQueryStuff()
-  .wait(second-timeout).doLater().jQueryStuff();
-{% endhighlight %}
