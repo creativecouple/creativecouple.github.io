@@ -30,6 +30,20 @@
 	<h2>Example #{{ nr }}: {{ page.title }}</h2>
 	{{content}}
 	</div>
+
+{% capture usages %}{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' %}{% assign match = null %}{% for signature in page.signatures %}{% if usage.signatures contains signature %}{% assign match = 'true' %}{% endif %}{% endfor %}{% if match != null %}
+	<li><a href="{{ usage.url | remove:'index.html' }}" title="see details for usage" class="roundLeft">{% highlight javascript %}{{ usage.new }}{% endhighlight %}{{ usage.title }}</a></li>
+{% endif %}{% endif %}{% endfor %}{% endcapture %}
+{% if usages contains 'a' %}
+	<div class="block">
+	<h2>Similar usage patterns of these timing methods</h2>
+	<ul class="usage">
+	{{ usages }}
+	</ul>
+	</div>
+{% endif %}
+	<hr/>
+
 	
 </div>
 
