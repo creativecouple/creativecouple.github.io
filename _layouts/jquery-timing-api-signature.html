@@ -7,31 +7,41 @@ tags:
  - reference
 ---
 
+{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' and method.name == page.name %}
 <div class="api">
-<h2>{{ page.subtitle }}</h2>
-<div class="description">
-<strong>Description:</strong>
-{% for api in site.posts reversed %}{% if api.signature == page.signature %}
-	{{ api.description }}
-{% endif %}{% endfor %} 
-</div>
-<hr/>
-{{ content }}
-<hr/>
-{% if page.alturl != null %}<p class="description">See jQuery API for <a href="{{ page.alturl }}">{{ page.subtitle }}</a>.</p>{% endif %}
+	<h2>{{ page.subtitle }}</h2>
+	<div class="description">
+		<strong>Description:</strong>
+		{% for api in site.posts reversed %}{% if api.signature == page.signature %}
+			{{ api.description }}
+		{% endif %}{% endfor %} 
+	</div>
+	<hr/>
+	{{ content }}
+	<hr/>
+	{% if page.alturl != null %}
+		<p class="description">See jQuery API for <a href="{{ page.alturl }}">{{ page.subtitle }}</a>.</p>
+		<hr/>
+	{% endif %}
+	<h3>Usage of {{ method.title }}</h3>
+	{% capture usages %}
+	{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' and usage.signatures contains page.signature %}
+	<a href="{{ usage.url | remove:'index.html' }}" title="{{ usage.title | strip_html }}" class="api roundLeft roundRight">{% highlight javascript %}{{ usage.new }}{% endhighlight %}</a>
+	{% endif %}{% endfor %}
+	{% endcapture %}
+	{% if usages contains 'a' %}{{ usages }}{% else %}<em>- no matching usage entry yet -</em>{% endif %}
 </div>
 
-{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' and method.name == page.name %}
-	<div class="navi no-code">
-		<h3 class="roundTop">Other versions of {{ method.title }}</h3>
-		<ul>
-			<li>&larr; <a href="/jquery-timing/api/#{{ method.name }}">back to overview</a></li>
-			{% if page.alturl != null %}<li>&rarr; <a href="{{ page.alturl }}">{{ page.alturl }}</a></li>{% endif %}
-			{% for api in site.posts reversed %}{% if api.url != page.url %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.name == method.name %}
-			<li>&rarr; <a href="{{ api.url | remove:'index.html' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
-			{% endif %}{% endif %}{% endfor %}
-		</ul>
-	</div>
+<div class="navi no-code">
+	<h3 class="roundTop">Other versions of {{ method.title }}</h3>
+	<ul>
+		<li>&larr; <a href="/jquery-timing/api/#{{ method.name }}">back to overview</a></li>
+		{% if page.alturl != null %}<li>&rarr; <a href="{{ page.alturl }}">{{ page.alturl }}</a></li>{% endif %}
+		{% for api in site.posts reversed %}{% if api.url != page.url %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.name == method.name %}
+		<li>&rarr; <a href="{{ api.url | remove:'index.html' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
+		{% endif %}{% endif %}{% endfor %}
+	</ul>
+</div>
 {% endif %}{% endfor %}
 
 {% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' and page.friends contains method.name %}
@@ -47,26 +57,7 @@ tags:
 
 <div class="block">
 {% for api in site.posts reversed %}{% if api.signature == page.signature %}
-	<h2>Usage schemas with {{ api.title }}</h2>
-{% endif %}{% endfor %}
-
-{% capture usages %}
-<ul class="usage api">
-	{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' and usage.signatures contains page.signature %}
-	<li><a href="{{ usage.url | remove:'index.html' }}" title="{{ usage.title | strip_html }}" class="roundLeft roundRight">{% highlight javascript %}{{ usage.new }}{% endhighlight %}</a></li>
-	{% endif %}{% endfor %}
-</ul>
-{% endcapture %}
-{% if usages contains 'li' %}
-	{{ usages }}
-{% else %}
-	<em>- no matching how-to entry yet -</em>
-{% endif %}
-</div>
-
-<div class="block">
-{% for api in site.posts reversed %}{% if api.signature == page.signature %}
-	<h2>More examples with {{ api.title }}</h2>
+	<h2>Examples with {{ api.title }}</h2>
 {% endif %}{% endfor %}
 
 {% capture examples %}

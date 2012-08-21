@@ -1,0 +1,15 @@
+---
+layout: jquery-timing-usage
+title: How to repeat actions in an open interval loop with immediate first run
+signatures:
+ - .repeat(interval)
+ - .until(bool)
+old: |
+  function myFunction(){
+    $('.some').doThis().overAndOver();
+  }
+  myFunction();
+  setInterval(myFunction, interval);
+new: |
+  $('.some').repeat(interval, true).doThis().overAndOver();
+---

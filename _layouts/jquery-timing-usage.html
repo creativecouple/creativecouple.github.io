@@ -34,7 +34,7 @@
 	</ul>
 </div>
 
-<h3>Compact syntax with timing methods:</h3>
+<p>Compact syntax with timing methods:</p>
 {% highlight javascript linenos %}{{ page.new }}{% endhighlight %}
 
 {{ content }}
@@ -42,6 +42,18 @@
 <h2>Classical usage with syntactic overhead</h2>
 {% highlight javascript linenos %}{{ page.old }}{% endhighlight %}
 
+{% capture usages %}{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' and usage.url != page.url %}{% assign match = null %}{% for signature in page.signatures %}{% if usage.signatures contains signature %}{% assign match = 'true' %}{% endif %}{% endfor %}{% if match != null %}
+	<li><a href="{{ usage.url | remove:'index.html' }}" title="see details for usage" class="roundLeft">{% highlight javascript %}{{ usage.new }}{% endhighlight %}{{ usage.title }}</a></li>
+{% endif %}{% endif %}{% endfor %}{% endcapture %}
+{% if usages contains 'a' %}
+	<div class="block">
+	<h2>Related patterns</h2>
+	<ul class="usage">
+	{{ usages }}
+	</ul>
+	</div>
+{% endif %}
+	<hr/>
 
 	</div>
 	

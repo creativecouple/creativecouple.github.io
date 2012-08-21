@@ -74,7 +74,7 @@ $(document).ready(function(){
 					return false;
 				}
 			});
-			$this.toggleClass(($.inArray(text,localAPI) >= 0) ? 'localAPI' : 'jqueryAPI', $.inArray(text,['random','floor','doSome','doThat','doLater','jQueryStuff','doSomething','foo','bar','foobar','someMethod','doThis','doThisNow','doLater','doNow','overAndOver','doThisLater'])<0);
+			$this.toggleClass(($.inArray(text,localAPI) >= 0) ? 'localAPI' : 'jqueryAPI', $.inArray(text,['random','floor','reverse','doSome','doThat','doLater','jQueryStuff','doSomething','foo','bar','foobar','someMethod','doThis','doThisNow','doLater','doNow','overAndOver','doThisLater'])<0);
 		})
 		.on('mouseover mouseout').each().data('high').all().toggleClass('high');
 		

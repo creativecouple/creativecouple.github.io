@@ -1,0 +1,18 @@
+---
+layout: jquery-timing-usage
+title: How to repeat in a closed interval loop with immediate first run
+signatures:
+ - .repeat(interval)
+ - .until(bool)
+old: |
+  function myFunction(){
+    $('.some').doThis();
+  }
+  myFunction();
+  setInterval(myFunction, interval);
+new: |
+  $('.some').repeat(interval, true).doThis().until(false);
+---
+<p>
+The closing command <span class="localAPI">.until</span>(false) can be skipped for infinite loops.
+</p>

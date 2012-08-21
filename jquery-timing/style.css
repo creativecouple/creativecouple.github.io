@@ -21,6 +21,7 @@ h1 {
 	color: inherit;
 	text-shadow: white 1px 1px 1px;
 	background: url(local-icon.gif) no-repeat scroll 0 0;
+	width: 640px;
 }
 h1 a {
 	color: inherit;
@@ -411,19 +412,11 @@ ul.usage li {
 }
 ul.usage li div.highlight {
 	float: right;
-	margin: -1em 0 1em 2em;
-}
-ul.usage.api li div.highlight {
-	float: none;
-	margin: 0;
-	display: block;
+	margin: -6px 0 0 2em;
 }
 ul.usage li div.highlight pre {
 	border-color: transparent;
-	background: none #f6f6ff;
-}
-ul.usage.api li div.highlight pre {
-	display: block;
+	background: none transparent;
 }
 ul.usage li > a {
 	display: block;
@@ -431,20 +424,34 @@ ul.usage li > a {
 	padding: 6px 0 6px 3px;
 	text-decoration: none;
 }
-ul.usage.api li > a {
-	padding: 6px;
-}
 ul.usage li > a:hover {
-	background: #0D5995;
-	color: white;
+	background: white;
+	color: #0D5995;
 	text-decoration: underline;
-}
-ul.usage.api li > a:hover {
-	text-decoration: none;
 }
 ul.usage li > a:hover div.highlight pre {
 	border-color: #0D5995;
 	background: white;
+}
+
+a.api {
+	display: block;
+	margin: 0 -6px;
+	border: none;
+	background: none;
+	padding: 6px;
+	text-decoration: none;
+}
+a.api .highlight, a.api .highlight pre {
+	background: white;
+	padding: 0;
+	margin: 0;
+	border: none;
+	display: block;
+}
+a.api:hover {
+	background: #0D5995;
+	text-decoration: none;
 }
 
 .center {

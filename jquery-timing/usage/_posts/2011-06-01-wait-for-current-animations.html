@@ -1,0 +1,23 @@
+---
+layout: jquery-timing-usage
+title: How to wait for the end of all current animations on the selected elements.
+signatures:
+ - .join()
+old: |
+  var waiting = $('.some').length;
+  if (!waiting) {
+  	$('.some').doSome().jQueryStuff();
+  } else {
+    $('.some').queue(function(next){
+      next();
+      if (!--waiting) {
+        $('.some').doSome().jQueryStuff();
+      }
+    });
+  }
+new: |
+  $('.some').join().doSome().jQueryStuff();
+---
+<p>
+The <span class="locaAPI">join()</span> method also provides parameters for selecting the queue or to wait for an empty queue instead of the current animations' end.
+</p>

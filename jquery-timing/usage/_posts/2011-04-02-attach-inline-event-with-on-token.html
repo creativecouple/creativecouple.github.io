@@ -1,0 +1,15 @@
+---
+layout: jquery-timing-usage
+title: How to attach an inline event handler using .on() with the jQuery token parameter
+signatures:
+ - .on($)
+old: |
+  $('.some').on('click', function(){
+    $(this).doSome().jQueryStuff();
+  });
+new: |
+  $('.some').on('click',$).doSome().jQueryStuff();
+---
+<p>
+The return value of .on() is an inline handler if the callback function is skipped or given as jQuery token <strong>$</strong>.
+</p>

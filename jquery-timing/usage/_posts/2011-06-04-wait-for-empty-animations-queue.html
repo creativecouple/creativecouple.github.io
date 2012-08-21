@@ -1,0 +1,15 @@
+---
+layout: jquery-timing-usage
+title: How to wait for non-default animation queues on the selected elements getting empty.
+signatures:
+ - .join()
+old: |
+  $('.some').promise(queue).then(function(){
+    $('.some').doSome().jQueryStuff();
+  });
+new: |
+  $('.some').join(queue,true).doSome().jQueryStuff();
+---
+<p>
+Due to a <a href="http://bugs.jquery.com/ticket/12278">bug in jQuery</a> this feature doesn't work up to jQuery 1.8.0.
+</p>

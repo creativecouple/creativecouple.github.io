@@ -22,7 +22,7 @@ $('#boxparent').repeat().append('<div>').until(25)
 These 25 boxes shall be animated as falling down with each button click.
 </p>
 
-A helper function .reverse() is necessary to animate them in reverse order:
+A helper function is necessary to animate them in reverse order:
 {% highlight javascript %}
 $.fn.reverse = function() {
   return this.$(this.get().reverse());
