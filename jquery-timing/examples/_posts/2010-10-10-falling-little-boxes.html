@@ -1,0 +1,65 @@
+---
+layout: jquery-timing-example
+title: falling little boxes
+signatures:
+  - .repeat()
+  - .until(count)
+  - .each($)
+  - .all()
+  - .on($)
+  - .$()
+  - .wait(timeout)
+  - .unwait()
+---
+
+This example first creates 25 little boxes with an inline definition:
+{% highlight javascript %}
+$('#boxparent').repeat().append('<div>').until(25)
+  .children().hide();
+{% endhighlight %}
+
+<p>
+These 25 boxes shall be animated as falling down with each button click.
+</p>
+
+A helper function .reverse() is necessary to animate them in reverse order:
+{% highlight javascript %}
+$.fn.reverse = function() {
+  return this.$(this.get().reverse());
+}
+{% endhighlight %}
+
+<p>
+Try clicking on that button multiple times during animation.
+With <span class="jqueryAPI">.stop</span>(true,true) and <span class="localAPI">.unwait()</span> all animations are reset at the beginning.
+</p>
+
+<a href="http://jsfiddle.net/creativecouple/qnVE2/9/" class="jsfiddle"></a>
+{% highlight javascript %}
+$('button').on('click').fadeTo('slow',0.3)
+  .$('#boxparent div').stop(true,true).unwait()
+  .css({top:-300}).show().reverse()
+  .each($).animate({top:0},500).wait(100).all()
+  .wait(500).fadeOut('slow')
+  .$('button').wait(200).fadeTo('slow',1);
+{% endhighlight %}
+<span>&rArr;</span>
+<div class="result falling-little-boxes" style="background:black;padding:6px;overflow:hidden;text-align:center;">
+<div id="falling-little-boxes-boxparent" style="width:150px;height:150px;padding:0;overflow:visible;background:#222;border:1px solid #666;"></div>
+<button style="margin:10px;">Start animation</button>
+</div>​
+<script type="text/javascript">
+$(function(){
+	// define the reverse function missing in jQuery
+	$.fn.reverse = function() { return this.$(this.get().reverse()); }
+	// create 25 little squares and hide them
+	$('#falling-little-boxes-boxparent').repeat().append('<div style="width:20px;height:20px;padding:0;margin:5px;border:none;position:relative;float:right;background:white;">').until(25).children().hide();
+	// start boxes animation on button click
+	$('.falling-little-boxes button').on('click').fadeTo('slow',0.3)
+		.$('#falling-little-boxes-boxparent div').stop(true,true).unwait()
+		.css({top:-300}).show().reverse()
+		.each($).animate({top:0},500).wait(100).all()
+		.wait(500).fadeOut('slow')
+		.end().end().wait(200).fadeTo('slow',1);
+});
+</script>
