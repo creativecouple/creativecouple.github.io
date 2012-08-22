@@ -1,0 +1,13 @@
+---
+layout: jquery-timing-usage
+title: invoke a callback at some specific point in the timeline
+signatures:
+ - .then()
+old: |
+  $some.doStuffAndRegisterCallback(function(){
+      callback();
+      $some.doMore();
+  });
+new: |
+  $some.timingStuff().then(callback).doMore();
+---

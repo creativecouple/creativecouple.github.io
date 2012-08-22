@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-{% assign title = 'Usage of timing methods' %}
+{% capture title %}Usage of
+	{% capture methods %}{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}{% assign match = null %}{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.name == method.name and page.signatures contains api.signature %}{% assign match = 'true' %}{% endif %}{% endfor %}{% if match != null %}{{ method.title }} {% endif %}{% endif %}{% endfor %}{% endcapture %}
+	{{ methods | split:' ' | array_to_sentence_string }}
+{% endcapture %}
 {% assign subtitle = page.title %}
 {% include jquery-timing-head.html %}
 </head>
@@ -17,33 +20,33 @@
 <div id="content">
 	
 <div class="navi no-code">
-	<h3>Involved timing methods</h3>
-	<ul>
-	{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and page.signatures contains api.signature and api.name == method.name %}
-		<li>&rarr; <a href="{{ api.url | remove:'index.html' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
-	{% endif %}{% endfor %}{% endif %}{% endfor %}
-	</ul>
-</div>
-<h2>{{ page.title }}</h2>
-
-<div class="navi no-code">
-	<h3>More How-To entries</h3>
+	<h3>Other How-To entries</h3>
 	<ul>
 		<li>&larr; <a href="/jquery-timing/usage/">back to overview</a></li>
 		{% assign beforeLink = '' %}{% assign state = 'before' %}{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' %}{% if usage.url == page.url %}{% assign state = 'now' %}{{ beforeLink }}{% else %}{% if state == 'now' %}{% assign state = 'after' %}<li>&rarr; <a href="{{ usage.url | remove:'index.html' }}">{{ usage.title }}</a></li>{% endif %}{% if state == 'before' %}{% capture beforeLink %}<li>&rarr; <a href="{{ usage.url | remove:'index.html' }}">{{ usage.title }}</a></li>{% endcapture %}{% endif %}{% endif %}{% endif %}{% endfor %}
 	</ul>
 </div>
 
+<div class="navi no-code">
+	<h3>Timing methods API</h3>
+	<ul>
+	{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and page.signatures contains api.signature and api.name == method.name %}
+		<li>&rarr; <a href="{{ api.url | remove:'index.html' }}" title="{{ api.title | strip_html }}">{{ api.subtitle }}</a></li>
+	{% endif %}{% endfor %}{% endif %}{% endfor %}
+	</ul>
+</div>
+<h2>How to {{ page.title }}?</h2>
+
 <p>Compact syntax with timing methods:</p>
 {% highlight javascript linenos %}{{ page.new }}{% endhighlight %}
 
 {{ content }}
 
-<h2>Classical usage with syntactic overhead</h2>
+<h2>Classical usage with syntactic fluff</h2>
 {% highlight javascript linenos %}{{ page.old }}{% endhighlight %}
 
 {% capture usages %}{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' and usage.url != page.url %}{% assign match = null %}{% for signature in page.signatures %}{% if usage.signatures contains signature %}{% assign match = 'true' %}{% endif %}{% endfor %}{% if match != null %}
-	<li><a href="{{ usage.url | remove:'index.html' }}" title="see details for usage" class="roundLeft">{% highlight javascript %}{{ usage.new }}{% endhighlight %}{{ usage.title }}</a></li>
+	<li><a href="{{ usage.url | remove:'index.html' }}" title="see details for usage" class="roundLeft">How to {% highlight javascript %}{{ usage.new }}{% endhighlight %}{{ usage.title }}?</a></li>
 {% endif %}{% endif %}{% endfor %}{% endcapture %}
 {% if usages contains 'a' %}
 	<div class="block">

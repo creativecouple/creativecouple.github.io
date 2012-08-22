@@ -1,18 +1,18 @@
 ---
 layout: jquery-timing-api-signature
 title: breaking loop repetition of a static thread group
-subtitle: <code class="local">$.unrepeat(<span class="optional">threadGroup</span>)</code>
+subtitle: <code class="local">$.unrepeat(<span class="optional">group</span>)</code>
 signature: $.unrepeat()
 name: 'unrepeat'
 description:
-  Stop ongoing <span class="localAPI">repeat</span> loops in the specified thread group.
+  Stop ongoing <span class="localAPI">repeat</span> loops in the named thread group.
 friends:
   - repeat
   - until
 ---
 
 <dl>
-	<dt>threadGroup &ndash; <code>string</code>, optional</dt>
+	<dt>group &ndash; <code>string</code>, optional</dt>
 	<dd>a name of the thread group whose repeating invocation chains should be left.</dd>
 	<dd>Defaults to the empty string <code>''</code>.</dd>
 </dl>

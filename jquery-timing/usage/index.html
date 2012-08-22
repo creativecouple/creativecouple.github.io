@@ -17,6 +17,6 @@ See <a href="/jquery-timing/#contact">contact section</a>.
 
 <ul class="usage">
 	{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' %}
-	<li><a href="{{ usage.url | remove:'index.html' }}" title="see details for usage" class="roundLeft">{% highlight javascript %}{{ usage.new }}{% endhighlight %}{{ usage.title }}</a></li>
+	<li><a href="{{ usage.url | remove:'index.html' }}" title="see details for usage" class="roundLeft">How to {% highlight javascript %}{{ usage.new }}{% endhighlight %}{{ usage.title }}</a></li>
 	{% endif %}{% endfor %}
 </ul>

@@ -23,13 +23,15 @@ tags:
 		<p class="description">See jQuery API for <a href="{{ page.alturl }}">{{ page.subtitle }}</a>.</p>
 		<hr/>
 	{% endif %}
-	<h3>Usage of {{ method.title }}</h3>
-	{% capture usages %}
-	{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' and usage.signatures contains page.signature %}
-	<a href="{{ usage.url | remove:'index.html' }}" title="{{ usage.title | strip_html }}" class="api roundLeft roundRight">{% highlight javascript %}{{ usage.new }}{% endhighlight %}</a>
-	{% endif %}{% endfor %}
-	{% endcapture %}
-	{% if usages contains 'a' %}{{ usages }}{% else %}<em>- no matching usage entry yet -</em>{% endif %}
+	{% capture usages %}{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' and usage.signatures contains page.signature %}
+		<a href="{{ usage.url | remove:'index.html' }}" title="How to {{ usage.title | strip_html }}?" class="api roundLeft roundRight">{% highlight javascript %}{{ usage.new }}{% endhighlight %}</a>
+	{% endif %}{% endfor %}{% endcapture %}
+	{% if usages contains 'a' %}
+		<h3>Usage pattern</h3>
+		{{ usages }}
+	{% else %}
+		<!-- no matching usage entry yet -->
+	{% endif %}
 </div>
 
 <div class="navi no-code">
@@ -55,24 +57,19 @@ tags:
 	</div>
 {% endif %}{% endfor %}
 
-<div class="block">
-{% for api in site.posts reversed %}{% if api.signature == page.signature %}
-	<h2>Examples with {{ api.title }}</h2>
-{% endif %}{% endfor %}
-
-{% capture examples %}
-{% for example in site.posts reversed %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and example.signatures contains page.signature %}
+{% capture examples %}{% for example in site.posts reversed %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and example.signatures contains page.signature %}
 	{% assign nr = 1 %}{% for other in site.posts reversed %}{% capture path %}{{ other.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and other.date < example.date %}{% capture nr %}{{ nr | plus:1 }}{% endcapture %}{% endif %}{% endfor %}
 	<div>
 		<h3><a href="{{ example.url | remove:'index.html' }}"><em>Example #{{ nr }}:</em> {{ example.title }}</a></h3>
 		{{ example.content }}
 	</div>
-	<hr/>
-{% endif %}{% endfor %}
-{% endcapture %}
+{% endif %}{% endfor %}{% endcapture %}
 {% if examples contains 'div' %}
+	<div class="block">
+	{% for api in site.posts reversed %}{% if api.signature == page.signature %}<h2>Examples with {{ api.title }}</h2>{% endif %}{% endfor %}	
 	{{ examples }}
+	</div>
 {% else %}
-	<em>- no matching example yet -</em>
+	<!-- no matching example yet -->
 {% endif %}
-</div>
+<hr/>

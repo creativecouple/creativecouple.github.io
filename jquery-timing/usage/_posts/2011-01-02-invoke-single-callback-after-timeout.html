@@ -1,0 +1,10 @@
+---
+layout: jquery-timing-usage
+title: invoke a single function after a timeout 
+signatures:
+ - $.wait(timeout)
+old: |
+  setTimeout(function(){ … }, timeout);
+new: |
+  $.wait(timeout, function(){ … });
+---

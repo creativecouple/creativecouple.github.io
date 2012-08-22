@@ -1,0 +1,10 @@
+---
+layout: jquery-timing-usage
+title: repeat a single callback on interval
+signatures:
+ - $.repeat(interval)
+old: |
+  setInterval(function(){ … }, interval);
+new: |
+  $.repeat(interval, function(){ … });
+---

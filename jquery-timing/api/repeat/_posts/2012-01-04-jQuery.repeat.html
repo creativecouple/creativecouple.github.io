@@ -1,22 +1,23 @@
 ---
 layout: jquery-timing-api-signature
-title: static usage of repeat loop
-subtitle: <code class="local">$.repeat(<span class="optional">threadGroup,</span> …)</code>
+title: static instant loop
+subtitle: <code class="local">$.repeat(<span class="optional">group,</span> <span class="optional">callback</span>)</code>
 signature: $.repeat()
 name: 'repeat'
 description:
-  Begin a <a href="/jquery-timing/usage/loops/sequential-loop.html">sequential loop</a> belonging to a static threadgroup.
+  Begin an <a href="/jquery-timing/usage/loops/sequential-loop.html">sequential loop</a> that iterates instantly for a named thread group.
 friends:
  - until
  - unrepeat
 ---
 
 <dl>
-	<dt>threadGroup &ndash; <code>string</code>, optional</dt>
+	<dt>group &ndash; <code>string</code>, optional</dt>
 	<dd>a name of the thread group that this loop should be assigned to.</dd>
 	<dd>Defaults to the empty string <code>''</code>.</dd>
-	<dt>…, further parameters</dt>
-	<dd>can be used like in the non-static versions of .repeat()</dd>
+	<dt>callback &ndash; <code>function(count…)</code>, optional</dt>
+	<dd>a method that is called once per loop iteration.</dd>
+	<dd>All current iteration counts (from inner-most to outer-most loop) are passed as arguments.</dd>
 </dl>
 <hr/>
 <p class="description">
