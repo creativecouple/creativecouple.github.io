@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-{% capture title %}Usage of
-	{% capture methods %}{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}{% assign match = null %}{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.name == method.name and page.signatures contains api.signature %}{% assign match = 'true' %}{% endif %}{% endfor %}{% if match != null %}{{ method.title }} {% endif %}{% endif %}{% endfor %}{% endcapture %}
-	{{ methods | split:' ' | array_to_sentence_string }}
-{% endcapture %}
+{% assign methods = '' %}{% for method in site.posts reversed %}{% capture path %}{{ method.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/api' %}{% assign match = null %}{% for api in site.posts reversed %}{% capture path %}{{ api.categories | join:'/' }}{% endcapture %}{% if path contains 'jquery-timing/api/' and api.name == method.name and page.signatures contains api.signature %}{% assign match = 'true' %}{% endif %}{% endfor %}{% if match != null %}{% capture methods %}{% if methods contains ' and ' %}{{ methods | replace:' and ',', ' }}, and {% elsif methods != '' %}{{ methods }} and {% endif %}{{ method.title }}{% endcapture %}{% endif %}{% endif %}{% endfor %}
+{% capture title %}Usage of {{ methods }}{% endcapture %}
 {% assign subtitle = page.title %}
 {% include jquery-timing-head.html %}
 </head>
@@ -42,7 +40,7 @@
 
 {{ content }}
 
-<h3>Compare this to the old usage with syntactic fluff:</h3>
+<h3>Compare this to the old usage with more syntactic fluff:</h3>
 {% highlight javascript linenos %}{{ page.old }}{% endhighlight %}
 
 {% capture usages %}{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' and usage.url != page.url %}{% assign match = null %}{% for signature in page.signatures %}{% if usage.signatures contains signature %}{% assign match = 'true' %}{% endif %}{% endfor %}{% if match != null %}
