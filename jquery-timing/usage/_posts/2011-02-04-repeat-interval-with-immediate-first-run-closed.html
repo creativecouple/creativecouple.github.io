@@ -1,6 +1,6 @@
 ---
 layout: jquery-timing-usage
-title: repeat in a closed interval loop with immediate first run
+title: repeat actions in a closed interval loop with immediate first run
 signatures:
  - .repeat(interval)
  - .until(bool)
@@ -11,7 +11,7 @@ old: |
   myFunction();
   setInterval(myFunction, interval);
 new: |
-  $('.some').repeat(interval, true).doThis().until(false);
+  $('.some').repeat(interval,true).doThis().until(false);
 ---
 <p>
 The closing command <span class="localAPI">.until</span>(false) can be skipped for infinite loops.
