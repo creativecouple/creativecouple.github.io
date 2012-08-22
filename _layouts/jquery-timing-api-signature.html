@@ -24,7 +24,7 @@ tags:
 		<hr/>
 	{% endif %}
 	{% capture usages %}{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' and usage.signatures contains page.signature %}
-		<a href="{{ usage.url | remove:'index.html' }}" title="How to {{ usage.title | strip_html }}?" class="api roundLeft roundRight">{% highlight javascript %}{{ usage.new }}{% endhighlight %}</a>
+		<a href="{{ usage.url | remove:'index.html' }}" title="{{ usage.title | strip_html }}" class="api roundLeft roundRight">{% highlight javascript %}{{ usage.new }}{% endhighlight %}</a>
 	{% endif %}{% endfor %}{% endcapture %}
 	{% if usages contains 'a' %}
 		<h3>Usage pattern</h3>
@@ -63,6 +63,7 @@ tags:
 		<h3><a href="{{ example.url | remove:'index.html' }}"><em>Example #{{ nr }}:</em> {{ example.title }}</a></h3>
 		{{ example.content }}
 	</div>
+	<hr/>
 {% endif %}{% endfor %}{% endcapture %}
 {% if examples contains 'div' %}
 	<div class="block">
@@ -71,5 +72,5 @@ tags:
 	</div>
 {% else %}
 	<!-- no matching example yet -->
+	<hr/>
 {% endif %}
-<hr/>
