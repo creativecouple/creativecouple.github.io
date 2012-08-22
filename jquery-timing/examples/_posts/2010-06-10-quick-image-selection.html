@@ -24,6 +24,28 @@ $("#choices").on('click','img')
     .$('#result').attr('disabled',true);
 ​{% endhighlight %}
 <span>&rArr;</span>
+<style type="text/css">
+.quick-image-selection li {
+    display: inline;
+}
+.quick-image-selection img {
+    cursor: pointer;
+    border: 15px solid transparent;
+    background-color: transparent;
+}
+.quick-image-selection img:hover {
+    border-color: silver;
+    background-color: silver;
+}
+.quick-image-selection img.selected {
+    border-color: red;
+    background-color: red;
+}
+.quick-image-selection img.selected:hover {
+    border-color: maroon;
+    background-color: maroon;
+}
+</style>
 <div class="result quick-image-selection">
 Choose your preferred image:
 <button id="quick-image-selection-result" onclick="alert($('.quick-image-selection .selected').attr('alt'))">I'm ready</button>

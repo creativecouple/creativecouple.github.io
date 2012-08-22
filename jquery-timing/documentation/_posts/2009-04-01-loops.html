@@ -110,6 +110,22 @@ This version of the each-loop is running the code for each element in a sequence
 $('#example').find('span').each().wait('click').remove().all().end().before('Done!');
 {% endhighlight %}
 &rArr;
+<style type="text/css">
+#loops-parallel-each-example-list span:hover {
+    cursor: pointer;
+    background-color: red;
+    margin: 0;
+    padding: 0;
+}
+#loops-parallel-each-example-list li {
+    margin: 0;
+    padding: 0;
+    width: 80px;
+}
+#loops-parallel-each-example-list {
+    list-style-type: decimal;
+}
+​</style>
 <div class="result">
 <ol id="loops-parallel-each-example-list">
  <li><span>click me</span></li>

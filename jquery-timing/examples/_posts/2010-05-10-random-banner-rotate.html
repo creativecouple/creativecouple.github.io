@@ -23,7 +23,7 @@ $('#banners > *').hide().repeat(5000,true)
 .until($);
 {% endhighlight %}
 <span>&rArr;</span>
-<div class="result" id="banners-random-banner-rotate">
+<div class="result" id="banners-random-banner-rotate" style="position:relative;width:300px;height:80px;">
    <div style="background:yellow">
       <p>Some banner text?<br />
         <span>some more text here</span>
@@ -48,6 +48,6 @@ $('#banners > *').hide().repeat(5000,true)
 <script type="text/javascript">
 $(function(){
 	$.fn.random = function(){ return this.eq(Math.floor(Math.random()*this.length)) };
-	$('#banners-random-banner-rotate > *').hide().repeat(5000,true).fadeOut(1000).siblings().random().fadeIn(1000).until($);
+	$('#banners-random-banner-rotate > *').css({position:'absolute',width:300,height:80}).hide().repeat(5000,true).fadeOut(1000).siblings().random().fadeIn(1000).until($);
 });
 </script>

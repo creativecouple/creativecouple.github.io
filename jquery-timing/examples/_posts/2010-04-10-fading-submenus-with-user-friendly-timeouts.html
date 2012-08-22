@@ -24,6 +24,42 @@ $('#menu li')
   ._.mouseleave($).unwait().wait(300).children('ul').fadeOut();​
 {% endhighlight %}
 <span>&rArr;</span>
+<style type="text/css">
+#fading-submenus-with-user-friendly-timeouts {
+    display: block;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    width: 400px;
+}
+#fading-submenus-with-user-friendly-timeouts ul {
+    display: none;
+    position: absolute;
+    left: 10px;
+    top: 100%;
+    padding: 0;
+    margin: 0;
+    width: 333px;
+}
+#fading-submenus-with-user-friendly-timeouts li {
+	list-style-type: none;
+    float: left;
+    padding: 3px;
+    margin: 1px;
+    background: silver;
+    position: relative;
+    border: 2px outset silver;
+    color: black;
+    cursor: default;
+}
+#fading-submenus-with-user-friendly-timeouts li:hover {
+    background-color: white;
+    border-style: inset;
+}
+#fading-submenus-with-user-friendly-timeouts a {
+    color: green;
+}
+​</style>
 <div class="result">
 <ul id="fading-submenus-with-user-friendly-timeouts">
     <li>This

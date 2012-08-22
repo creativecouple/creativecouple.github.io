@@ -41,6 +41,57 @@ $('.tick').click(function() {
 });
 ​{% endhighlight %}
 <span>&rArr;</span>
+<style type="text/css">
+.result.ruler-with-animation {
+	width: 585px;
+    font-size: 15px;
+    height: 15px;
+    padding: 7px;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    background: #aaa url(http://www.htmlgoodies.com/images/white.gif) repeat-x scroll center center;
+}
+
+.ruler-with-animation .bubble {
+    position: absolute;
+    left: 7px;
+    top: 7px;
+    width: 13px;
+    height: 13px;
+    margin: 0;
+    padding: 1px;
+    overflow: hidden;
+    color: white;
+    background: green;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.ruler-with-animation .tick {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    color: #ccc;
+    overflow: hidden;
+    padding: 0;
+    margin: 0 15px 0 0;
+    cursor: pointer;
+    text-align: center;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    background: white;
+}
+.ruler-with-animation .tick:last-child {
+    margin-right: 0
+}
+.ruler-with-animation .tick:hover {
+	color: black;
+    background: #888 !important;
+}
+</style>
 <div class="result ruler-with-animation"><span class="bubble">*</span></div>​
 <script type="text/javascript">
 $(function(){
