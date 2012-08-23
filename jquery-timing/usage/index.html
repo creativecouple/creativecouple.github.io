@@ -15,8 +15,15 @@ If you need a specific one, just let us know.
 See <a href="/jquery-timing/#contact">contact section</a>.
 </p>
 
+{% capture all_tags %}{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' %}{% for tag in usage.tags %} {{ tag | replace:' ','_' }}{% endfor %}{% endif %}{% endfor %}{% endcapture %}
+{% capture all_tags %}{{ all_tags | split:' ' | sort | join:' ' }}{% endcapture %}{% capture tag_count %}{{ all_tags | split:' ' | size }}{% endcapture %}
+{% assign prev = '' %}{% for i in (1..tag_count) %}{% capture tag %}{{ all_tags | truncatewords:i | split:' ' | last | remove:'...' | replace:'_',' ' }}{% endcapture %}{% if tag != prev %}{% assign prev = tag %}
+<div class="block" id="{{ tag | replace:' ','_' }}">
+<h2>Patterns with {{ tag }}</h2>
 <ul class="usage">
-	{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' %}
+	{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' and usage.tags contains tag %}
 	<li><a href="{{ usage.url | remove:'index.html' }}" title="see details for usage" class="roundLeft">How to {% highlight javascript %}{{ usage.new }}{% endhighlight %}{{ usage.title }}</a></li>
 	{% endif %}{% endfor %}
 </ul>
+</div>
+{% endif %}{% endfor %}
