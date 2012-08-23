@@ -1,0 +1,12 @@
+---
+layout: jquery-timing-usage
+title: interrupt timeouts for some elements
+signatures:
+ - .unwait()
+old: |
+  // var timer = setTimeout(function(){ … }, timeout))
+  clearTimeout(timer);
+new: |
+  // $('.some').wait(timeout)…
+  $('.some').unwait();
+---

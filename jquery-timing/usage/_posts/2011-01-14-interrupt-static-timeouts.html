@@ -1,0 +1,12 @@
+---
+layout: jquery-timing-usage
+title: interrupt timeouts from static usage of wait()
+signatures:
+ - $.unwait()
+old: |
+  // var timer = setTimeout(function(){ … }, timeout))
+  clearTimeout(timer);
+new: |
+  // $.wait(timeout)…
+  $.unwait();
+---
