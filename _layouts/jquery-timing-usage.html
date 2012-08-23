@@ -35,7 +35,7 @@
 </div>
 <h2>How to {{ page.title }}?</h2>
 
-<p>Compact syntax with timing methods:</p>
+<p>{% if page.old != null %}Compact syntax with timing methods{% else %}Classical syntax{% endif %}:</p>
 {% highlight javascript linenos %}{{ page.new }}{% endhighlight %}
 
 {{ content }}
