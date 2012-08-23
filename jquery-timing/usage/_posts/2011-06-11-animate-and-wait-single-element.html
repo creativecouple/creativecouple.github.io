@@ -1,0 +1,15 @@
+---
+layout: jquery-timing-usage
+title: queue an animation for a single element and wait until it finished
+signatures:
+ - .animate($)
+old: |
+  $('#single').animate(attributes, options, function(){
+    $(this).jQueryStuff();
+  });
+new: |
+  $('#single').animate(attributes, options, $).jQueryStuff();
+---
+<p>
+The jQuery token <strong>$</strong> is used instead of a callback function to indicate the timing version of animate().
+</p>

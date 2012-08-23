@@ -1,0 +1,18 @@
+---
+layout: jquery-timing-usage
+title: queue an animation for multiple elements and wait until they finished
+signatures:
+ - .animate($)
+old: |
+  var waiting = $('.many').length;
+  $('.many').animate(attributes, options, function(){
+    if (!--waiting) {
+      $(this).jQueryStuff();
+    }
+  });
+new: |
+  $('.many').animate(attributes, options, $).jQueryStuff();
+---
+<p>
+The jQuery token <strong>$</strong> is used instead of a callback function to indicate the timing version of animate().
+</p>
