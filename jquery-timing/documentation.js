@@ -31,8 +31,16 @@ $(document).ready(function(){
 			$(this).addClass($(this).text());
 		});
 		
-		$(window).scroll(function(){
-			$('#navigation').css('top',Math.max($(window).scrollTop() - 60 - $('#header').outerHeight(), 0));
+		var navTop, navHeight;
+		$(window).on('scroll load', function(){
+			navTop = navTop || $('#navigation').offset().top;
+			navHeight = navHeight || $('#navigation').height();
+			if ($(window).scrollTop() > navTop) {
+				$('#navigation').css({position:'fixed',top:0});
+				$('#content, #footer').css({position:'relative',top:navHeight});
+			} else {
+				$('#navigation, #content, #footer').css({position:'relative',top:0});
+			}
 		});
 		
 		$('a').each(function(){
