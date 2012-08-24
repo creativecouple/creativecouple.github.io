@@ -31,18 +31,17 @@
 	{{content}}
 	</div>
 
-{% capture all_tags %}{% for tag in page.tags %} {{ tag | replace:' ','_' }}{% endfor %}{% endcapture %}
-{% capture all_tags %}{{ all_tags | split:' ' | sort | join:' ' }}{% endcapture %}{% capture tag_count %}{{ all_tags | split:' ' | size }}{% endcapture %}
-{% assign prev = '' %}{% for i in (1..tag_count) %}{% capture tag %}{{ all_tags | truncatewords:i | split:' ' | last | remove:'...' | replace:'_',' ' }}{% endcapture %}{% if tag != prev %}{% assign prev = tag %}
-{% capture examples %}{% for example in site.posts reversed %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' and example.url != page.url and example.tags contains tag %}
-	<li><a href="{{ example.url | remove:'index.html' }}">Example: {{ example.title }}</a></li>
-{% endif %}{% endfor %}{% endcapture %}
-{% if usages contains 'a' %}
+{% capture all_tags %}{{ page.tags | sort | join:';' | replace:' ','_' | replace:';',' ' }} {% endcapture %}
+{% capture tag_count %}{{ page.tags | sort | size }}{% endcapture %}
+{% assign last_tag = '' %}{% for i in (1..tag_count) %}{% capture tag %}{{ all_tags | truncatewords:1 | remove:'...' }}{% endcapture %}{% if tag != last_tag %}{% assign last_tag = tag %}
+{% capture examples %}{% assign nr = 0 %}{% for example in site.posts reversed %}{% capture path %}{{ example.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/examples' %}{% capture nr %}{{ nr | plus:1 }}{% endcapture %}{% if example.tags contains tag and example.url != page.url %}
+<li><a href="{{ example.url | remove:'index.html' }}">Example #{{ nr }}: {{ example.title }}</a></li>
+{% endif %}{% endif %}{% endfor %}{% endcapture %}{% if examples contains 'li' %}
 <div class="block">
-<h2>Other examples with {{ tag }}</h2>
-<ul>{{ examples }}</ul>
+	<h2>Other examples with {{ tag }}</h2>
+	<ul>{{ examples }}</ul>
 </div>
-{% endif %}{% endif %}{% endfor %}
+{% endif %}{% endif %}{% capture prefix %}{{ tag }} {% endcapture %}{% capture all_tags %}{{ all_tags | remove_first:prefix }}{% endcapture %}{% endfor %}
 
 	<hr/>
 	

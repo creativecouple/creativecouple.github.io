@@ -1,6 +1,0 @@
----
-title: Map Test
----
-*** Does map work? ***
-
-# {{ site.posts | map:'tags' | sort | join:',' }} #
