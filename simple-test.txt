@@ -1,0 +1,22 @@
+---
+words:
+  - one
+  - two
+  - three
+---
+*** A simple jekyll test case ***
+
+There is an array given with {{ page.words | size }} entries: [{{ page.words | join:',' }}].
+
+Let's join these words using a for-loop:
+{% assign sentence = '' %}
+{% for word in page.words %}
+Sentence before iteration: "{{ sentence }}"
+Next word: {{ word }}
+{% capture sentence %}{{ sentence }}{{ word }} {% endcapture %}Sentence after iteration: "{{ sentence }}"
+=====
+{% endfor %}
+
+Let's split this sentence up with the blank character:
+With the command {{'{{'}} sentence | split:' ' | size {{'}}'}} we count {{ sentence | split:' ' | size }} words.
+And glue them together again with {{'{{'}} sentence | split:' ' | join:',' {{'}}'}} gaining [{{ sentence | split:' ' | join:',' }}].
