@@ -20,7 +20,7 @@
 <div class="navi no-code">
 	<h3>Other How-To entries</h3>
 	<ul>
-		<li>&l| replace:' ','_' arr; <a href="/jquery-timing/usage/">back to overview</a></li>
+		<li>&larr; <a href="/jquery-timing/usage/">back to overview</a></li>
 		{% assign beforeLink = '' %}{% assign state = 'before' %}{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' %}{% if usage.url == page.url %}{% assign state = 'now' %}{{ beforeLink }}{% else %}{% if state == 'now' %}{% assign state = 'after' %}<li>&rarr; <a href="{{ usage.url | remove:'index.html' }}">{{ usage.title }}</a></li>{% endif %}{% if state == 'before' %}{% capture beforeLink %}<li>&rarr; <a href="{{ usage.url | remove:'index.html' }}">{{ usage.title }}</a></li>{% endcapture %}{% endif %}{% endif %}{% endif %}{% endfor %}
 	</ul>
 </div>

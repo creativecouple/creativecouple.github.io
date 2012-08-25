@@ -21,7 +21,7 @@ See <a href="/jquery-timing/#contact">contact section</a>.
 {% capture usages %}{% for usage in site.posts reversed %}{% capture path %}{{ usage.categories | join:'/' }}{% endcapture %}{% if path == 'jquery-timing/usage' and usage.tags contains tag %}
 <li><a href="{{ usage.url | remove:'index.html' }}" title="see details for usage" class="roundLeft">How to {% highlight javascript %}{{ usage.new }}{% endhighlight %}{{ usage.title }}?</a></li>
 {% endif %}{% endfor %}{% endcapture %}{% if usages contains 'li' %}
-<div class="block">
+<div class="block" id="{{ tag | replace:' ','_' }}">
 	<h2>Patterns with {{ tag }}</h2>
 	<ul class="usage">{{ usages }}</ul>
 </div>
