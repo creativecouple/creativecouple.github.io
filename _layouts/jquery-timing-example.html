@@ -41,7 +41,7 @@
 	<h2>Other examples with {{ tag }}</h2>
 	<ul>{{ examples }}</ul>
 </div>
-{% endif %}{% endif %}{% capture prefix %}{{ tag }} {% endcapture %}{% capture all_tags %}{{ all_tags | remove_first:prefix }}{% endcapture %}{% endfor %}
+{% endif %}{% endif %}{% capture prefix %}{{ tag | replace:' ','_' }} {% endcapture %}{% capture all_tags %}{{ all_tags | remove_first:prefix }}{% endcapture %}{% endfor %}
 
 	<hr/>
 	

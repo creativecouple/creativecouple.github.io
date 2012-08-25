@@ -25,4 +25,4 @@ See <a href="/jquery-timing/#contact">contact section</a>.
 	<h2>Patterns with {{ tag }}</h2>
 	<ul class="usage">{{ usages }}</ul>
 </div>
-{% endif %}{% endif %}{% capture prefix %}{{ tag }} {% endcapture %}{% capture all_tags %}{{ all_tags | remove_first:prefix }}{% endcapture %}{% endfor %}
+{% endif %}{% endif %}{% capture prefix %}{{ tag | replace:' ','_' }} {% endcapture %}{% capture all_tags %}{{ all_tags | remove_first:prefix }}{% endcapture %}{% endfor %}
