@@ -1,0 +1,55 @@
+---
+layout: jquery-timing-example
+title: pause animation cycle on mouseover
+signatures:
+  - .animate($)
+  - .wait(deferred)
+  - .wait(callback)
+  - .wait(event)
+  - .each($)
+  - .all()
+  - .repeat()  
+tags:
+  - animations
+  - each-loops
+  - timeouts
+  - deferreds
+---
+
+<p>
+There is a animation cycle rotating three images.
+Once you move the mouse cursor over it, it pauses until the mouse is moved away.
+</p>
+
+A little helper function checks whether the mouse is over the image.
+If that's the case a deferred jQuery object waiting for the mouseleave event is returned.
+{% highlight javascript %}
+function noHover() {
+    return this.is(':hover') ? this.wait('mouseleave') : this
+}
+{% endhighlight %}
+
+<p>
+The running loop can be written in a single jQuery line.
+</p>
+
+<a href="http://jsfiddle.net/creativecouple/yrTjW/5/" class="jsfiddle"></a>
+{% highlight javascript %}
+$('#images > img').hide().repeat().each($).fadeIn($)
+    .wait(1000).wait(noHover).fadeOut($).all();
+{% endhighlight %}
+<span>&rArr;</span>
+<div class="result pause-cycle-on-hover" style="padding:10px; width:100px; height:100px;">
+    <img title="Bolognese" src="http://farm1.staticflickr.com/19/90495389_d440522366_s.jpg"/>
+    <img title="Carbonara" src="http://farm2.staticflickr.com/2139/1654258670_b841a80147_s.jpg"/>
+    <img title="Cake" src="http://farm1.staticflickr.com/3543/3436037485_42ff9bd5dc_s.jpg"/>
+</div>​
+<script type="text/javascript">
+$(function(){
+	function noHover() {
+	    return this.is(':hover') ? this.wait('mouseleave') : this
+	}
+	$('.pause-cycle-on-hover > img').css({width:100,height:100,cursor:'progress'}).hide().repeat().each($).fadeIn($)
+    .wait(1000).wait(noHover).fadeOut($).all();
+});
+</script>
