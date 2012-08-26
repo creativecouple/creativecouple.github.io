@@ -1,7 +1,7 @@
 ---
 layout: jquery-timing-api-signature
 title: conditional loop end
-subtitle: <code class="local">.until(callback <span class="optional">,loopContext</span>)</code>
+subtitle: <code class="local">.until(conditionFunction <span class="optional">,loopContext</span>)</code>
 signature: .until(callback)
 name: 'until'
 description:
@@ -12,7 +12,7 @@ friends:
 ---
 
 <dl>
-	<dt>callback &ndash; <code>function(count…)</code></dt>
+	<dt>conditionFunction &ndash; <code>function(count…)</code></dt>
 	<dd>a method that is called once per loop iteration.
 	The return value is evaluated according to its type.
 	See other versions of .until() for possible return values.</dd>

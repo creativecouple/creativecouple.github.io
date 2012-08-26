@@ -1,7 +1,7 @@
 ---
 layout: jquery-timing-api-signature
 title: waiting for timeout in a thread group
-subtitle: <code class="local">$.wait(<span class="optional">group,</span> <span class="optional">timeout</span> <span class="optional">,callback</span>)</code>
+subtitle: <code class="local">$.wait(<span class="optional">group,</span> timeout <span class="optional">,callback</span>)</code>
 signature: $.wait(timeout)
 name: 'wait'
 description:
@@ -16,7 +16,7 @@ friends:
 	<dd>Defaults to the empty string <code>''</code>.</dd>
 	<dt>timeout &ndash; <code>number</code></dt>
 	<dd>the number of milliseconds to wait for.</dd>
-	<dd>If no timeout is given then the value <code>0</code> is used, which means the shortest possible timeout that the browser provides.</dd>
+	<dd>A value of <code>null</code> or <code>0</code> means the shortest possible timeout that the browser provides via <code>window.setTimeout()</code>.</dd>
 	<dt>callback &ndash; <code>function(count…)</code>, optional</dt>
 	<dd>a method that is called once after the timeout.</dd>
 </dl>

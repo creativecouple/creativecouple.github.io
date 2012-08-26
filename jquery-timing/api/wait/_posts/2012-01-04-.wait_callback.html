@@ -1,0 +1,22 @@
+---
+layout: jquery-timing-api-signature
+title: waiting for timeout
+subtitle: <code class="local">.wait(triggerFunction <span class="optional">,callback</span>)</code>
+signature: .wait(callback)
+name: 'wait'
+description:
+  Wait to continue invocation depending on the result value of the callback function.
+friends:
+  - unwait
+---
+
+<dl>
+	<dt>triggerFunction &ndash; <code>function(count…)</code></dt>
+	<dd>a method that is called once per loop iteration.
+	The return value is evaluated according to its type.
+	See other versions of .wait() for possible return values.</dd>
+	<dd>All current iteration counts (from inner-most to outer-most loop) are passed as arguments.</dd>
+	<dt>callback &ndash; <code>function(count…)</code>, optional</dt>
+	<dd>a method that is called once before continuing.</dd>
+	<dd>All current iteration counts (from inner-most to outer-most loop) are passed as arguments.</dd>
+</dl>
