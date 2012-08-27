@@ -262,7 +262,7 @@
 		if (jQuery.fn[name]) {
 			var original = jQuery.fn[name];
 			jQuery.fn[name] = function(){
-				var i, methodStack, placeholder, timedInvocationChain, deferred;
+				var i, methodStack, placeholder, timedInvocationChain, deferred, context = this;
 				for(i=0; i<arguments.length; i++) {
 					if (typeof arguments[i] == "function" || (arguments[i] && typeof arguments[i] == "object") || arguments[i] === false) {
 						if (arguments[i] !== jQuery) {
@@ -270,13 +270,13 @@
 							if (typeof arguments[i] == "function" && jQuery.guid) {
 								arguments[i].guid = arguments[i].guid || jQuery.guid++;
 							}
-							return original.apply(this, arguments);
+							return original.apply(context, arguments);
 						}
 						break;
 					}
 				}
 				Array.prototype.splice.call(arguments, i, 1, function(){
-					timedInvocationChain = createTimedInvocationChain(jQuery(this), methodStack, [{
+					timedInvocationChain = createTimedInvocationChain(context.$(this), methodStack, [{
 							_count: jQuery.extend(Array.prototype.shift.apply(arguments), arguments),
 							_allowPromise: true
 						}], function(elements){
@@ -301,7 +301,7 @@
 						return (timedInvocationChain && !type) ? timedInvocationChain.promise(type, target) : (deferred = deferred || jQuery.Deferred()).promise(target);
 					};
 				}
-				return placeholder = new PredictingProxy(original.apply(this, arguments), methodStack = {}, fire);
+				return placeholder = new PredictingProxy(original.apply(context, arguments), methodStack = {}, fire);
 			};
 		}
 	});
@@ -412,35 +412,43 @@
 	 * @param executionState
 	 */
 	jQuery.fn.wait.timing = function(timedInvocationChain, executionState, ongoingLoops) {
-		var trigger, event, timeout;
+		var trigger, event, timeout, context = executionState._context;
 		
 		trigger = executionState._method._arguments[0];
 		executionState._callback = executionState._method._arguments[1];
 
 		function triggerAction() {
-			originalOff.call(event ? originalOff.call(executionState._context, event, triggerAction) : executionState._context, 'unwait', unwaitAction);
+			originalOff.call(event ? originalOff.call(context, event, triggerAction) : context, 'unwait', unwaitAction);
 			executionState._canContinue = true;
+			executionState._next = sameOrNextJQuery(executionState._context, executionState._next);
 			timedInvocationChain();
 		}
 		
-		function unwaitAction(){
+		function unwaitAction(evt, skipWait){
 			originalOff.call(event ? originalOff.call(jQuery(this), event, triggerAction) : jQuery(this), 'unwait', unwaitAction);
-			executionState._next = executionState._context = executionState._context.not(this);
-			if (!executionState._context.length) {
-				executionState._canContinue = false;
+			context = context.not(this);
+			if (!skipWait) {
+				executionState._next = executionState._next.not(this);
+			}
+			if (!context.length) {
+				executionState._canContinue = executionState._next.length;
+				executionState._next = sameOrNextJQuery(executionState._context, executionState._next);
 				window.clearTimeout(timeout);
-				executionState = { _context: executionState._context };
-			} 
+				executionState = { _context: context };
+			}
 			// just update the snapshot info
 			timedInvocationChain();
 		}
 
+		originalOn.call(context, 'unwait', unwaitAction);
+		executionState._next = context;
+
 		if (typeof trigger == "function") {
-			trigger = trigger.apply(executionState._context, loopCounts(ongoingLoops));
+			trigger = trigger.apply(context, loopCounts(ongoingLoops));
 		}
 		if (typeof trigger == "string") {
 
-			originalOn.call(executionState._context, event = trigger, triggerAction);
+			originalOn.call(context, event = trigger, triggerAction);
 
 		} else if (trigger && typeof trigger.then == "function") {
 			
@@ -455,9 +463,6 @@
 			timeout = window.setTimeout(triggerAction, Math.max(0,trigger));
 
 		}
-		
-		originalOn.call(executionState._context, 'unwait', unwaitAction);
-		executionState._next = executionState._context;
 	};
 
 	/**
@@ -730,7 +735,7 @@
 	 */
 	jQuery.each(['unwait','unrepeat'], function(index, name){
 		jQuery.fn[name] = function(){
-			return this.trigger(name);
+			return this.trigger(name, arguments);
 		};
 	});
 	
