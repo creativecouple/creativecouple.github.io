@@ -1,7 +1,7 @@
 ---
 layout: jquery-timing-api-signature
 title: breaking current waits
-subtitle: <code class="local">.unwait()</code>
+subtitle: <code class="local">.unwait(<span class="optional">continue</span>)</code>
 signature: .unwait()
 name: 'unwait'
 description:
@@ -11,7 +11,9 @@ friends:
 ---
 
 <dl>
-	<dt>- no parameters -</dt>
+	<dt>continue &ndash; <code>boolean</code>, optional</dt>
+	<dd>whether to continue the interrupted chain for the selected elements or not</dd>
+	<dd>Defaults to <code>false</code>.</dd>
 </dl>
 <hr/>
 <p class="description">
