@@ -1,0 +1,16 @@
+---
+layout: jquery-timing-usage
+title: collect primitive values from each element into an array-like object  
+signatures:
+ - .each()
+old: |
+  var values = $('.some').map(function(){
+     return $(this).attr(name);
+  });
+new: |
+  var values = $('.some').each().attr(name);
+tags:
+  - open loops
+  - parallel loops
+  - arrays of values
+---

@@ -1,0 +1,17 @@
+---
+layout: jquery-timing-usage
+title: collect primitive values from each element into a native array using an open each-loop
+signatures:
+ - .each()
+ - $(tic)
+old: |
+  var valueArray = $('.some').map(function(){
+     return $(this).attr(name);
+  }).get();
+new: |
+  var valueArray = $($('.some').each().attr(name)).get();
+tags:
+  - open loops
+  - parallel loops
+  - arrays of values
+---
