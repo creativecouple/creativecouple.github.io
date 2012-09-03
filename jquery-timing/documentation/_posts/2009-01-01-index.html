@@ -51,22 +51,25 @@ All we have to do on the first call to one of our timing methods is to internall
 When the methods are actually called in the invocation chain, meaning when the JavaScript engine does execute the code, then <strong>the lazy proxy collects all invocations in a call stack.</strong>
 It stores the function names and the arguments given to each call.
 </p>
+
+<h3>A fluent interface as meta language</h3>
+
 <p>
 The outcome of the lazy proxy is a call stack that allows us to iterate all the method invocations in any possible manner.
-With this call stack in our hands we can do a lot of cool things to make source code neat and clean &ndash; exactly that's the aim of this project.
+With this call stack in our hands we can do a lot of cool things.
+For example we can create a fluent interface even for asynchronous situations. This will make your source code neat and clean &ndash; exactly that's the aim of this project.
 </p>
 
-<h3>Applying the Timed Invocation Chain to jQuery</h3>
 <p>The lazy proxy pattern allows to build a timed invocation chain wherever we have such a strong chaining concept like in jQuery.
 Applying that new technique to jQuery produces a new kind of jQuery object &ndash; the <em>Deferred jQuery Chain</em>.
-</p> 
+</p>
 
 <div class="block">
 <h2><em>jquery-timing</em> as reference implementation</h2>
 <p>
-The concept of the predicting proxy and the timed invocation chain technique have been developed in summer 2012.
-To prove their functionality we implemented them as jQuery plugin in parallel.
-Thus you can speak of <em>jquery-timing</em> plugin being the reference implementation for this new programming pattern.</p>
+Our concept of the predicting proxy and the timed invocation chain technique have been developed in summer 2012.
+To prove their functionality we implemented them as plugin for jQuery to cover as much asynchronous and repetitive situations as possible.
+Thus you can speak of <em>jquery-timing</em> plugin being the reference implementation for this new fluent interface.</p>
  
 <h3>Instant invocation and Recursion-freeness</h3>
 <p>
