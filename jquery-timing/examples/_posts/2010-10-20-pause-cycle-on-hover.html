@@ -7,13 +7,13 @@ signatures:
   - .wait(callback)
   - .wait(event)
   - .each($)
-  - .all()
   - .repeat()  
 tags:
   - animations
   - each-loops
   - timeouts
   - deferreds
+  - open loops
 ---
 
 <p>
@@ -33,10 +33,10 @@ function noHover() {
 The running loop can be written in a single jQuery line.
 </p>
 
-<a href="http://jsfiddle.net/creativecouple/yrTjW/5/" class="jsfiddle"></a>
+<a href="http://jsfiddle.net/creativecouple/yrTjW/12/" class="jsfiddle"></a>
 {% highlight javascript %}
 $('#images > img').hide().repeat().each($).fadeIn($)
-    .wait(1000).wait(noHover).fadeOut($).all();
+    .wait(1000).wait(noHover).fadeOut($);
 {% endhighlight %}
 <span>&rArr;</span>
 <div class="result pause-cycle-on-hover" style="padding:10px; width:100px; height:100px;">
@@ -50,6 +50,6 @@ $(function(){
 	    return this.is(':hover') ? this.wait('mouseleave') : this
 	}
 	$('.pause-cycle-on-hover > img').css({width:100,height:100,cursor:'progress'}).hide().repeat().each($).fadeIn($)
-    .wait(1000).wait(noHover).fadeOut($).all();
+    .wait(1000).wait(noHover).fadeOut($);
 });
 </script>
