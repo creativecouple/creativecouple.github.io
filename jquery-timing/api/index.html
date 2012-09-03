@@ -18,7 +18,7 @@ tags:
 		<div class="description">{{ method.content }}</div>
 		<dl class="no-code">
 		{% for api in site.posts reversed %}{% capture path %}#{{ api.categories | join:'/' }}{% endcapture %}{% if path contains '#jquery-timing/api/' and api.name == method.name %}
-				<dt><a href="{{ api.url | remove:'index.html' }}">{{ api.subtitle }} &ndash; {{ api.title }}</a></dt>
+				<dt><a href="{{ api.url | remove:'index.html' }}">&raquo; {{ api.subtitle }} &ndash; {{ api.title }}</a></dt>
 				<dd>{{ api.description }}</dd>
 		{% endif %}{% endfor %}
 		</dl>
