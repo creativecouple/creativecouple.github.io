@@ -1,0 +1,22 @@
+---
+layout: jquery-timing-usage
+title: wait for some event on each element in the right sequence
+signatures:
+ - .each($)
+ - .all()
+old: |
+  var $elems = $('.many');
+  function trigger() {
+     if ($elems.index(this) >= $elems.length-1) {
+        $elems.doSome().jQueryStuff();
+     } else {
+        $elems.eq($elems.index(this)+1).one(event,trigger);
+     }
+  }
+  $elems.first().one(event,trigger);
+new: |
+  $('.many').each($).wait(event).all().doSome().jQueryStuff();
+tags:
+  - closed loops
+  - sequential loops
+---

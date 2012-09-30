@@ -1,0 +1,19 @@
+---
+layout: jquery-timing-usage
+title: wait for some event on each element in parallel before continuing
+signatures:
+ - .each()
+ - .all()
+old: |
+  var waiting = $('.many').length;
+  $('.many').one(event, function(){
+     if (!--waiting) {
+     	$('.many').doSome().jQueryStuff();
+     }
+  });
+new: |
+  $('.many').each().wait(event).all().doSome().jQueryStuff();
+tags:
+  - closed loops
+  - parallel loops
+---
