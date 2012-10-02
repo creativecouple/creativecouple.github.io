@@ -101,6 +101,7 @@ $('ul.list > li').each($).wait(500).fadeOut().all();
 
 <p>
 This version of the each-loop is running the code for each element in a sequence.
+Just wrap your chain snippet into <code>.each($) … .all()</code> to be executed for each element in a sequence.
 </p>
 
 <h2>The parallel each loop</h2>
@@ -144,8 +145,8 @@ $(function(){
 </script>
 
 <p>
-In the example above the parallel loop <code>.each()….all()</code> executes the sequence <code>.wait('click').remove()</code> for each element in parallel.
-After all the spawned threads has come to their .all() command the deferred invocation chain continues with further action. Here a text is put before the list.
+In the example above the parallel loop <code>.each() … .all()</code> executes the sequence <code>.wait('click').remove()</code> for each element in parallel.
+After all the spawned threads has come to their <span class="localAPI">.all()</span> command the deferred invocation chain continues with further action. Here a text is put before the list.
 </p>
 <p> 
 As the methods run <strong>in parallel</strong> you can click the elements in any order you like!
