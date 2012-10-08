@@ -1,0 +1,25 @@
+---
+layout: jquery-timing-api-signature
+title: waiting for timeout
+subtitle: <code class="local">.wait(<span class="optional">null / $ <span class="optional">,callback</span></span>)</code>
+signature: .wait()
+name: 'wait'
+description:
+  Wait for ongoing animations to end.
+friends:
+  - unwait
+  - join
+---
+
+<dl>
+	<dt>null / $ &ndash; <code>undefined</code> or the <code>jQuery</code> token, optional</dt>
+	<dt>callback &ndash; <code>function(count…)</code>, optional</dt>
+	<dd>a method that is called once after the timeout.</dd>
+	<dd>All current iteration counts (from inner-most to outer-most loop) are passed as arguments.</dd>
+</dl>
+
+<hr/>
+<p class="description no-code">
+<strong>Tip:</strong>
+<strong>.wait()</strong> is an abbreviation for .join(true).
+</p>

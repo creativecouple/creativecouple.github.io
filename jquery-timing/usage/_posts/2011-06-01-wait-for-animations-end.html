@@ -1,0 +1,18 @@
+---
+layout: jquery-timing-usage
+title: wait for the elements' animation queues to get empty
+signatures:
+ - .wait()
+old: |
+  $('.some').promise().then(function(){
+    $('.some').doSome().jQueryStuff();
+  });
+new: |
+  $('.some').wait().doSome().jQueryStuff();
+tags:
+  - animations
+  - promises
+---
+<p>
+The <span class="localAPI">join(true)</span> method does the same.
+</p>
