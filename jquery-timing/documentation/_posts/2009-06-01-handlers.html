@@ -106,8 +106,8 @@ Any custom data for an event binding is forwarded to the event object also:
 </p>
 {% highlight javascript %}
 $('button').on('click',['foo',5]).jQueryStuff().then(function(event){
-   event[0]; // now gives "foo"
-   event[1]; // now gives 5
+   alert(event[0]); // now gives "foo"
+   alert(event[1]); // now gives 5
 });
 {% endhighlight %}
 
