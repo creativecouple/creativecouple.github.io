@@ -89,13 +89,27 @@ The main difference is that .wait() will always continue with the underlying jQu
 And .one(event) or .one(event,$) will continue with the triggered element only. 
 </p>
 
-<div class="navi no-code" style="width:auto">
-<h3>Concatenation helpers</h3>
-<ul>
-	{% assign signature = '$' %}{% include jquery-timing-list-methods.html %}
-	{% assign signature = '_' %}{% include jquery-timing-list-methods.html %}
-</ul>
-</div>
+<h2>The event object as loop counter</h2>
+<p>As said before loops are internally counting their iterations and allow those counter variables to be used in several callback methods.
+This similar works with event loops. Because they are running independently the event object itself is used instead of a counter.
+I.e. wherever you need access to the event object you get it by using callback functions in one of our timing methods.
+The simplest case:    
+</p>
+{% highlight javascript %}
+$('button').on('click').jQueryStuff().then(function(event){
+   event.preventDefault();
+});
+{% endhighlight %}
+
+<p>
+Any custom data for an event binding is forwarded to the event object also:
+</p>
+{% highlight javascript %}
+$('button').on('click',['foo',5]).jQueryStuff().then(function(event){
+   event[0]; // now gives "foo"
+   event[1]; // now gives 5
+});
+{% endhighlight %}
 
 <h2>Leaving the chain through backdoor</h2>
 <p>In classical jQuery you can define multiple event handlers by chaining their definitions.
@@ -123,6 +137,14 @@ $('#myButton').click($).addClass('clicked').…
 <p>
 As you see using inline event handlers can help creating very short and clean code.
 </p>
+<div class="navi no-code" style="width:auto">
+<h3>Concatenation helpers</h3>
+<ul>
+	{% assign signature = '$' %}{% include jquery-timing-list-methods.html %}
+	{% assign signature = '_' %}{% include jquery-timing-list-methods.html %}
+</ul>
+</div>
+
 
 <h2>Nested inline handlers</h2>
 <p>
