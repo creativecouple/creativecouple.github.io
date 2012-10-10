@@ -79,7 +79,7 @@ We can create a case where .promise() never resolves. So this also leads to .wai
 $('#example').repeat().fadeOut('slow').fadeIn('slow').join();
 
 // do some action after .wait() - it will never happen:
-$('#example').text(".wait() didn't fire").wait().text('.wait() fired');
+$('#example').text(".wait() didn't fire").wait().text('.wait() fired!!');
 {% endhighlight %}
 <span>&rArr;</span>
 <div class="result wait-wont-fire" style="padding:1em">
@@ -109,7 +109,7 @@ Let's look at another case, where .join() will never fire:
 $('#example').fadeOut('slow').wait(10).stop(true);
 
 // do some action after .join() - it will never happen:
-$('#example').text(".join() didn't fire").join().text('.join() fired');
+$('#example').text(".join() didn't fire").join().text('.join() fired!!');
 {% endhighlight %}
 <span>&rArr;</span>
 <div class="result join-wont-fire" style="padding:1em">
@@ -149,7 +149,7 @@ Here we use that animations which are interrupted by .stop(true) will not trigge
 $('#example').wait(10).stop(true);
 
 // do some action after .fadeOut($) - it will never happen:
-$('#example').text(".fadeOut($) waiting").fadeOut($).text('.fadeOut($) fired');
+$('#example').text(".fadeOut($) waiting").fadeOut($).text('fired!!');
 {% endhighlight %}
 <span>&rArr;</span>
 <div class="result fadeOut-wont-fire" style="padding:1em">
@@ -157,7 +157,7 @@ $('#example').text(".fadeOut($) waiting").fadeOut($).text('.fadeOut($) fired');
 </div>
 <script type="text/javascript">
 $(function(){
-	$('.fadeOut-wont-fire div').wait(10).stop(true)._.text("waiting for .fadeOut($)").fadeOut(1000,$).text('.fadeOut($) fired!!');
+	$('.fadeOut-wont-fire div').wait(10).stop(true)._.text(".fadeOut($) waiting").fadeOut(1000,$).text('fired!!');
 });
 </script>
 
