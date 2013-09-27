@@ -106,7 +106,7 @@ Just wrap your chain snippet into <code>.each($) … .all()</code> to be execute
 
 <h2>The parallel each loop</h2>
 <p>With the concept of the timed invocation there is a new type of loop that has no equivalence in classical JavaScript &ndash; the parallel each-loop.</p>
-<a href="http://jsfiddle.net/creativecouple/5QG7w/" class="jsfiddle"></a>
+<a href="http://jsfiddle.net/creativecouple/5QG7w/6/" class="jsfiddle"></a>
 {% highlight javascript %}
 $('#example').find('span').each().wait('click').remove().all().end().before('Done!');
 {% endhighlight %}
@@ -157,7 +157,7 @@ As the methods run <strong>in parallel</strong> you can click the elements in an
 The following example demonstrates how to create a 30 x 200 sized html table dynamically. All you need is <strong>one callback method creating each cell</strong>.
 The rest is done via a single jQuery chain:</p>
 
-<a href="http://jsfiddle.net/creativecouple/E56TB/" class="jsfiddle"></a>
+<a href="http://jsfiddle.net/creativecouple/E56TB/3/" class="jsfiddle"></a>
 {% highlight javascript %}
 function createCell(x,y) {
     $('<td>').text(x+':'+y).appendTo(this);
