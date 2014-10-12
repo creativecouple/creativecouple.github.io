@@ -457,3 +457,9 @@ a.api:hover {
 .center {
 	text-align: center;
 }
+
+.banner {
+	position: absolute;
+	left: 1020px;
+	top: 160px;	
+}
