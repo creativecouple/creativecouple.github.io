@@ -1,1 +1,1 @@
-Sitemap: http://creativecouple.github.com/sitemap.xml
+Sitemap: https://creativecouple.github.io/sitemap.xml

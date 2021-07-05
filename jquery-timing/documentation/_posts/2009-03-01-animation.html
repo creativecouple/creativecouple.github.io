@@ -73,7 +73,7 @@ For earlier versions of jQuery this method will just don't wait.
 <p>
 We can create a case where .promise() never resolves. So this also leads to .wait() never continuing our jQuery chain: 
 </p>
-<a href="http://jsfiddle.net/creativecouple/rct6v/" class="jsfiddle"></a>
+<a href="https://jsfiddle.net/creativecouple/rct6v/" class="jsfiddle"></a>
 {% highlight javascript %}
 // assure that the effects queue never gets empty
 $('#example').repeat().fadeOut('slow').fadeIn('slow').join();
@@ -103,7 +103,7 @@ The never continuing case above would change when using .join(). This actually w
 But jQuery's queue mechanism can be interrupted by <span class="jqueryAPI">.stop()</span>. So this also applies to .join().
 Let's look at another case, where .join() will never fire: 
 </p>
-<a href="http://jsfiddle.net/creativecouple/quGqq/" class="jsfiddle"></a>
+<a href="https://jsfiddle.net/creativecouple/quGqq/" class="jsfiddle"></a>
 {% highlight javascript %}
 // start some animations and interrupt them after 10ms
 $('#example').fadeOut('slow').wait(10).stop(true);
@@ -143,7 +143,7 @@ The invocation chain continues when the animation triggers its callback.
 Again we can create a case where this way of synchronization doesn't continue.
 Here we use that animations which are interrupted by .stop(true) will not trigger their callback: 
 </p>
-<a href="http://jsfiddle.net/creativecouple/TdjTD/" class="jsfiddle"></a>
+<a href="https://jsfiddle.net/creativecouple/TdjTD/" class="jsfiddle"></a>
 {% highlight javascript %}
 // interrupt all animations after 10ms
 $('#example').wait(10).stop(true);

@@ -1,3 +1,4 @@
 /_site
 *.iml
 /.idea
+.project

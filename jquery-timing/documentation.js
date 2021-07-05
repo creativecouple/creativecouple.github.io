@@ -101,7 +101,7 @@ $(document).ready(function(){
 			if ($(this).prev().text() == '.' && $(this).prev().prev().text() == '$') {
 				text = 'jQuery.'+text;
 			}
-			var url = 'http://api.jquery.com/'+text+'/';
+			var url = 'https://api.jquery.com/'+text+'/';
 			$(this).text('').append($('<a>').attr({href:url, title:'see jQuery API', target:'_blank'}).text(title));
 		});
 });

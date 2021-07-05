@@ -55,7 +55,7 @@ a.fiddle:visited {
 	color: #ccc;
 }
 a.fiddle:before {
-	content: url(http://jsfiddle.net/favicon.png);
+	content: url(https://jsfiddle.net/favicon.png);
 	vertical-align: middle;
 	position: relative;
 	top: -4px;

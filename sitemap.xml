@@ -1,5 +1,5 @@
 ---
-base: http://creativecouple.github.com 
+base: https://creativecouple.github.io
 projects:
   jquery-timing:
     documentation: [posts]
@@ -10,7 +10,7 @@ projects:
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 {% capture now %}{{ site.time | date_to_xmlschema }}{% endcapture %}
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
 <url><loc>{{ page.base }}</loc><lastmod>{{ now }}</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
 {% for project in page.projects %}
 <url><loc>{{ page.base }}/{{ project[0] }}/</loc><lastmod>{{ now }}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
